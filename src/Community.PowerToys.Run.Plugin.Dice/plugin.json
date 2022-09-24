@@ -1,0 +1,13 @@
+{
+  "ID": "0CB159EBD5394A01A8CE995982FE2622",
+  "ActionKeyword": "roll",
+  "IsGlobal": false,
+  "Name": "Dice",
+  "Author": "hlaueriksson",
+  "Version": "0.0.0",
+  "Language": "csharp",
+  "Website": "https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins",
+  "ExecuteFileName": "Community.PowerToys.Run.Plugin.Dice.dll",
+  "IcoPathDark": "Images\\dice.dark.png",
+  "IcoPathLight": "Images\\dice.light.png"
+}
