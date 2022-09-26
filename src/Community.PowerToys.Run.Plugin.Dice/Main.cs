@@ -26,15 +26,15 @@ namespace Community.PowerToys.Run.Plugin.Dice
         /// </summary>
         public string Description => "Roleplaying Dice Roller";
 
+        internal HttpClient? HttpClient { get; set; }
+
+        internal IReadOnlyCollection<RollOption>? RollOptions { get; set; }
+
         private PluginInitContext? Context { get; set; }
 
         private string? IconPath { get; set; }
 
         private bool Disposed { get; set; }
-
-        private HttpClient? HttpClient { get; set; }
-
-        private IReadOnlyCollection<RollOption>? RollOptions { get; set; }
 
         /// <summary>
         /// Return a filtered list, based on the given query.
