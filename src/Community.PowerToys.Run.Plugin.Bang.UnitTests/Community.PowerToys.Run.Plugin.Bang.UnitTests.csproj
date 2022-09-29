@@ -18,6 +18,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Community.PowerToys.Run.Plugin.Bang\Community.PowerToys.Run.Plugin.Bang.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="Wox.Plugin">
       <HintPath>..\libs\Wox.Plugin.dll</HintPath>
     </Reference>
