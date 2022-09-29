@@ -1,0 +1,13 @@
+{
+  "ID": "888A6F53700D4F16841160FC0E8AAC2A",
+  "ActionKeyword": "bang",
+  "IsGlobal": false,
+  "Name": "Bang",
+  "Author": "hlaueriksson",
+  "Version": "0.0.0",
+  "Language": "csharp",
+  "Website": "https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins",
+  "ExecuteFileName": "Community.PowerToys.Run.Plugin.Bang.dll",
+  "IcoPathDark": "Images\\bang.dark.png",
+  "IcoPathLight": "Images\\bang.light.png"
+}
