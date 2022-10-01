@@ -29,21 +29,17 @@ namespace Community.PowerToys.Run.Plugin.Dice.UnitTests
         }
 
         [TestMethod]
-        public void Query_should_return_empty_result()
+        public void Query_without_delayedExecution_should_return_empty_result()
         {
             subject.Query(new(""))
                 .Should().BeEmpty();
-        }
 
-        [TestMethod]
-        public void Query_without_delayedExecution_should_return_empty_result()
-        {
             subject.Query(new(""), false)
                 .Should().BeEmpty();
         }
 
         [TestMethod]
-        public void Query_with_delayedExecution_and_empty_search_query_should_return_RollOptions_result()
+        public void Query_without_expression_should_return_RollOptions_result()
         {
             subject.RollOptions = new[] { new RollOption { Expression = "1d6" } };
             subject.Query(new(""), true)
@@ -51,7 +47,7 @@ namespace Community.PowerToys.Run.Plugin.Dice.UnitTests
         }
 
         [TestMethod]
-        public void Query_with_delayedExecution_and_search_query_should_return_Roll_result()
+        public void Query_with_expression_should_return_Roll_result()
         {
             subject.HttpClient = httpClient;
             subject.Query(new("3d6"), true)
