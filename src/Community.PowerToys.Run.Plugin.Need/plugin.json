@@ -1,0 +1,13 @@
+{
+  "ID": "0B47DD2677CD41E9927218E9D67EFAD1",
+  "ActionKeyword": "need",
+  "IsGlobal": false,
+  "Name": "Need",
+  "Author": "hlaueriksson",
+  "Version": "0.0.0",
+  "Language": "csharp",
+  "Website": "https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins",
+  "ExecuteFileName": "Community.PowerToys.Run.Plugin.Need.dll",
+  "IcoPathDark": "Images\\need.dark.png",
+  "IcoPathLight": "Images\\need.light.png"
+}

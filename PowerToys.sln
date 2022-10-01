@@ -11,6 +11,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Community.PowerToys.Run.Plu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Community.PowerToys.Run.Plugin.Bang.UnitTests", "src\Community.PowerToys.Run.Plugin.Bang.UnitTests\Community.PowerToys.Run.Plugin.Bang.UnitTests.csproj", "{A65BE091-6970-43F2-AFC3-73625A2274E9}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Community.PowerToys.Run.Plugin.Need", "src\Community.PowerToys.Run.Plugin.Need\Community.PowerToys.Run.Plugin.Need.csproj", "{FD04CDF5-AA3F-4C92-85D6-092505402A8F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Community.PowerToys.Run.Plugin.Need.UnitTests", "src\Community.PowerToys.Run.Plugin.Need.UnitTests\Community.PowerToys.Run.Plugin.Need.UnitTests.csproj", "{FB8EC19D-114B-4C85-9A96-99604A8F49B9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,14 @@ Global
 		{A65BE091-6970-43F2-AFC3-73625A2274E9}.Debug|Any CPU.Build.0 = Debug|x64
 		{A65BE091-6970-43F2-AFC3-73625A2274E9}.Release|Any CPU.ActiveCfg = Release|x64
 		{A65BE091-6970-43F2-AFC3-73625A2274E9}.Release|Any CPU.Build.0 = Release|x64
+		{FD04CDF5-AA3F-4C92-85D6-092505402A8F}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{FD04CDF5-AA3F-4C92-85D6-092505402A8F}.Debug|Any CPU.Build.0 = Debug|x64
+		{FD04CDF5-AA3F-4C92-85D6-092505402A8F}.Release|Any CPU.ActiveCfg = Release|x64
+		{FD04CDF5-AA3F-4C92-85D6-092505402A8F}.Release|Any CPU.Build.0 = Release|x64
+		{FB8EC19D-114B-4C85-9A96-99604A8F49B9}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{FB8EC19D-114B-4C85-9A96-99604A8F49B9}.Debug|Any CPU.Build.0 = Debug|x64
+		{FB8EC19D-114B-4C85-9A96-99604A8F49B9}.Release|Any CPU.ActiveCfg = Release|x64
+		{FB8EC19D-114B-4C85-9A96-99604A8F49B9}.Release|Any CPU.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
