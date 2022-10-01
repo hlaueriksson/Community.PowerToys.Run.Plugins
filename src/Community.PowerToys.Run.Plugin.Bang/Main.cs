@@ -1,3 +1,4 @@
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
 using ManagedCommon;
@@ -21,7 +22,7 @@ namespace Community.PowerToys.Run.Plugin.Bang
         /// <summary>
         /// Description of the plugin.
         /// </summary>
-        public string Description => "Search websites with DuckDuckGo !Bang.";
+        public string Description => "Search websites with DuckDuckGo !Bang";
 
         internal HttpClient? HttpClient { get; set; }
 
@@ -62,25 +63,17 @@ namespace Community.PowerToys.Run.Plugin.Bang
 
             var results = new List<Result>();
 
-            if (string.IsNullOrEmpty(q))
+            if (IsPhraseOnly(q))
             {
-                var suggestions = AutoComplete("!");
+                var suggestions = AutoComplete(Bangify(q));
                 if (suggestions != null)
                 {
-                    results.AddRange(suggestions.Select(GetResultFromBangSuggestion));
-                }
-            }
-            else if (!q.Contains(' ', StringComparison.InvariantCulture))
-            {
-                var suggestions = AutoComplete(q);
-                if (suggestions != null)
-                {
-                    results.AddRange(suggestions.Select(GetResultFromBangSuggestion));
+                    results.AddRange(suggestions.Select(GetResultFromSuggestion));
                 }
             }
             else
             {
-                var result = GetResultFromQuery(q);
+                var result = GetResultFromQuery(Bangify(q));
                 if (result != null)
                 {
                     results.Add(result);
@@ -89,10 +82,14 @@ namespace Community.PowerToys.Run.Plugin.Bang
 
             return results;
 
-            Result GetResultFromBangSuggestion(BangSuggestion suggestion) => new()
+            bool IsPhraseOnly(string q) => !q.Contains(' ', StringComparison.InvariantCulture);
+
+            string Bangify(string q) => q.StartsWith('!') ? q : "!" + q;
+
+            Result GetResultFromSuggestion(Suggestion suggestion) => new()
             {
-                QueryTextDisplay = suggestion.Phrase,
-                IcoPath = IconPath, // TODO: suggestion.Image
+                QueryTextDisplay = suggestion.Phrase + " ",
+                IcoPath = IconPath,
                 Title = suggestion.Snippet,
                 SubTitle = suggestion.Phrase,
                 ToolTipData = new ToolTipData("Bang", $"Search {suggestion.Snippet}"),
@@ -101,23 +98,23 @@ namespace Community.PowerToys.Run.Plugin.Bang
             Result? GetResultFromQuery(string q)
             {
                 var index = q.IndexOf(' ', StringComparison.InvariantCulture);
-                var bang = q.Substring(0, index);
+                var phrase = q.Substring(0, index);
                 var terms = q.Substring(index + 1);
 
-                var suggestions = AutoComplete(bang);
-                var suggestion = suggestions?.FirstOrDefault();
+                var suggestions = AutoComplete(phrase);
+                var suggestion = suggestions?.FirstOrDefault(x => x.Phrase == phrase);
 
                 if (suggestion == null)
                 {
                     return null;
                 }
 
-                var arguments = $"https://duckduckgo.com/?va=j&t=hc&q={q}";
+                var arguments = $"https://duckduckgo.com/?va=j&t=hc&q={UrlEncode(q)}";
 
                 return new()
                 {
                     QueryTextDisplay = q,
-                    IcoPath = IconPath, // TODO: suggestion.Image
+                    IcoPath = IconPath,
                     Title = $"{suggestion.Snippet}: {terms}",
                     SubTitle = q,
                     ToolTipData = new ToolTipData("Bang", $"Search {suggestion.Snippet}"),
@@ -183,16 +180,21 @@ namespace Community.PowerToys.Run.Plugin.Bang
             Disposed = true;
         }
 
+        private static string UrlEncode(string q)
+        {
+            return WebUtility.UrlEncode(q);
+        }
+
         private void UpdateIconPath(Theme theme) => IconPath = theme == Theme.Light || theme == Theme.HighContrastWhite ? "Images/bang.light.png" : "Images/bang.dark.png";
 
         private void OnThemeChanged(Theme currentTheme, Theme newTheme) => UpdateIconPath(newTheme);
 
-        private IEnumerable<BangSuggestion>? AutoComplete(string q)
+        private IEnumerable<Suggestion>? AutoComplete(string q)
         {
             try
             {
 #pragma warning disable VSTHRD002 // Avoid problematic synchronous waits
-                return HttpClient?.GetFromJsonAsync<IEnumerable<BangSuggestion>>($"/ac/?q={q}&kl=wt-wt").Result;
+                return HttpClient?.GetFromJsonAsync<IEnumerable<Suggestion>>($"/ac/?q={UrlEncode(q)}&kl=wt-wt").Result;
 #pragma warning restore VSTHRD002 // Avoid problematic synchronous waits
             }
             catch (Exception ex)
