@@ -2,7 +2,6 @@ using System.Net;
 using System.Web;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
 using RichardSzalay.MockHttp;
 using Wox.Plugin;
 
@@ -28,10 +27,7 @@ namespace Community.PowerToys.Run.Plugin.Bang.UnitTests
             var httpClient = mockHttp.ToHttpClient();
             httpClient.BaseAddress = new Uri("http://localhost");
 
-            subject = new Main
-            {
-                HttpClient = httpClient
-            };
+            subject = new Main(httpClient);
         }
 
         [TestMethod]
@@ -90,14 +86,6 @@ namespace Community.PowerToys.Run.Plugin.Bang.UnitTests
 
             subject.Query(new("gh PowerToys"), true)
                 .Single().ProgramArguments.Should().Be("https://duckduckgo.com/?va=j&t=hc&q=!gh+PowerToys");
-        }
-
-        [TestMethod]
-        public void Init_should_initialize_the_plugin()
-        {
-            subject.Init(new PluginInitContext { API = new Mock<IPublicAPI>().Object });
-            subject.HttpClient
-                .Should().NotBeNull();
         }
 
         [TestMethod]

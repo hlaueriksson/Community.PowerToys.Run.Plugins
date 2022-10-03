@@ -27,10 +27,4 @@
     </Reference>
   </ItemGroup>
 
-  <ItemGroup>
-    <None Update="Plugins\Dice\appsettings.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
 </Project>

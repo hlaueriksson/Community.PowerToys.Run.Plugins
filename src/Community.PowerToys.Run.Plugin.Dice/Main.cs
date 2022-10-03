@@ -1,11 +1,10 @@
 using System.Globalization;
-using System.IO;
 using System.Net.Http;
-using System.Reflection;
 using System.Text.Json;
 using System.Windows;
 using System.Windows.Input;
 using ManagedCommon;
+using Wox.Infrastructure.Storage;
 using Wox.Plugin;
 using Wox.Plugin.Logger;
 
@@ -17,6 +16,30 @@ namespace Community.PowerToys.Run.Plugin.Dice
     public class Main : IPlugin, IDelayedExecutionPlugin, IContextMenu, IDisposable
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="Main"/> class.
+        /// </summary>
+        public Main()
+        {
+            Log.Info($"Ctor", GetType());
+
+            Storage = new PluginJsonStorage<DiceSettings>();
+            Settings = Storage.Load();
+
+            HttpClient = new HttpClient
+            {
+                BaseAddress = new Uri("https://rolz.org/api/"),
+                Timeout = TimeSpan.FromSeconds(5),
+            };
+            HttpClient.DefaultRequestHeaders.Add("User-Agent", "Community.PowerToys.Run.Plugin.Dice");
+        }
+
+        internal Main(DiceSettings settings, HttpClient httpClient)
+        {
+            Settings = settings;
+            HttpClient = httpClient;
+        }
+
+        /// <summary>
         /// Name of the plugin.
         /// </summary>
         public string Name => "Dice";
@@ -26,9 +49,11 @@ namespace Community.PowerToys.Run.Plugin.Dice
         /// </summary>
         public string Description => "Roleplaying Dice Roller";
 
-        internal HttpClient? HttpClient { get; set; }
+        private PluginJsonStorage<DiceSettings>? Storage { get; }
 
-        internal IReadOnlyCollection<RollOption>? RollOptions { get; set; }
+        private DiceSettings Settings { get; }
+
+        private HttpClient HttpClient { get; }
 
         private PluginInitContext? Context { get; set; }
 
@@ -67,18 +92,17 @@ namespace Community.PowerToys.Run.Plugin.Dice
 
             if (string.IsNullOrEmpty(expression))
             {
-                return RollOptions?.Select(GetResultFromRollOption).ToList() ?? new List<Result>(0);
+                return Settings.RollOptions.Select(GetResultFromRollOption).ToList() ?? new List<Result>(0);
             }
-
-            var results = new List<Result>();
 
             var roll = Roll(expression);
+
             if (roll != null)
             {
-                results.Add(GetResultFromRoll(roll));
+                return new List<Result> { GetResultFromRoll(roll) };
             }
 
-            return results;
+            return new List<Result>(0);
 
             Result GetResultFromRollOption(RollOption option) => new()
             {
@@ -110,32 +134,6 @@ namespace Community.PowerToys.Run.Plugin.Dice
             Context = context ?? throw new ArgumentNullException(nameof(context));
             Context.API.ThemeChanged += OnThemeChanged;
             UpdateIconPath(Context.API.GetCurrentTheme());
-
-            HttpClient = new HttpClient
-            {
-                BaseAddress = new Uri("https://rolz.org/api/"),
-                Timeout = TimeSpan.FromSeconds(5),
-            };
-            HttpClient.DefaultRequestHeaders.Add("User-Agent", "Community.PowerToys.Run.Plugin.Dice");
-
-            var path = Path.GetDirectoryName(Assembly.GetEntryAssembly()?.Location) + @"\Plugins\Dice\appsettings.json";
-            Log.Info(path, GetType());
-            if (!File.Exists(path))
-            {
-                Log.Info("AppSettings not found.", GetType());
-                return;
-            }
-
-            try
-            {
-                using FileStream stream = File.OpenRead(path);
-                var appSettings = JsonSerializer.Deserialize<AppSettings>(stream);
-                RollOptions = appSettings?.RollOptions;
-            }
-            catch (Exception ex)
-            {
-                Log.Exception("Reading AppSettings failed.", ex, GetType());
-            }
         }
 
         /// <summary>
@@ -254,7 +252,7 @@ namespace Community.PowerToys.Run.Plugin.Dice
             try
             {
 #pragma warning disable VSTHRD002 // Avoid problematic synchronous waits
-                var content = HttpClient?.GetStringAsync($"?{expression}.json").Result;
+                var content = HttpClient.GetStringAsync($"?{expression}.json").Result;
 #pragma warning restore VSTHRD002 // Avoid problematic synchronous waits
 
                 if (string.IsNullOrEmpty(content) || content.Contains("dice code error", StringComparison.InvariantCulture))

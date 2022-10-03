@@ -1,6 +1,5 @@
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
 using RichardSzalay.MockHttp;
 using Wox.Plugin;
 
@@ -10,12 +9,17 @@ namespace Community.PowerToys.Run.Plugin.Dice.UnitTests
     public class MainTests
     {
         private Main subject;
-        private HttpClient httpClient;
 
         [TestInitialize]
         public void TestInitialize()
         {
-            subject = new Main();
+            var settings = new DiceSettings
+            {
+                RollOptions = new List<RollOption>
+                {
+                    new RollOption { Expression = "1d6" },
+                }
+            };
 
             var mockHttp = new MockHttpMessageHandler();
             mockHttp.When("http://localhost/api/?3d6.json")
@@ -24,8 +28,10 @@ namespace Community.PowerToys.Run.Plugin.Dice.UnitTests
                     .Respond("", "");
             mockHttp.When("http://localhost/api/?+.json")
                     .Respond("application/json", "{\"input\":\"+\",\"result\":\"dice code error\",\"details\":\"+\",\"code\":\"\",\"illustration\":\" <span class=\\\"dc_operator\\\">+<\\/span> \",\"timestamp\":1664222083,\"x\":1664222083}");
-            httpClient = mockHttp.ToHttpClient();
+            var httpClient = mockHttp.ToHttpClient();
             httpClient.BaseAddress = new Uri("http://localhost/api/");
+
+            subject = new Main(settings, httpClient);
         }
 
         [TestMethod]
@@ -41,7 +47,6 @@ namespace Community.PowerToys.Run.Plugin.Dice.UnitTests
         [TestMethod]
         public void Query_without_expression_should_return_RollOptions_result()
         {
-            subject.RollOptions = new[] { new RollOption { Expression = "1d6" } };
             subject.Query(new(""), true)
                 .Should().BeEquivalentTo(new[] { new Result { Title = "1d6", SubTitle = "Roll 1d6" } });
         }
@@ -49,7 +54,6 @@ namespace Community.PowerToys.Run.Plugin.Dice.UnitTests
         [TestMethod]
         public void Query_with_expression_should_return_Roll_result()
         {
-            subject.HttpClient = httpClient;
             subject.Query(new("3d6"), true)
                 .Should().BeEquivalentTo(new[] { new Result { Title = "12", SubTitle = "3d6 => (4 +4 +4) = 12" } });
         }
@@ -57,7 +61,6 @@ namespace Community.PowerToys.Run.Plugin.Dice.UnitTests
         [TestMethod]
         public void Query_should_return_empty_result_when_Rolz_response_is_empty()
         {
-            subject.HttpClient = httpClient;
             subject.Query(new("asd"), true)
                 .Should().BeEmpty();
         }
@@ -65,19 +68,8 @@ namespace Community.PowerToys.Run.Plugin.Dice.UnitTests
         [TestMethod]
         public void Query_should_return_empty_result_when_Rolz_response_is_error()
         {
-            subject.HttpClient = httpClient;
             subject.Query(new("+"), true)
                 .Should().BeEmpty();
-        }
-
-        [TestMethod]
-        public void Init_should_initialize_the_plugin()
-        {
-            subject.Init(new PluginInitContext { API = new Mock<IPublicAPI>().Object });
-            subject.HttpClient
-                .Should().NotBeNull();
-            subject.RollOptions
-                .Should().NotBeNull();
         }
 
         [TestMethod]

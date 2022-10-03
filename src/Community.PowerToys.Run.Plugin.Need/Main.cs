@@ -38,9 +38,9 @@ namespace Community.PowerToys.Run.Plugin.Need
         /// </summary>
         public string Description => "Store things you need, but can't remember";
 
-        internal PluginJsonStorage<NeedSettings>? Storage { get; set; }
+        private PluginJsonStorage<NeedSettings>? Storage { get; }
 
-        internal NeedSettings Settings { get; set; }
+        private NeedSettings Settings { get; }
 
         private PluginInitContext? Context { get; set; }
 
@@ -73,17 +73,15 @@ namespace Community.PowerToys.Run.Plugin.Need
 
             if (tokens.Length == 1)
             {
-                var key = tokens[0];
+                var q = tokens[0];
 
-                return Settings.GetRecords(key).Select(GetResultForGetRecord).ToList() ?? new List<Result>(0);
+                return Settings.GetRecords(q).Select(GetResultForGetRecord).ToList() ?? new List<Result>(0);
             }
-            else
-            {
-                var key = tokens[0];
-                var value = tokens[1];
 
-                return new List<Result> { GetResultForSetRecord(key, value) };
-            }
+            var key = tokens[0];
+            var value = tokens[1];
+
+            return new List<Result> { GetResultForSetRecord(key, value) };
 
             Result GetResultForGetRecord(Record record) => new()
             {

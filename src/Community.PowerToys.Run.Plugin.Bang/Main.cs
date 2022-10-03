@@ -15,6 +15,26 @@ namespace Community.PowerToys.Run.Plugin.Bang
     public class Main : IPlugin, IDelayedExecutionPlugin, IDisposable
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="Main"/> class.
+        /// </summary>
+        public Main()
+        {
+            Log.Info($"Ctor", GetType());
+
+            HttpClient = new HttpClient
+            {
+                BaseAddress = new Uri("https://duckduckgo.com"),
+                Timeout = TimeSpan.FromSeconds(5),
+            };
+            HttpClient.DefaultRequestHeaders.Add("User-Agent", "Community.PowerToys.Run.Plugin.Bang");
+        }
+
+        internal Main(HttpClient httpClient)
+        {
+            HttpClient = httpClient;
+        }
+
+        /// <summary>
         /// Name of the plugin.
         /// </summary>
         public string Name => "Bang";
@@ -24,7 +44,7 @@ namespace Community.PowerToys.Run.Plugin.Bang
         /// </summary>
         public string Description => "Search websites with DuckDuckGo !Bang";
 
-        internal HttpClient? HttpClient { get; set; }
+        private HttpClient HttpClient { get; }
 
         private PluginInitContext? Context { get; set; }
 
@@ -61,26 +81,21 @@ namespace Community.PowerToys.Run.Plugin.Bang
 
             var q = query.Search;
 
-            var results = new List<Result>();
-
             if (IsPhraseOnly(q))
             {
                 var suggestions = AutoComplete(Bangify(q));
-                if (suggestions != null)
-                {
-                    results.AddRange(suggestions.Select(GetResultFromSuggestion));
-                }
-            }
-            else
-            {
-                var result = GetResultFromQuery(Bangify(q));
-                if (result != null)
-                {
-                    results.Add(result);
-                }
+
+                return suggestions?.Select(GetResultFromSuggestion).ToList() ?? new List<Result>(0);
             }
 
-            return results;
+            var result = GetResultFromQuery(Bangify(q));
+
+            if (result != null)
+            {
+                return new List<Result> { result };
+            }
+
+            return new List<Result>(0);
 
             bool IsPhraseOnly(string q) => !q.Contains(' ', StringComparison.InvariantCulture);
 
@@ -145,13 +160,6 @@ namespace Community.PowerToys.Run.Plugin.Bang
             Context = context ?? throw new ArgumentNullException(nameof(context));
             Context.API.ThemeChanged += OnThemeChanged;
             UpdateIconPath(Context.API.GetCurrentTheme());
-
-            HttpClient = new HttpClient
-            {
-                BaseAddress = new Uri("https://duckduckgo.com"),
-                Timeout = TimeSpan.FromSeconds(5),
-            };
-            HttpClient.DefaultRequestHeaders.Add("User-Agent", "Community.PowerToys.Run.Plugin.Bang");
         }
 
         /// <inheritdoc/>
@@ -194,7 +202,7 @@ namespace Community.PowerToys.Run.Plugin.Bang
             try
             {
 #pragma warning disable VSTHRD002 // Avoid problematic synchronous waits
-                return HttpClient?.GetFromJsonAsync<IEnumerable<Suggestion>>($"/ac/?q={UrlEncode(q)}&kl=wt-wt").Result;
+                return HttpClient.GetFromJsonAsync<IEnumerable<Suggestion>>($"/ac/?q={UrlEncode(q)}&kl=wt-wt").Result;
 #pragma warning restore VSTHRD002 // Avoid problematic synchronous waits
             }
             catch (Exception ex)

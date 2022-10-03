@@ -8,9 +8,7 @@ namespace Community.PowerToys.Run.Plugin.Need
         /// <summary>
         /// Key-value store.
         /// </summary>
-#pragma warning disable CA2227 // Collection properties should be read only
         public Dictionary<string, Record> Data { get; set; } = new Dictionary<string, Record>();
-#pragma warning restore CA2227 // Collection properties should be read only
 
         /// <summary>
         /// Gets all records.

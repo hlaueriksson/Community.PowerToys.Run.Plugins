@@ -1,7 +1,7 @@
-﻿namespace Community.PowerToys.Run.Plugin.Dice
+namespace Community.PowerToys.Run.Plugin.Dice
 {
     /// <summary>
-    /// Roll option from the appsettings.json file.
+    /// Preconfigured roll expression.
     /// </summary>
     public class RollOption
     {
@@ -14,16 +14,5 @@
         /// Roll description.
         /// </summary>
         public string? Description { get; set; }
-    }
-
-    /// <summary>
-    /// Options from the appsettings.json file.
-    /// </summary>
-    public class AppSettings
-    {
-        /// <summary>
-        /// Roll options.
-        /// </summary>
-        public IReadOnlyCollection<RollOption>? RollOptions { get; set; }
     }
 }
