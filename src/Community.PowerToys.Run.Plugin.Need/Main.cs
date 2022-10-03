@@ -23,6 +23,11 @@ namespace Community.PowerToys.Run.Plugin.Need
             Settings = Storage.Load();
         }
 
+        internal Main(NeedSettings settings)
+        {
+            Settings = settings;
+        }
+
         /// <summary>
         /// Name of the plugin.
         /// </summary>
@@ -33,7 +38,7 @@ namespace Community.PowerToys.Run.Plugin.Need
         /// </summary>
         public string Description => "Store things you need, but can't remember";
 
-        internal PluginJsonStorage<NeedSettings> Storage { get; set; }
+        internal PluginJsonStorage<NeedSettings>? Storage { get; set; }
 
         internal NeedSettings Settings { get; set; }
 
@@ -169,7 +174,7 @@ namespace Community.PowerToys.Run.Plugin.Need
         {
             Log.Info($"Save", GetType());
 
-            Storage.Save();
+            Storage?.Save();
         }
 
         /// <inheritdoc/>
