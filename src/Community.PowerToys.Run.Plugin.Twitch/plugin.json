@@ -1,0 +1,13 @@
+{
+  "ID": "69340CBAA6A54D73861135D4AB7A5276",
+  "ActionKeyword": "twitch",
+  "IsGlobal": false,
+  "Name": "Twitch",
+  "Author": "hlaueriksson",
+  "Version": "0.0.0",
+  "Language": "csharp",
+  "Website": "https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins",
+  "ExecuteFileName": "Community.PowerToys.Run.Plugin.Twitch.dll",
+  "IcoPathDark": "Images\\twitch.dark.png",
+  "IcoPathLight": "Images\\twitch.light.png"
+}
