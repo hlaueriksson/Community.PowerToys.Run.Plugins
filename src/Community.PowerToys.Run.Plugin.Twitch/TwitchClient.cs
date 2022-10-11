@@ -114,35 +114,45 @@ namespace Community.PowerToys.Run.Plugin.Twitch
         /// <inheritdoc/>
         public async Task<TokenResponse?> GetTokenAsync()
         {
-            return await Cache.GetOrAddAsync(
-                nameof(GetTokenAsync),
-                async () =>
-                {
-                    Log.Info("GetTokenAsync not cached", GetType());
+            var uri = "https://id.twitch.tv/oauth2/token";
 
-                    if (string.IsNullOrEmpty(Settings.TwitchApiClientId))
-                    {
-                        Log.Error("TwitchApiClientId is invalid", GetType());
-                        return null;
-                    }
+            var result = await Cache.GetAsync<TokenResponse?>(uri).ConfigureAwait(false);
 
-                    if (string.IsNullOrEmpty(Settings.TwitchApiClientSecret))
-                    {
-                        Log.Error("TwitchApiClientSecret is invalid", GetType());
-                        return null;
-                    }
+            if (result != null)
+            {
+                return result;
+            }
 
-                    var data = new Dictionary<string, string>
-                    {
-                        { "client_id", Settings.TwitchApiClientId },
-                        { "client_secret", Settings.TwitchApiClientSecret },
-                        { "grant_type", "client_credentials" },
-                    };
-                    using var request = new HttpRequestMessage(HttpMethod.Post, "https://id.twitch.tv/oauth2/token") { Content = new FormUrlEncodedContent(data) };
-                    var response = await HttpClient.SendAsync(request).ConfigureAwait(false);
-                    return await response.Content.ReadFromJsonAsync<TokenResponse>().ConfigureAwait(false);
-                },
-                DateTimeOffset.Now.AddDays(1)).ConfigureAwait(false);
+            Log.Info("GetTokenAsync not cached", GetType());
+
+            if (string.IsNullOrEmpty(Settings.TwitchApiClientId))
+            {
+                Log.Error("TwitchApiClientId is invalid", GetType());
+                return null;
+            }
+
+            if (string.IsNullOrEmpty(Settings.TwitchApiClientSecret))
+            {
+                Log.Error("TwitchApiClientSecret is invalid", GetType());
+                return null;
+            }
+
+            var data = new Dictionary<string, string>
+            {
+                { "client_id", Settings.TwitchApiClientId },
+                { "client_secret", Settings.TwitchApiClientSecret },
+                { "grant_type", "client_credentials" },
+            };
+            using var request = new HttpRequestMessage(HttpMethod.Post, uri) { Content = new FormUrlEncodedContent(data) };
+            var response = await HttpClient.SendAsync(request).ConfigureAwait(false);
+            result = await response.Content.ReadFromJsonAsync<TokenResponse>().ConfigureAwait(false);
+
+            if (result != null)
+            {
+                Cache.Add(uri, result, DateTimeOffset.Now.AddDays(1));
+            }
+
+            return result;
         }
 
         /// <inheritdoc/>
@@ -152,17 +162,25 @@ namespace Community.PowerToys.Run.Plugin.Twitch
 
             Log.Info($"GetGamesAsync: {uri}", GetType());
 
-            return await Cache.GetOrAddAsync(
-                uri,
-                async () =>
-                {
-                    Log.Info("GetGamesAsync not cached", GetType());
+            var result = await Cache.GetAsync<GamesResponse?>(uri).ConfigureAwait(false);
 
-                    await SetAuthorizationAsync().ConfigureAwait(false);
-                    var response = await HttpClient.GetAsync(uri).ConfigureAwait(false);
-                    return await response.Content.ReadFromJsonAsync<GamesResponse>().ConfigureAwait(false);
-                },
-                DateTimeOffset.Now.AddMinutes(1)).ConfigureAwait(false);
+            if (result != null)
+            {
+                return result;
+            }
+
+            Log.Info("GetGamesAsync not cached", GetType());
+
+            await SetAuthorizationAsync().ConfigureAwait(false);
+            var response = await HttpClient.GetAsync(uri).ConfigureAwait(false);
+            result = await response.Content.ReadFromJsonAsync<GamesResponse>().ConfigureAwait(false);
+
+            if (result != null)
+            {
+                Cache.Add(uri, result, DateTimeOffset.Now.AddMinutes(1));
+            }
+
+            return result;
         }
 
         /// <inheritdoc/>
