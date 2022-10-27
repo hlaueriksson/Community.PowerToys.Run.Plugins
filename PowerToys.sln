@@ -19,6 +19,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Community.PowerToys.Run.Plu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Community.PowerToys.Run.Plugin.Twitch.UnitTests", "src\Community.PowerToys.Run.Plugin.Twitch.UnitTests\Community.PowerToys.Run.Plugin.Twitch.UnitTests.csproj", "{76B97BE0-0B45-42E3-A884-19E171F71EA0}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Community.PowerToys.Run.Plugin.DenCode", "src\Community.PowerToys.Run.Plugin.DenCode\Community.PowerToys.Run.Plugin.DenCode.csproj", "{455AA804-12CF-49FA-A681-BF08B91C040F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +59,10 @@ Global
 		{76B97BE0-0B45-42E3-A884-19E171F71EA0}.Debug|Any CPU.Build.0 = Debug|x64
 		{76B97BE0-0B45-42E3-A884-19E171F71EA0}.Release|Any CPU.ActiveCfg = Release|x64
 		{76B97BE0-0B45-42E3-A884-19E171F71EA0}.Release|Any CPU.Build.0 = Release|x64
+		{455AA804-12CF-49FA-A681-BF08B91C040F}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{455AA804-12CF-49FA-A681-BF08B91C040F}.Debug|Any CPU.Build.0 = Debug|x64
+		{455AA804-12CF-49FA-A681-BF08B91C040F}.Release|Any CPU.ActiveCfg = Release|x64
+		{455AA804-12CF-49FA-A681-BF08B91C040F}.Release|Any CPU.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
