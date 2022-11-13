@@ -10,69 +10,8 @@ namespace Community.PowerToys.Run.Plugin.DenCode.Models
     "value": null,
     "oe": "UTF-8",
     "nl": "crlf",
-    "tz": "America/New_York",
-    "options": {
-        "decCipherCaesarShift": "-3",
-        "decCipherEnigmaMachine": "I",
-        "decCipherEnigmaReflector": "UKW-A",
-        "decCipherEnigmaRotor4": "Beta",
-        "decCipherEnigmaRotor3": "I",
-        "decCipherEnigmaRotor2": "II",
-        "decCipherEnigmaRotor1": "III",
-        "decCipherEnigmaReflectorRing": "1",
-        "decCipherEnigmaRotor4Ring": "1",
-        "decCipherEnigmaRotor3Ring": "1",
-        "decCipherEnigmaRotor2Ring": "1",
-        "decCipherEnigmaRotor1Ring": "1",
-        "decCipherEnigmaReflectorPosition": "1",
-        "decCipherEnigmaRotor4Position": "1",
-        "decCipherEnigmaRotor3Position": "1",
-        "decCipherEnigmaRotor2Position": "1",
-        "decCipherEnigmaRotor1Position": "1",
-        "decCipherEnigmaPlugboard": "",
-        "decCipherEnigmaUhr": "0",
-        "decCipherEnigmaUkwd": "",
-        "decCipherScytaleKey": "2",
-        "decCipherRailFenceKey": "2",
-        "encStrBinSeparatorEach": "",
-        "encStrHexSeparatorEach": "",
-        "encStrHexCase": "lower",
-        "encStrURLEncodingSpace": "",
-        "encStrBase64LineBreakEach": "",
-        "encStrAscii85Variant": "z85",
-        "encStrUnicodeEscapeSurrogatePairFormat": "",
-        "encStrProgramStringQuotes": "double",
-        "encStrLineSortOrder": "asc",
-        "encNumEnShortScaleFractionalPartNotation": "",
-        "encNumEnShortScaleSystem": "",
-        "encDateISO8601DecimalMark": ".",
-        "encDateISO8601ExtDecimalMark": ".",
-        "encDateISO8601WeekDecimalMark": ".",
-        "encDateISO8601OrdinalDecimalMark": ".",
-        "encColorRGBFnNotation": "percentage",
-        "encCipherCaesarShift": "-3",
-        "encCipherEnigmaMachine": "I",
-        "encCipherEnigmaReflector": "UKW-A",
-        "encCipherEnigmaRotor4": "Beta",
-        "encCipherEnigmaRotor3": "I",
-        "encCipherEnigmaRotor2": "II",
-        "encCipherEnigmaRotor1": "III",
-        "encCipherEnigmaReflectorRing": "1",
-        "encCipherEnigmaRotor4Ring": "1",
-        "encCipherEnigmaRotor3Ring": "1",
-        "encCipherEnigmaRotor2Ring": "1",
-        "encCipherEnigmaRotor1Ring": "1",
-        "encCipherEnigmaReflectorPosition": "1",
-        "encCipherEnigmaRotor4Position": "1",
-        "encCipherEnigmaRotor3Position": "1",
-        "encCipherEnigmaRotor2Position": "1",
-        "encCipherEnigmaRotor1Position": "1",
-        "encCipherEnigmaPlugboard": "",
-        "encCipherEnigmaUhr": "0",
-        "encCipherEnigmaUkwd": "",
-        "encCipherScytaleKey": "2",
-        "encCipherRailFenceKey": "2"
-    }
+    "tz": "UTC",
+    "options": {}
 }
 """;
 
@@ -336,6 +275,30 @@ namespace Community.PowerToys.Run.Plugin.DenCode.Models
             "encStrProgramString.option.quotes.single": "Single (\u0027)",
             "encStrProgramString.option.quotes.none": "None",
             "decStrProgramString": "Program String"
+        }
+    },
+    "string.morse-code": {
+        "Key": "string.morse-code",
+        "useOe": false,
+        "useNl": false,
+        "useTz": false,
+        "hasEncoded": true,
+        "hasDecoded": true,
+        "method": "Morse Code",
+        "title": "Morse Code Translator Online",
+        "desc": "Morse Code Translator. (e.g. \u0022Hello, world!\u0022 \u003C=\u003E \u0022.... . .-.. .-.. --- --..-- / .-- --- .-. .-.. -.. -.-.--\u0022)",
+        "tooltip": "Please input converting text here. (e.g. \u0022Hello, world!\u0022 \u003C=\u003E \u0022.... . .-.. .-.. --- --..-- / .-- --- .-. .-.. -.. -.-.--\u0022)",
+        "label": {
+            "encStrMorseCode": "Morse Code",
+            "encStrMorseCode.option.variant": "Variant",
+            "encStrMorseCode.option.variant.international": "International (Latin)",
+            "encStrMorseCode.option.variant.japanese": "Japanese",
+            "encStrMorseCode.option.variant.russian": "Russian",
+            "decStrMorseCode": "Morse Code",
+            "decStrMorseCode.option.variant": "Variant",
+            "decStrMorseCode.option.variant.international": "International (Latin)",
+            "decStrMorseCode.option.variant.japanese": "Japanese",
+            "decStrMorseCode.option.variant.russian": "Russian"
         }
     },
     "string.naming-convention": {
@@ -1234,19 +1197,6 @@ namespace Community.PowerToys.Run.Plugin.DenCode.Models
             "encHashSHA1": "SHA-1"
         }
     },
-    "hash.sha128": {
-        "Key": "hash.sha128",
-        "useOe": true,
-        "useNl": true,
-        "useTz": false,
-        "hasEncoded": true,
-        "hasDecoded": false,
-        "method": null,
-        "title": null,
-        "desc": null,
-        "tooltip": null,
-        "label": {}
-    },
     "hash.sha256": {
         "Key": "hash.sha256",
         "useOe": true,
@@ -1304,7 +1254,7 @@ namespace Community.PowerToys.Run.Plugin.DenCode.Models
         "desc": "CRC32 hash value calculator.",
         "tooltip": "Please input converting text here. (e.g. \u0022Hello, world!\u0022 =\u003E \u0022ebe6c6e6\u0022)",
         "label": {
-            "rc32.encHashCRC32": "CRC32"
+            "encHashCRC32": "CRC32"
         }
     }
 }

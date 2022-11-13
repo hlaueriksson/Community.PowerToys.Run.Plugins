@@ -107,7 +107,7 @@ namespace Community.PowerToys.Run.Plugin.DenCode.UnitTests
         }
 
         [TestMethod]
-        public void CheckDenCodeMethods()
+        public void Check_DenCodeMethods()
         {
             var result = Constants.Methods.GetDenCodeMethods();
 

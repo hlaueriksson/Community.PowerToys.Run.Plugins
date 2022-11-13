@@ -155,6 +155,11 @@ namespace Community.PowerToys.Run.Plugin.DenCode
                         continue;
                     }
 
+                    if (result == value)
+                    {
+                        continue;
+                    }
+
                     var method = DenCodeLabels.GetValueOrDefault(kvp.Key);
                     var prefix = kvp.Key.StartsWith("dec", StringComparison.Ordinal) ? "Decoded: " : "Encoded: ";
 
@@ -209,7 +214,7 @@ namespace Community.PowerToys.Run.Plugin.DenCode
                         PluginName = Name,
                         Title = "Open website (Ctrl+Enter)",
                         FontFamily = "Segoe MDL2 Assets",
-                        Glyph = "\xEB41", // EB41 => Symbol: Website
+                        Glyph = "\xF6FA", // F6FA => Symbol: WebSearch
                         AcceleratorKey = Key.Enter,
                         AcceleratorModifiers = ModifierKeys.Control,
                         Action = _ =>
@@ -241,7 +246,7 @@ namespace Community.PowerToys.Run.Plugin.DenCode
                         PluginName = Name,
                         Title = "Copy result (Enter)",
                         FontFamily = "Segoe MDL2 Assets",
-                        Glyph = "\xE93E", // E93E => Symbol: Streaming
+                        Glyph = "\xE8C8", // E8C8 => Symbol: Copy
                         /*AcceleratorKey = Key.Enter,*/
                         Action = _ =>
                         {
@@ -255,7 +260,7 @@ namespace Community.PowerToys.Run.Plugin.DenCode
                         PluginName = Name,
                         Title = "Open website (Ctrl+Enter)",
                         FontFamily = "Segoe MDL2 Assets",
-                        Glyph = "\xEB41", // EB41 => Symbol: Website
+                        Glyph = "\xF6FA", // F6FA => Symbol: WebSearch
                         AcceleratorKey = Key.Enter,
                         AcceleratorModifiers = ModifierKeys.Control,
                         Action = _ =>
