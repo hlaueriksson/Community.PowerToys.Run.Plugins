@@ -160,6 +160,14 @@ namespace Community.PowerToys.Run.Plugin.Twitch
                         Title = game.name,
                         SubTitle = game.name,
                         ToolTipData = new ToolTipData("Game", game.name),
+                        Action = _ =>
+                        {
+                            Log.Info("Get streams (Enter): " + game.name, GetType());
+
+                            Context?.API.ChangeQuery("twitch stream game_id=" + game.id, true);
+
+                            return false;
+                        },
                         ContextData = game,
                     });
                 }
@@ -293,8 +301,8 @@ namespace Community.PowerToys.Run.Plugin.Twitch
                         PluginName = Name,
                         Title = "Get streams (Enter)",
                         FontFamily = "Segoe MDL2 Assets",
-                        Glyph = "\xE93E", // E93E => Symbol: Streaming
-                        AcceleratorKey = Key.Enter,
+                        Glyph = "\xEC05", // EC05 => Symbol: NetworkTower
+                        /*AcceleratorKey = Key.Enter,*/
                         Action = _ =>
                         {
                             Log.Info("Get streams (Enter): " + game.name, GetType());
@@ -309,7 +317,7 @@ namespace Community.PowerToys.Run.Plugin.Twitch
                         PluginName = Name,
                         Title = "Open website (Ctrl+Enter)",
                         FontFamily = "Segoe MDL2 Assets",
-                        Glyph = "\xEB41", // EB41 => Symbol: Website
+                        Glyph = "\xF6FA", // F6FA => Symbol: WebSearch
                         AcceleratorKey = Key.Enter,
                         AcceleratorModifiers = ModifierKeys.Control,
                         Action = _ =>
