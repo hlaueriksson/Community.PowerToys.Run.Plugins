@@ -10,7 +10,7 @@ namespace Community.PowerToys.Run.Plugin.Bang.UnitTests
     [TestClass]
     public class MainTests
     {
-        private Main subject;
+        private Main subject = null!;
 
         [TestInitialize]
         public void TestInitialize()
@@ -97,7 +97,9 @@ namespace Community.PowerToys.Run.Plugin.Bang.UnitTests
 
             var q = " !\"#$%&'";
             HttpUtility.UrlEncode(q).Should().Be("+!%22%23%24%25%26%27");
+#pragma warning disable CS0618 // Type or member is obsolete
             HttpUtility.UrlEncodeUnicode(q).Should().Be("+!%22%23%24%25%26%27");
+#pragma warning restore CS0618 // Type or member is obsolete
             HttpUtility.UrlPathEncode(q).Should().Be("%20!\"#$%&'");
             WebUtility.UrlEncode(q).Should().Be("+!%22%23%24%25%26%27");
             Uri.EscapeDataString(q).Should().Be("%20%21%22%23%24%25%26%27");

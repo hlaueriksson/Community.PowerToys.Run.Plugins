@@ -10,7 +10,7 @@ namespace Community.PowerToys.Run.Plugin.DenCode.UnitTests
     [TestClass]
     public class MainTests
     {
-        private Main subject;
+        private Main subject = null!;
 
         [TestInitialize]
         public void TestInitialize()

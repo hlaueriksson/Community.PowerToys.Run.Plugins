@@ -8,7 +8,7 @@ namespace Community.PowerToys.Run.Plugin.Dice.UnitTests
     [TestClass]
     public class MainTests
     {
-        private Main subject;
+        private Main subject = null!;
 
         [TestInitialize]
         public void TestInitialize()

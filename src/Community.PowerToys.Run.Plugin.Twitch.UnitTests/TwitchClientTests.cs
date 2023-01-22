@@ -9,7 +9,7 @@ namespace Community.PowerToys.Run.Plugin.Twitch.UnitTests
     [TestClass]
     public class TwitchClientTests
     {
-        private TwitchClient subject;
+        private TwitchClient subject = null!;
 
         [TestInitialize]
         public void TestInitialize()

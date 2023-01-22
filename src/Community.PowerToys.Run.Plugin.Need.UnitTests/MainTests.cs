@@ -7,7 +7,7 @@ namespace Community.PowerToys.Run.Plugin.Need.UnitTests
     [TestClass]
     public class MainTests
     {
-        private Main subject;
+        private Main subject = null!;
 
         [TestInitialize]
         public void TestInitialize()

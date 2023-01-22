@@ -8,7 +8,7 @@ namespace Community.PowerToys.Run.Plugin.DenCode.UnitTests
     [TestClass]
     public class DenCodeClientTests
     {
-        private DenCodeClient subject;
+        private DenCodeClient subject = null!;
 
         [TestInitialize]
         public void TestInitialize()
