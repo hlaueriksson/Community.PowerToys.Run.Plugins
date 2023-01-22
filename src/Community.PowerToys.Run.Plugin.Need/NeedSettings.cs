@@ -39,10 +39,10 @@ namespace Community.PowerToys.Run.Plugin.Need
         /// <param name="value">The value.</param>
         public void SetRecord(string key, string value)
         {
-            if (Data.ContainsKey(key))
+            if (Data.TryGetValue(key, out Record? record))
             {
-                Data[key].Value = value;
-                Data[key].Updated = DateTime.UtcNow;
+                record.Value = value;
+                record.Updated = DateTime.UtcNow;
             }
             else
             {
