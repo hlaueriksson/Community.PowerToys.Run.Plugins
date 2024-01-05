@@ -35,6 +35,11 @@ namespace Community.PowerToys.Run.Plugin.Bang
         }
 
         /// <summary>
+        /// ID of the plugin.
+        /// </summary>
+        public static string PluginID => "888A6F53700D4F16841160FC0E8AAC2A";
+
+        /// <summary>
         /// Name of the plugin.
         /// </summary>
         public string Name => "Bang";

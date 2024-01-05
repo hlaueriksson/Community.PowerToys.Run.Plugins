@@ -35,6 +35,11 @@ namespace Community.PowerToys.Run.Plugin.DenCode
         }
 
         /// <summary>
+        /// ID of the plugin.
+        /// </summary>
+        public static string PluginID => "8738EC80820A4BF89FA9C3AED709AF9A";
+
+        /// <summary>
         /// Name of the plugin.
         /// </summary>
         public string Name => "DenCode";

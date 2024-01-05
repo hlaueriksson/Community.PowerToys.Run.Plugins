@@ -42,6 +42,11 @@ namespace Community.PowerToys.Run.Plugin.Dice
         }
 
         /// <summary>
+        /// ID of the plugin.
+        /// </summary>
+        public static string PluginID => "0CB159EBD5394A01A8CE995982FE2622";
+
+        /// <summary>
         /// Name of the plugin.
         /// </summary>
         public string Name => "Dice";

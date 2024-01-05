@@ -29,6 +29,11 @@ namespace Community.PowerToys.Run.Plugin.Need
         }
 
         /// <summary>
+        /// ID of the plugin.
+        /// </summary>
+        public static string PluginID => "0B47DD2677CD41E9927218E9D67EFAD1";
+
+        /// <summary>
         /// Name of the plugin.
         /// </summary>
         public string Name => "Need";

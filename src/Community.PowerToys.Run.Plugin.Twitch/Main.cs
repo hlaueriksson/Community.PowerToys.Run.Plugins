@@ -34,6 +34,11 @@ namespace Community.PowerToys.Run.Plugin.Twitch
         }
 
         /// <summary>
+        /// ID of the plugin.
+        /// </summary>
+        public static string PluginID => "69340CBAA6A54D73861135D4AB7A5276";
+
+        /// <summary>
         /// Name of the plugin.
         /// </summary>
         public string Name => "Twitch";
