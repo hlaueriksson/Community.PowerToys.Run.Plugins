@@ -98,7 +98,7 @@ namespace Community.PowerToys.Run.Plugin.DenCode
             {
                 var methods = DenCodeMethods.Values.Where(x => x.method != null && x.Key.Contains(key, StringComparison.InvariantCultureIgnoreCase)).ToList();
 
-                if (methods.Any())
+                if (methods.Count != 0)
                 {
                     return methods.Select(GetResultFromDenCodeMethod).ToList();
                 }

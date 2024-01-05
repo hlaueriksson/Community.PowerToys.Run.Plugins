@@ -61,10 +61,7 @@ namespace Community.PowerToys.Run.Plugin.DenCode
         /// <inheritdoc/>
         public async Task<DenCodeResponse?> DenCodeAsync(DenCodeMethod method, string value)
         {
-            if (method is null)
-            {
-                throw new ArgumentNullException(nameof(method));
-            }
+            ArgumentNullException.ThrowIfNull(method);
 
             var request = JsonSerializer.Deserialize<DenCodeRequest>(Constants.AllRequest);
             request!.type = method.GetRequestType();

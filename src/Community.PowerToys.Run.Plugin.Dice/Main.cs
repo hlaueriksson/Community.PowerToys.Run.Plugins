@@ -15,6 +15,8 @@ namespace Community.PowerToys.Run.Plugin.Dice
     /// </summary>
     public class Main : IPlugin, IDelayedExecutionPlugin, IContextMenu, IDisposable
     {
+        private static readonly JsonSerializerOptions JsonSerializerOptions = new() { PropertyNameCaseInsensitive = true };
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Main"/> class.
         /// </summary>
@@ -260,7 +262,7 @@ namespace Community.PowerToys.Run.Plugin.Dice
                     return null;
                 }
 
-                return JsonSerializer.Deserialize<Roll>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                return JsonSerializer.Deserialize<Roll>(content, JsonSerializerOptions);
             }
             catch (Exception ex)
             {
