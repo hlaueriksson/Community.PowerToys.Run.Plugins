@@ -2,8 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0-windows</TargetFramework>
-    <Platforms>x64</Platforms>
-    <PlatformTarget>x64</PlatformTarget>
     <UseWPF>true</UseWPF>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
