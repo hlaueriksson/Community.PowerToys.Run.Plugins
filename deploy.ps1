@@ -34,12 +34,16 @@ Invoke-Expression -Command $PSScriptRoot\pack.ps1
 
 Stop-Process -Name "PowerToys" -Force -ErrorAction SilentlyContinue
 
+# Wait
+Start-Sleep -Seconds 2
+
 # Plugins
 $folders = Get-ChildItem -Path .\src -Directory -Exclude "*UnitTests", "libs"
 
 Write-Output "Deploy:"
 foreach ($folder in $folders) {
     Write-Output "- $($folder.Name)"
+    Remove-Item -LiteralPath "$env:LOCALAPPDATA\Microsoft\PowerToys\PowerToys Run\Plugins\$($folder.Name)" -Recurse -Force -ErrorAction SilentlyContinue
     Copy-Item -Path "$folder\bin\$($folder.Name)" -Destination "$env:LOCALAPPDATA\Microsoft\PowerToys\PowerToys Run\Plugins\$($folder.Name)" -Recurse -Force
 }
 
