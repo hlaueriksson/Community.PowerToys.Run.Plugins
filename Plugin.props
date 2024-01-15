@@ -1,18 +1,17 @@
 <Project>
 
-  <ItemGroup>
-    <Reference Include="PowerToys.Common.UI">
-      <HintPath>..\libs\PowerToys.Common.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="PowerToys.ManagedCommon">
-      <HintPath>..\libs\PowerToys.ManagedCommon.dll</HintPath>
-    </Reference>
-    <Reference Include="Wox.Infrastructure">
-      <HintPath>..\libs\Wox.Infrastructure.dll</HintPath>
-    </Reference>
-    <Reference Include="Wox.Plugin">
-      <HintPath>..\libs\Wox.Plugin.dll</HintPath>
-    </Reference>
+  <ItemGroup Condition="'$(Platform)' == 'x64'">
+    <Reference Include="..\libs\x64\PowerToys.Common.UI.dll" />
+    <Reference Include="..\libs\x64\PowerToys.ManagedCommon.dll" />
+    <Reference Include="..\libs\x64\Wox.Infrastructure.dll" />
+    <Reference Include="..\libs\x64\Wox.Plugin.dll" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(Platform)' == 'ARM64'">
+    <Reference Include="..\libs\ARM64\PowerToys.Common.UI.dll" />
+    <Reference Include="..\libs\ARM64\PowerToys.ManagedCommon.dll" />
+    <Reference Include="..\libs\ARM64\Wox.Infrastructure.dll" />
+    <Reference Include="..\libs\ARM64\Wox.Plugin.dll" />
   </ItemGroup>
 
   <ItemGroup>

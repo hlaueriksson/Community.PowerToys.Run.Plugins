@@ -22,12 +22,19 @@
     Copies the plugins to the PowerToys Run Plugins folder:
     - %LocalAppData%\Microsoft\PowerToys\PowerToys Run\Plugins
 
+    .Parameter Platform
+    Platform: ARM64 | x64
+
     .Example
     .\deploy.ps1
 
     .Link
     https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins
 #>
+param (
+    [ValidateSet("ARM64", "x64")]
+    [string]$platform = "x64"
+)
 
 # Pack
 Invoke-Expression -Command $PSScriptRoot\pack.ps1
@@ -40,11 +47,13 @@ Start-Sleep -Seconds 2
 # Plugins
 $folders = Get-ChildItem -Path .\src -Directory -Exclude "*UnitTests", "libs"
 
+Write-Output "Platform: $platform"
+
 Write-Output "Deploy:"
 foreach ($folder in $folders) {
     Write-Output "- $($folder.Name)"
     Remove-Item -LiteralPath "$env:LOCALAPPDATA\Microsoft\PowerToys\PowerToys Run\Plugins\$($folder.Name)" -Recurse -Force -ErrorAction SilentlyContinue
-    Copy-Item -Path "$folder\bin\$($folder.Name)" -Destination "$env:LOCALAPPDATA\Microsoft\PowerToys\PowerToys Run\Plugins\$($folder.Name)" -Recurse -Force
+    Copy-Item -Path "$folder\bin\$platform\$($folder.Name)" -Destination "$env:LOCALAPPDATA\Microsoft\PowerToys\PowerToys Run\Plugins\$($folder.Name)" -Recurse -Force
 }
 
 Start-Process -FilePath "C:\Program Files\PowerToys\PowerToys.exe"

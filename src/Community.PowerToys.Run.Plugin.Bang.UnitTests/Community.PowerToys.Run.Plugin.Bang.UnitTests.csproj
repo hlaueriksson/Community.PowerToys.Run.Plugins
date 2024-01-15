@@ -19,10 +19,12 @@
     <ProjectReference Include="..\Community.PowerToys.Run.Plugin.Bang\Community.PowerToys.Run.Plugin.Bang.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="Wox.Plugin">
-      <HintPath>..\libs\Wox.Plugin.dll</HintPath>
-    </Reference>
+  <ItemGroup Condition="'$(Platform)' == 'x64'">
+    <Reference Include="..\libs\x64\Wox.Plugin.dll" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(Platform)' == 'ARM64'">
+    <Reference Include="..\libs\ARM64\Wox.Plugin.dll" />
   </ItemGroup>
 
 </Project>

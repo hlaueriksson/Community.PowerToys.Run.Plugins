@@ -31,29 +31,41 @@
 #>
 
 # Clean
-Get-ChildItem -Path ".\src" -Include "bin", "obj" -Recurse | Remove-Item -Recurse -Force
-
-# Build
-dotnet build $path -c Release /p:TF_BUILD=true
-
-if (!$?) {
-    # Build FAILED.
-    Exit $LastExitCode
-}
+Get-ChildItem -Path ".\src" -Directory -Include "bin", "obj" -Recurse | Remove-Item -Recurse -Force
 
 # Version
 [xml]$props = Get-Content -Path "Directory.Build.props"
-$version = $props.Project.PropertyGroup.Version
+$version = "$($props.Project.PropertyGroup.Version)".Trim()
 Write-Output "Version: $version"
+
+# Platforms
+$platforms = "$($props.Project.PropertyGroup.Platforms)".Trim() -split ";"
 
 # Plugins
 $folders = Get-ChildItem -Path .\src -Directory -Exclude "*UnitTests", "libs"
 $libs = Get-ChildItem -Path .\src\libs
-$output = "\bin\x64\Release\net8.0-windows\"
 
-Write-Output "Pack:"
-foreach ($folder in $folders) {
-    Write-Output "- $($folder.Name)"
-    Copy-Item -Path "$($folder)$($output)" -Destination "$folder\bin\$($folder.Name)" -Recurse -Exclude $libs
-    Compress-Archive -Path "$folder\bin\$($folder.Name)" -DestinationPath "$folder\bin\$($folder.Name).$version.zip"
+foreach ($platform in $platforms)
+{
+    Write-Output "Platform: $platform"
+
+    # Build
+    dotnet build $path -c Release /p:TF_BUILD=true /p:Platform=$platform
+
+    if (!$?) {
+        # Build FAILED.
+        Exit $LastExitCode
+    }
+
+    Write-Output "Pack:"
+    foreach ($folder in $folders) {
+        Write-Output "- $($folder.Name)"
+
+        $output = "$folder\bin\$platform\Release\net8.0-windows\"
+        $destination = "$folder\bin\$platform\$($folder.Name)"
+        $zip = "$folder\bin\$platform\$($folder.Name)-$version-$($platform.ToLower()).zip"
+
+        Copy-Item -Path $output -Destination $destination -Recurse -Exclude $libs
+        Compress-Archive -Path $destination -DestinationPath $zip
+    }
 }

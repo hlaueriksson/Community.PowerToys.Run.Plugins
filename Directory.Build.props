@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <Version>0.0.0</Version>
-    <Platforms>x64</Platforms>
+    <Platforms>x64;ARM64</Platforms>
     <PlatformTarget>$(Platform)</PlatformTarget>
     <LangVersion>preview</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
