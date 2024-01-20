@@ -43,5 +43,12 @@ namespace Community.PowerToys.Run.Plugin.DenCode.UnitTests
             var result = await _subject.DenCodeAsync(method, "value");
             result.Should().NotBeNull();
         }
+
+        [TestMethod]
+        public void GetUrl_should_URL_encode_v_parameter()
+        {
+            var result = _subject.GetUrl(new DenCodeContextData { Value = "Björk" });
+            result.Should().Be("https://dencode.com/?v=Bj%C3%B6rk");
+        }
     }
 }

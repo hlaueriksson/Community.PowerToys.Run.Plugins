@@ -1,5 +1,4 @@
 using System.Text.Json;
-using System.Windows;
 using System.Windows.Input;
 using Community.PowerToys.Run.Plugin.DenCode.Models;
 using ManagedCommon;
@@ -49,17 +48,17 @@ namespace Community.PowerToys.Run.Plugin.DenCode
         /// </summary>
         public string Description => "Encoding and decoding values";
 
-        private IDenCodeClient DenCodeClient { get; }
-
-        private Dictionary<string, DenCodeMethod> DenCodeMethods { get; }
-
-        private Dictionary<string, DenCodeMethod> DenCodeLabels { get; }
-
         private PluginInitContext? Context { get; set; }
 
         private string? IconPath { get; set; }
 
         private bool Disposed { get; set; }
+
+        private IDenCodeClient DenCodeClient { get; }
+
+        private Dictionary<string, DenCodeMethod> DenCodeMethods { get; }
+
+        private Dictionary<string, DenCodeMethod> DenCodeLabels { get; }
 
         /// <summary>
         /// Return a filtered list, based on the given query.
@@ -177,7 +176,7 @@ namespace Community.PowerToys.Run.Plugin.DenCode
                         Action = _ =>
                         {
                             Log.Info("Copy result (Enter): " + result, GetType());
-                            return CopyToClipboard(result);
+                            return result.CopyToClipboard();
                         },
                         ContextData = new DenCodeContextData
                         {
@@ -224,8 +223,7 @@ namespace Community.PowerToys.Run.Plugin.DenCode
                         AcceleratorModifiers = ModifierKeys.Control,
                         Action = _ =>
                         {
-                            var slug = method.Key.Replace('.', '/') ?? string.Empty;
-                            var arguments = $"https://dencode.com/{slug}";
+                            var arguments = DenCodeClient.GetUrl(method);
 
                             Log.Info("Open website (Ctrl+Enter): " + arguments, GetType());
 
@@ -257,7 +255,7 @@ namespace Community.PowerToys.Run.Plugin.DenCode
                         {
                             var result = data.Result.Value.GetString();
                             Log.Info("Copy result (Enter): " + result, GetType());
-                            return CopyToClipboard(result);
+                            return result.CopyToClipboard();
                         },
                     },
                     new ContextMenuResult
@@ -270,8 +268,7 @@ namespace Community.PowerToys.Run.Plugin.DenCode
                         AcceleratorModifiers = ModifierKeys.Control,
                         Action = _ =>
                         {
-                            var slug = data.Method?.Key.Replace('.', '/') ?? string.Empty;
-                            var arguments = $"https://dencode.com/{slug}?v={UrlEncode(data.Value)}";
+                            var arguments = DenCodeClient.GetUrl(data);
 
                             Log.Info("Open website (Ctrl+Enter): " + arguments, GetType());
 
@@ -315,21 +312,6 @@ namespace Community.PowerToys.Run.Plugin.DenCode
             }
 
             Disposed = true;
-        }
-
-        private static bool CopyToClipboard(string? value)
-        {
-            if (value != null)
-            {
-                Clipboard.SetText(value);
-            }
-
-            return true;
-        }
-
-        private static string UrlEncode(string q)
-        {
-            return Uri.EscapeDataString(q);
         }
 
         private void UpdateIconPath(Theme theme) => IconPath = theme == Theme.Light || theme == Theme.HighContrastWhite ? "Images/dencode.light.png" : "Images/dencode.dark.png";

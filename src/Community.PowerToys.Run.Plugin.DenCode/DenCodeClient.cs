@@ -24,6 +24,20 @@ namespace Community.PowerToys.Run.Plugin.DenCode
         /// <param name="value">The value.</param>
         /// <returns>Encoding/decoding results.</returns>
         Task<DenCodeResponse?> DenCodeAsync(DenCodeMethod method, string value);
+
+        /// <summary>
+        /// Gets DenCode URL.
+        /// </summary>
+        /// <param name="method">The encoding/decoding method.</param>
+        /// <returns>The URL.</returns>
+        string GetUrl(DenCodeMethod method);
+
+        /// <summary>
+        /// Gets DenCode URL.
+        /// </summary>
+        /// <param name="data">The context data.</param>
+        /// <returns>The URL.</returns>
+        string GetUrl(DenCodeContextData data);
     }
 
     /// <inheritdoc/>
@@ -69,6 +83,29 @@ namespace Community.PowerToys.Run.Plugin.DenCode
             request!.value = value;
             var response = await HttpClient.PostAsJsonAsync("dencode", request).ConfigureAwait(false);
             return await response.Content.ReadFromJsonAsync<DenCodeResponse>().ConfigureAwait(false);
+        }
+
+        /// <inheritdoc/>
+        public string GetUrl(DenCodeMethod method)
+        {
+            ArgumentNullException.ThrowIfNull(method);
+
+            var slug = method.Key.Replace('.', '/') ?? string.Empty;
+            return $"https://dencode.com/{slug}";
+        }
+
+        /// <inheritdoc/>
+        public string GetUrl(DenCodeContextData data)
+        {
+            ArgumentNullException.ThrowIfNull(data);
+
+            var slug = data.Method?.Key.Replace('.', '/') ?? string.Empty;
+            return $"https://dencode.com/{slug}?v={UrlEncode(data.Value)}";
+        }
+
+        private static string UrlEncode(string q)
+        {
+            return Uri.EscapeDataString(q);
         }
     }
 }
