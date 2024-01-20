@@ -14,8 +14,13 @@ namespace Community.PowerToys.Run.Plugin.DenCode.UnitTests
         {
             var result = new Dictionary<string, DenCodeMethod>();
 
+            // Last commit before: Move dencoder definitions from config file to Dencoder annotation
+            const string commit = "bddb750a7f7812bb1d7aa34ababeabb2275eb97f";
+            // TODO: read annotations from https://github.com/mozq/dencode-web/tree/master/src/main/java/com/dencode/logic/dencoder
+
             var client = new HttpClient();
-            var response = await client.GetAsync("https://raw.githubusercontent.com/mozq/dencode-web/master/src/main/resources/config.properties"); var config = await response.Content.ReadAsStringAsync();
+            var response = await client.GetAsync($"https://raw.githubusercontent.com/mozq/dencode-web/{commit}/src/main/resources/config.properties");
+            var config = await response.Content.ReadAsStringAsync();
 
             foreach (var line in config.Split('\n'))
             {
@@ -92,6 +97,7 @@ namespace Community.PowerToys.Run.Plugin.DenCode.UnitTests
                     var line = lines[++index];
 
                     if (string.IsNullOrEmpty(line)) break;
+                    if (!line.StartsWith("label.")) break;
 
                     var firstDotIndex = "label.".Length;
                     var equalIndex = line.IndexOf('=');

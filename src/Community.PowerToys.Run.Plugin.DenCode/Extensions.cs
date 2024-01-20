@@ -19,10 +19,7 @@ namespace Community.PowerToys.Run.Plugin.DenCode
             {
                 foreach (var label in method.label.Keys)
                 {
-                    if (!label.Contains('.', StringComparison.Ordinal))
-                    {
-                        result[label] = method;
-                    }
+                    result[label] = method;
                 }
             }
 
