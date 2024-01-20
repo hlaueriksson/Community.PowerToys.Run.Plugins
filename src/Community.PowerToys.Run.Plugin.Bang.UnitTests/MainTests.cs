@@ -1,8 +1,7 @@
-using System.Net;
-using System.Web;
+using Community.PowerToys.Run.Plugin.Bang.Models;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using RichardSzalay.MockHttp;
+using Moq;
 using Wox.Plugin;
 
 namespace Community.PowerToys.Run.Plugin.Bang.UnitTests
@@ -15,19 +14,14 @@ namespace Community.PowerToys.Run.Plugin.Bang.UnitTests
         [TestInitialize]
         public void TestInitialize()
         {
-            var mockHttp = new MockHttpMessageHandler();
-            mockHttp.When("http://localhost/ac/?q=!&kl=wt-wt")
-                .Respond("application/json", "[ { \"phrase\": \"!w\", \"score\": 3015746, \"snippet\": \"Wikipedia\", \"image\": \"https://external-content.duckduckgo.com/i/en.wikipedia.org.ico?imgFallback=/watrcoolr/img/search-suggestions_default.png\" } ]");
-            mockHttp.When("http://localhost/ac/?q=!gh&kl=wt-wt")
-                .Respond("application/json", "[ { \"phrase\": \"!gh\", \"score\": 3015741, \"snippet\": \"GitHub\", \"image\": \"https://external-content.duckduckgo.com/i/github.com.ico?imgFallback=/watrcoolr/img/search-suggestions_default.png\" } ]");
-            mockHttp.When("http://localhost/ac/?q=!unknown&kl=wt-wt")
-                .Respond("application/json", "[]");
-            mockHttp.When("http://localhost/ac/?q=!%C3%A4x&kl=wt-wt")
-                .Respond("application/json", "[ { \"phrase\": \"!äx\", \"score\": 0, \"snippet\": \"Levykauppa Äx\", \"image\": \"https://external-content.duckduckgo.com/i/www.levykauppax.fi.ico?imgFallback=/watrcoolr/img/search-suggestions_default.png\" } ]");
-            var httpClient = mockHttp.ToHttpClient();
-            httpClient.BaseAddress = new Uri("http://localhost");
+            var mock = new Mock<IDuckDuckGoClient>();
+            mock.Setup(x => x.AutoCompleteAsync("!")).ReturnsAsync(new[] { new Suggestion { Phrase = "!w", Snippet = "Wikipedia" } });
+            mock.Setup(x => x.AutoCompleteAsync("!gh")).ReturnsAsync(new[] { new Suggestion { Phrase = "!gh", Snippet = "GitHub" } });
+            mock.Setup(x => x.AutoCompleteAsync("!unknown")).ReturnsAsync([]);
+            mock.Setup(x => x.AutoCompleteAsync("!äx")).ReturnsAsync(new[] { new Suggestion { Phrase = "!äx", Snippet = "Levykauppa Äx" } });
+            mock.Setup(x => x.GetSearchUrl("!gh PowerToys")).Returns("https://duckduckgo.com/?va=j&t=hc&q=!gh+PowerToys");
 
-            _subject = new Main(httpClient);
+            _subject = new Main(mock.Object);
         }
 
         [TestMethod]
@@ -64,8 +58,8 @@ namespace Community.PowerToys.Run.Plugin.Bang.UnitTests
         [TestMethod]
         public void Query_with_bang_gh_PowerToys_query_should_return_Query_result()
         {
-            _subject.Query(new("!gh PowerToys"), true)
-                .Should().BeEquivalentTo(new[] { new Result { Title = "GitHub: PowerToys", SubTitle = "!gh PowerToys" } });
+            _subject.Query(new("!gh PowerToys"), true).Single()
+                .Should().BeEquivalentTo(new Result { Title = "GitHub: PowerToys", SubTitle = "!gh PowerToys", ProgramArguments = "https://duckduckgo.com/?va=j&t=hc&q=!gh+PowerToys" });
         }
 
         [TestMethod]
@@ -73,9 +67,6 @@ namespace Community.PowerToys.Run.Plugin.Bang.UnitTests
         {
             _subject.Query(new("!äx"), true)
                 .Should().BeEquivalentTo(new[] { new Result { Title = "Levykauppa Äx", SubTitle = "!äx" } });
-
-            _subject.Query(new("!äx Björk"), true)
-                .Single().ProgramArguments.Should().Be("https://duckduckgo.com/?va=j&t=hc&q=!%C3%A4x+Bj%C3%B6rk");
         }
 
         [TestMethod]
@@ -83,26 +74,6 @@ namespace Community.PowerToys.Run.Plugin.Bang.UnitTests
         {
             _subject.Query(new("gh"), true)
                 .Should().BeEquivalentTo(new[] { new Result { Title = "GitHub", SubTitle = "!gh" } });
-
-            _subject.Query(new("gh PowerToys"), true)
-                .Single().ProgramArguments.Should().Be("https://duckduckgo.com/?va=j&t=hc&q=!gh+PowerToys");
-        }
-
-        [TestMethod]
-        public void UrlEncode()
-        {
-            // https://stackoverflow.com/a/21771206
-            // !so !"#$%&'
-            // https://duckduckgo.com/?va=j&t=hb&q=%21so+%21%22%23%24%25%26%27
-
-            var q = " !\"#$%&'";
-            HttpUtility.UrlEncode(q).Should().Be("+!%22%23%24%25%26%27");
-#pragma warning disable CS0618 // Type or member is obsolete
-            HttpUtility.UrlEncodeUnicode(q).Should().Be("+!%22%23%24%25%26%27");
-#pragma warning restore CS0618 // Type or member is obsolete
-            HttpUtility.UrlPathEncode(q).Should().Be("%20!\"#$%&'");
-            WebUtility.UrlEncode(q).Should().Be("+!%22%23%24%25%26%27");
-            Uri.EscapeDataString(q).Should().Be("%20%21%22%23%24%25%26%27");
         }
     }
 }

@@ -1,6 +1,4 @@
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Json;
+using Community.PowerToys.Run.Plugin.Bang.Models;
 using ManagedCommon;
 using Wox.Infrastructure;
 using Wox.Plugin;
@@ -21,17 +19,12 @@ namespace Community.PowerToys.Run.Plugin.Bang
         {
             Log.Info("Ctor", GetType());
 
-            HttpClient = new HttpClient
-            {
-                BaseAddress = new Uri("https://duckduckgo.com"),
-                Timeout = TimeSpan.FromSeconds(5),
-            };
-            HttpClient.DefaultRequestHeaders.Add("User-Agent", "Community.PowerToys.Run.Plugin.Bang");
+            DuckDuckGoClient = new DuckDuckGoClient();
         }
 
-        internal Main(HttpClient httpClient)
+        internal Main(IDuckDuckGoClient duckDuckGoClient)
         {
-            HttpClient = httpClient;
+            DuckDuckGoClient = duckDuckGoClient;
         }
 
         /// <summary>
@@ -49,13 +42,13 @@ namespace Community.PowerToys.Run.Plugin.Bang
         /// </summary>
         public string Description => "Search websites with DuckDuckGo !Bang";
 
-        private HttpClient HttpClient { get; }
-
         private PluginInitContext? Context { get; set; }
 
         private string? IconPath { get; set; }
 
         private bool Disposed { get; set; }
+
+        private IDuckDuckGoClient DuckDuckGoClient { get; }
 
         /// <summary>
         /// Return a filtered list, based on the given query.
@@ -129,7 +122,7 @@ namespace Community.PowerToys.Run.Plugin.Bang
                     return null;
                 }
 
-                var arguments = $"https://duckduckgo.com/?va=j&t=hc&q={UrlEncode(q)}";
+                var arguments = DuckDuckGoClient.GetSearchUrl(q);
 
                 return new()
                 {
@@ -153,6 +146,22 @@ namespace Community.PowerToys.Run.Plugin.Bang
                         return true;
                     },
                 };
+            }
+
+            IEnumerable<Suggestion>? AutoComplete(string q)
+            {
+                try
+                {
+#pragma warning disable VSTHRD002 // Avoid problematic synchronous waits
+                    return DuckDuckGoClient.AutoCompleteAsync(q).Result;
+#pragma warning restore VSTHRD002 // Avoid problematic synchronous waits
+                }
+                catch (Exception ex)
+                {
+                    Log.Exception("AutoComplete failed.", ex, GetType());
+                }
+
+                return null;
             }
         }
 
@@ -193,29 +202,8 @@ namespace Community.PowerToys.Run.Plugin.Bang
             Disposed = true;
         }
 
-        private static string UrlEncode(string q)
-        {
-            return WebUtility.UrlEncode(q);
-        }
-
         private void UpdateIconPath(Theme theme) => IconPath = theme == Theme.Light || theme == Theme.HighContrastWhite ? "Images/bang.light.png" : "Images/bang.dark.png";
 
         private void OnThemeChanged(Theme currentTheme, Theme newTheme) => UpdateIconPath(newTheme);
-
-        private IEnumerable<Suggestion>? AutoComplete(string q)
-        {
-            try
-            {
-#pragma warning disable VSTHRD002 // Avoid problematic synchronous waits
-                return HttpClient.GetFromJsonAsync<IEnumerable<Suggestion>>($"/ac/?q={UrlEncode(q)}&kl=wt-wt").Result;
-#pragma warning restore VSTHRD002 // Avoid problematic synchronous waits
-            }
-            catch (Exception ex)
-            {
-                Log.Exception("AutoComplete failed.", ex, GetType());
-            }
-
-            return null;
-        }
     }
 }

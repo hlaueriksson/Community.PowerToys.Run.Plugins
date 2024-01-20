@@ -1,4 +1,4 @@
-namespace Community.PowerToys.Run.Plugin.Bang
+namespace Community.PowerToys.Run.Plugin.Bang.Models
 {
     /// <summary>
     /// AutoComplete suggestion.

@@ -175,6 +175,7 @@ end_of_line = crlf
 dotnet_diagnostic.CA1002.severity = none
 dotnet_diagnostic.CA1014.severity = none
 dotnet_diagnostic.CA1031.severity = none
+dotnet_diagnostic.CA1055.severity = none
 dotnet_diagnostic.CA2227.severity = none
 dotnet_diagnostic.CA2234.severity = none
 dotnet_diagnostic.SA1101.severity = none
