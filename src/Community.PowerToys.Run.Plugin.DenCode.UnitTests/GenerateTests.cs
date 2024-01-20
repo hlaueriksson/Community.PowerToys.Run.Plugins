@@ -135,7 +135,7 @@ namespace Community.PowerToys.Run.Plugin.DenCode.UnitTests
                     }
                 }
 
-                if (!method.label.Any())
+                if (method.label.Count == 0)
                 {
                     Console.WriteLine(method.Key + ":");
                     Console.WriteLine("\tempty");

@@ -17,7 +17,7 @@ namespace Community.PowerToys.Run.Plugin.Need
         /// </summary>
         public Main()
         {
-            Log.Info($"Ctor", GetType());
+            Log.Info("Ctor", GetType());
 
             Storage = new PluginJsonStorage<NeedSettings>();
             Settings = Storage.Load();
@@ -86,7 +86,7 @@ namespace Community.PowerToys.Run.Plugin.Need
             var key = tokens[0];
             var value = tokens[1];
 
-            return new List<Result> { GetResultForSetRecord(key, value) };
+            return [GetResultForSetRecord(key, value)];
 
             Result GetResultForGetRecord(Record record) => new()
             {
@@ -120,7 +120,7 @@ namespace Community.PowerToys.Run.Plugin.Need
         /// <param name="context">The <see cref="PluginInitContext"/> for this plugin.</param>
         public void Init(PluginInitContext context)
         {
-            Log.Info($"Init", GetType());
+            Log.Info("Init", GetType());
 
             Context = context ?? throw new ArgumentNullException(nameof(context));
             Context.API.ThemeChanged += OnThemeChanged;
@@ -136,8 +136,8 @@ namespace Community.PowerToys.Run.Plugin.Need
         {
             if (selectedResult?.ContextData is Record record)
             {
-                return new List<ContextMenuResult>
-                {
+                return
+                [
                     new ContextMenuResult
                     {
                         PluginName = Name,
@@ -166,7 +166,7 @@ namespace Community.PowerToys.Run.Plugin.Need
                             return true;
                         },
                     },
-                };
+                ];
             }
 
             return new List<ContextMenuResult>(0);
@@ -175,7 +175,7 @@ namespace Community.PowerToys.Run.Plugin.Need
         /// <inheritdoc/>
         public void Save()
         {
-            Log.Info($"Save", GetType());
+            Log.Info("Save", GetType());
 
             Storage?.Save();
         }
@@ -193,14 +193,14 @@ namespace Community.PowerToys.Run.Plugin.Need
         /// <param name="disposing">Indicate that the plugin is disposed.</param>
         protected virtual void Dispose(bool disposing)
         {
-            Log.Info($"Dispose", GetType());
+            Log.Info("Dispose", GetType());
 
             if (Disposed || !disposing)
             {
                 return;
             }
 
-            if (Context != null && Context.API != null)
+            if (Context?.API != null)
             {
                 Context.API.ThemeChanged -= OnThemeChanged;
             }

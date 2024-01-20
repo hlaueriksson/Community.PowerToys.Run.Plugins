@@ -9,7 +9,7 @@ namespace Community.PowerToys.Run.Plugin.Twitch.UnitTests
     [TestClass]
     public class MainTests
     {
-        private Main subject = null!;
+        private Main _subject = null!;
 
         [TestInitialize]
         public void TestInitialize()
@@ -20,23 +20,23 @@ namespace Community.PowerToys.Run.Plugin.Twitch.UnitTests
             mock.Setup(x => x.SearchChannelsAsync("cs", null, 100, true)).ReturnsAsync(ChannelsResponse());
             mock.Setup(x => x.GetStreamsAsync(null, null, 100, "1", "en")).ReturnsAsync(StreamsResponse());
 
-            subject = new Main(new TwitchSettings(), mock.Object);
+            _subject = new Main(new TwitchSettings(), mock.Object);
 
-            GamesResponse GamesResponse() => new GamesResponse
+            GamesResponse GamesResponse() => new()
             {
-                data = new[] { new GameData { id = "1", name = "CS" } },
+                data = [new GameData { id = "1", name = "CS" }],
                 pagination = new Pagination { cursor = "abc" }
             };
 
-            ChannelsResponse ChannelsResponse() => new ChannelsResponse()
+            ChannelsResponse ChannelsResponse() => new()
             {
-                data = new[] { new ChannelData { id = "1", title = "CS", display_name = "CS", broadcaster_login = "cs" } },
+                data = [new ChannelData { id = "1", title = "CS", display_name = "CS", broadcaster_login = "cs" }],
                 pagination = new Pagination { cursor = "abc" }
             };
 
-            StreamsResponse StreamsResponse() => new StreamsResponse
+            StreamsResponse StreamsResponse() => new()
             {
-                data = new[] { new StreamData { id = "1", title = "CS", type = "live", user_login = "cs" } },
+                data = [new StreamData { id = "1", title = "CS", type = "live", user_login = "cs" }],
                 pagination = new Pagination { cursor = "abc" }
             };
         }
@@ -44,38 +44,38 @@ namespace Community.PowerToys.Run.Plugin.Twitch.UnitTests
         [TestMethod]
         public void Query_without_delayedExecution_should_return_empty_result()
         {
-            subject.Query(new(""))
+            _subject.Query(new(""))
                 .Should().BeEmpty();
 
-            subject.Query(new(""), false)
+            _subject.Query(new(""), false)
                 .Should().BeEmpty();
         }
 
         [TestMethod]
         public void Query_with_game_query_should_return_top_games()
         {
-            subject.Query(new("game"), true)
+            _subject.Query(new("game"), true)
                 .Should().NotBeEmpty();
         }
 
         [TestMethod]
         public void Query_with_game_query_should_return_games_from_search()
         {
-            subject.Query(new("game cs"), true)
+            _subject.Query(new("game cs"), true)
                 .Should().NotBeEmpty();
         }
 
         [TestMethod]
         public void Query_with_channel_query_should_return_channels_from_search()
         {
-            subject.Query(new("channel cs"), true)
+            _subject.Query(new("channel cs"), true)
                 .Should().NotBeEmpty();
         }
 
         [TestMethod]
         public void Query_with_stream_query_should_return_streams_for_game()
         {
-            subject.Query(new("stream game_id=1"), true)
+            _subject.Query(new("stream game_id=1"), true)
                 .Should().NotBeEmpty();
         }
 

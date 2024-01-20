@@ -114,7 +114,7 @@ namespace Community.PowerToys.Run.Plugin.Twitch
         /// <inheritdoc/>
         public async Task<TokenResponse?> GetTokenAsync()
         {
-            var uri = "https://id.twitch.tv/oauth2/token";
+            const string uri = "https://id.twitch.tv/oauth2/token";
 
             var result = await Cache.GetAsync<TokenResponse?>(uri).ConfigureAwait(false);
 
@@ -223,7 +223,7 @@ namespace Community.PowerToys.Run.Plugin.Twitch
             return "?" + string.Join("&", parameters.Where(x => x != null));
         }
 
-        private static string? Parameter(object? value, [CallerArgumentExpression("value")] string name = "")
+        private static string? Parameter(object? value, [CallerArgumentExpression(nameof(value))] string name = "")
         {
             if (value == null)
             {

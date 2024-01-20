@@ -24,6 +24,6 @@ namespace Community.PowerToys.Run.Plugin.DenCode.Models
 
         public string tooltip { get; set; }
 
-        public Dictionary<string, string> label { get; set; } = new Dictionary<string, string>();
+        public Dictionary<string, string> label { get; set; } = [];
     }
 }

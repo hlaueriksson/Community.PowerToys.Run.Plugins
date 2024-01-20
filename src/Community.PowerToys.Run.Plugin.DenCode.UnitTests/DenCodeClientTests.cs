@@ -8,7 +8,7 @@ namespace Community.PowerToys.Run.Plugin.DenCode.UnitTests
     [TestClass]
     public class DenCodeClientTests
     {
-        private DenCodeClient subject = null!;
+        private DenCodeClient _subject = null!;
 
         [TestInitialize]
         public void TestInitialize()
@@ -23,13 +23,13 @@ namespace Community.PowerToys.Run.Plugin.DenCode.UnitTests
             var httpClient = mockHttp.ToHttpClient();
             httpClient.BaseAddress = new Uri("http://localhost");
 
-            subject = new DenCodeClient(httpClient);
+            _subject = new DenCodeClient(httpClient);
         }
 
         [TestMethod]
         public async Task DenCodeAsync()
         {
-            var result = await subject.DenCodeAsync("value");
+            var result = await _subject.DenCodeAsync("value");
             result.Should().NotBeNull();
         }
 
@@ -40,7 +40,7 @@ namespace Community.PowerToys.Run.Plugin.DenCode.UnitTests
             {
                 Key = "hash.crc32"
             };
-            var result = await subject.DenCodeAsync(method, "value");
+            var result = await _subject.DenCodeAsync(method, "value");
             result.Should().NotBeNull();
         }
     }

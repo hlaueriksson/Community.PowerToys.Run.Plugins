@@ -10,7 +10,7 @@ namespace Community.PowerToys.Run.Plugin.DenCode.UnitTests
     [TestClass]
     public class MainTests
     {
-        private Main subject = null!;
+        private Main _subject = null!;
 
         [TestInitialize]
         public void TestInitialize()
@@ -21,9 +21,9 @@ namespace Community.PowerToys.Run.Plugin.DenCode.UnitTests
             mock.Setup(x => x.DenCodeAsync("Hello, world!")).ReturnsAsync(AllDenCodeResponse());
             mock.Setup(x => x.DenCodeAsync(It.Is<DenCodeMethod>(x => x.Key == "string.hex"), "Hello, world!")).ReturnsAsync(HexDenCodeResponse());
 
-            subject = new Main(mock.Object);
+            _subject = new Main(mock.Object);
 
-            DenCodeResponse AllDenCodeResponse() => new DenCodeResponse
+            DenCodeResponse AllDenCodeResponse() => new()
             {
                 response = new Dictionary<string, JsonElement>
                 {
@@ -32,7 +32,7 @@ namespace Community.PowerToys.Run.Plugin.DenCode.UnitTests
                 }
             };
 
-            DenCodeResponse HexDenCodeResponse() => new DenCodeResponse
+            DenCodeResponse HexDenCodeResponse() => new()
             {
                 response = new Dictionary<string, JsonElement>
                 {
@@ -44,45 +44,45 @@ namespace Community.PowerToys.Run.Plugin.DenCode.UnitTests
         [TestMethod]
         public void Query_without_delayedExecution_should_return_empty_result()
         {
-            subject.Query(new(""))
+            _subject.Query(new(""))
                 .Should().BeEmpty();
 
-            subject.Query(new(""), false)
+            _subject.Query(new(""), false)
                 .Should().BeEmpty();
         }
 
         [TestMethod]
         public void Query_with_empty_args_should_return_all_DenCodeMethods()
         {
-            subject.Query(new(""), true)
+            _subject.Query(new(""), true)
                 .Should().HaveCount(62);
         }
 
         [TestMethod]
         public void Query_with_key_args_should_return_matching_DenCodeMethods()
         {
-            subject.Query(new("hex"), true)
+            _subject.Query(new("hex"), true)
                 .Should().HaveCount(2);
         }
 
         [TestMethod]
         public void Query_with_key_value_args_should_return_matching_DenCodeMethods()
         {
-            subject.Query(new("string.hex Hello, world!"), true)
+            _subject.Query(new("string.hex Hello, world!"), true)
                 .Should().HaveCount(1);
         }
 
         [TestMethod]
         public void Query_with_value_args_should_return_matching_DenCodeMethods()
         {
-            subject.Query(new("Hello, world!"), true)
+            _subject.Query(new("Hello, world!"), true)
                 .Should().HaveCount(2);
         }
 
         [TestMethod]
         public void LoadContextMenus_with_no_ContextData_should_return_empty_result()
         {
-            subject.LoadContextMenus(new Result())
+            _subject.LoadContextMenus(new Result())
                 .Should().BeEmpty();
         }
 
@@ -90,7 +90,7 @@ namespace Community.PowerToys.Run.Plugin.DenCode.UnitTests
         public void LoadContextMenus_with_DenCodeMethod_should_return_menu_with_open_website()
         {
             var result = new Result { ContextData = new DenCodeMethod() };
-            subject.LoadContextMenus(result)
+            _subject.LoadContextMenus(result)
                 .Should().HaveCount(1)
                 .And.Contain(x => x.Title == "Open website (Ctrl+Enter)");
         }
@@ -99,7 +99,7 @@ namespace Community.PowerToys.Run.Plugin.DenCode.UnitTests
         public void LoadContextMenus_with_DenCodeContextData_should_return_menu_with_copy_result_and_open_website()
         {
             var result = new Result { ContextData = new DenCodeContextData() };
-            subject.LoadContextMenus(result)
+            _subject.LoadContextMenus(result)
                 .Should().HaveCount(2)
                 .And.Contain(x => x.Title == "Copy result (Enter)")
                 .And.Contain(x => x.Title == "Open website (Ctrl+Enter)");

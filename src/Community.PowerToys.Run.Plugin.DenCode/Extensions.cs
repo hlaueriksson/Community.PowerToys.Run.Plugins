@@ -7,7 +7,7 @@ namespace Community.PowerToys.Run.Plugin.DenCode
     {
         public static Dictionary<string, DenCodeMethod> GetDenCodeMethods(this string json)
         {
-            return JsonSerializer.Deserialize<Dictionary<string, DenCodeMethod>>(json) ?? new Dictionary<string, DenCodeMethod>();
+            return JsonSerializer.Deserialize<Dictionary<string, DenCodeMethod>>(json) ?? [];
         }
 
         public static Dictionary<string, DenCodeMethod> GetDenCodeLabels(this Dictionary<string, DenCodeMethod> methods)

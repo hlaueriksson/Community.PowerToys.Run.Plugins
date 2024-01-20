@@ -15,14 +15,14 @@ namespace Community.PowerToys.Run.Plugin.Dice
     /// </summary>
     public class Main : IPlugin, IDelayedExecutionPlugin, IContextMenu, IDisposable
     {
-        private static readonly JsonSerializerOptions JsonSerializerOptions = new() { PropertyNameCaseInsensitive = true };
+        private static readonly JsonSerializerOptions _jsonSerializerOptions = new() { PropertyNameCaseInsensitive = true };
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Main"/> class.
         /// </summary>
         public Main()
         {
-            Log.Info($"Ctor", GetType());
+            Log.Info("Ctor", GetType());
 
             Storage = new PluginJsonStorage<DiceSettings>();
             Settings = Storage.Load();
@@ -99,14 +99,14 @@ namespace Community.PowerToys.Run.Plugin.Dice
 
             if (string.IsNullOrEmpty(expression))
             {
-                return Settings.RollOptions.Select(GetResultFromRollOption).ToList() ?? new List<Result>(0);
+                return Settings.RollOptions.ConvertAll(GetResultFromRollOption) ?? new List<Result>(0);
             }
 
             var roll = Roll(expression);
 
             if (roll != null)
             {
-                return new List<Result> { GetResultFromRoll(roll) };
+                return [GetResultFromRoll(roll)];
             }
 
             return new List<Result>(0);
@@ -152,8 +152,8 @@ namespace Community.PowerToys.Run.Plugin.Dice
         {
             if (selectedResult?.ContextData is RollOption option)
             {
-                return new List<ContextMenuResult>
-                {
+                return
+                [
                     new ContextMenuResult
                     {
                         PluginName = Name,
@@ -174,13 +174,13 @@ namespace Community.PowerToys.Run.Plugin.Dice
                             return CopyToClipboard(roll?.Result.ToString(CultureInfo.InvariantCulture));
                         },
                     },
-                };
+                ];
             }
 
             if (selectedResult?.ContextData is Roll roll)
             {
-                return new List<ContextMenuResult>
-                {
+                return
+                [
                     new ContextMenuResult
                     {
                         PluginName = Name,
@@ -208,7 +208,7 @@ namespace Community.PowerToys.Run.Plugin.Dice
                             return CopyToClipboard(roll.Details?.Trim());
                         },
                     },
-                };
+                ];
             }
 
             return new List<ContextMenuResult>(0);
@@ -232,7 +232,7 @@ namespace Community.PowerToys.Run.Plugin.Dice
                 return;
             }
 
-            if (Context != null && Context.API != null)
+            if (Context?.API != null)
             {
                 Context.API.ThemeChanged -= OnThemeChanged;
             }
@@ -267,7 +267,7 @@ namespace Community.PowerToys.Run.Plugin.Dice
                     return null;
                 }
 
-                return JsonSerializer.Deserialize<Roll>(content, JsonSerializerOptions);
+                return JsonSerializer.Deserialize<Roll>(content, _jsonSerializerOptions);
             }
             catch (Exception ex)
             {

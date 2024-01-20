@@ -8,6 +8,6 @@ namespace Community.PowerToys.Run.Plugin.Dice
         /// <summary>
         /// Roll options.
         /// </summary>
-        public List<RollOption> RollOptions { get; set; } = new List<RollOption>();
+        public List<RollOption> RollOptions { get; set; } = [];
     }
 }

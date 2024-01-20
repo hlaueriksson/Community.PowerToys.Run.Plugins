@@ -9,7 +9,7 @@ namespace Community.PowerToys.Run.Plugin.Twitch.UnitTests
     [TestClass]
     public class TwitchClientTests
     {
-        private TwitchClient subject = null!;
+        private TwitchClient _subject = null!;
 
         [TestInitialize]
         public void TestInitialize()
@@ -29,41 +29,41 @@ namespace Community.PowerToys.Run.Plugin.Twitch.UnitTests
             httpClient.BaseAddress = new Uri("http://localhost");
 
             var settings = new TwitchSettings { TwitchApiClientId = "foo", TwitchApiClientSecret = "bar" };
-            subject = new TwitchClient(settings, new Mock<IAppCache>().Object, httpClient);
+            _subject = new TwitchClient(settings, new Mock<IAppCache>().Object, httpClient);
         }
 
         [TestMethod]
         public async Task GetTokenAsync()
         {
-            var result = await subject.GetTokenAsync();
+            var result = await _subject.GetTokenAsync();
             result.Should().NotBeNull();
         }
 
         [TestMethod]
         public async Task GetGamesAsync()
         {
-            var result = await subject.GetGamesAsync();
+            var result = await _subject.GetGamesAsync();
             result.Should().NotBeNull();
         }
 
         [TestMethod]
         public async Task SearchGamesAsync()
         {
-            var result = await subject.SearchGamesAsync("cs");
+            var result = await _subject.SearchGamesAsync("cs");
             result.Should().NotBeNull();
         }
 
         [TestMethod]
         public async Task SearchChannelsAsync()
         {
-            var result = await subject.SearchChannelsAsync("cs");
+            var result = await _subject.SearchChannelsAsync("cs");
             result.Should().NotBeNull();
         }
 
         [TestMethod]
         public async Task GetStreamsAsync()
         {
-            var result = await subject.GetStreamsAsync();
+            var result = await _subject.GetStreamsAsync();
             result.Should().NotBeNull();
         }
     }

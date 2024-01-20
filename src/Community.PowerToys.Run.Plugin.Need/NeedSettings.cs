@@ -8,7 +8,7 @@ namespace Community.PowerToys.Run.Plugin.Need
         /// <summary>
         /// Key-value store.
         /// </summary>
-        public Dictionary<string, Record> Data { get; set; } = new Dictionary<string, Record>();
+        public Dictionary<string, Record> Data { get; set; } = [];
 
         /// <summary>
         /// Gets all records.

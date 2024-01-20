@@ -20,7 +20,7 @@ namespace Community.PowerToys.Run.Plugin.DenCode
         /// </summary>
         public Main()
         {
-            Log.Info($"Ctor", GetType());
+            Log.Info("Ctor", GetType());
 
             DenCodeClient = new DenCodeClient();
             DenCodeMethods = Constants.Methods.GetDenCodeMethods();
@@ -105,7 +105,7 @@ namespace Community.PowerToys.Run.Plugin.DenCode
 
                 if (methods.Count != 0)
                 {
-                    return methods.Select(GetResultFromDenCodeMethod).ToList();
+                    return methods.ConvertAll(GetResultFromDenCodeMethod);
                 }
             }
 
@@ -212,8 +212,8 @@ namespace Community.PowerToys.Run.Plugin.DenCode
         {
             if (selectedResult?.ContextData is DenCodeMethod method)
             {
-                return new List<ContextMenuResult>
-                {
+                return
+                [
                     new ContextMenuResult
                     {
                         PluginName = Name,
@@ -239,13 +239,13 @@ namespace Community.PowerToys.Run.Plugin.DenCode
                             return true;
                         },
                     },
-                };
+                ];
             }
 
             if (selectedResult?.ContextData is DenCodeContextData data)
             {
-                return new List<ContextMenuResult>
-                {
+                return
+                [
                     new ContextMenuResult
                     {
                         PluginName = Name,
@@ -285,7 +285,7 @@ namespace Community.PowerToys.Run.Plugin.DenCode
                             return true;
                         },
                     },
-                };
+                ];
             }
 
             return new List<ContextMenuResult>(0);
@@ -309,7 +309,7 @@ namespace Community.PowerToys.Run.Plugin.DenCode
                 return;
             }
 
-            if (Context != null && Context.API != null)
+            if (Context?.API != null)
             {
                 Context.API.ThemeChanged -= OnThemeChanged;
             }

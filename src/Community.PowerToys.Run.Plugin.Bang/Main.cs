@@ -19,7 +19,7 @@ namespace Community.PowerToys.Run.Plugin.Bang
         /// </summary>
         public Main()
         {
-            Log.Info($"Ctor", GetType());
+            Log.Info("Ctor", GetType());
 
             HttpClient = new HttpClient
             {
@@ -97,7 +97,7 @@ namespace Community.PowerToys.Run.Plugin.Bang
 
             if (result != null)
             {
-                return new List<Result> { result };
+                return [result];
             }
 
             return new List<Result>(0);
@@ -185,7 +185,7 @@ namespace Community.PowerToys.Run.Plugin.Bang
                 return;
             }
 
-            if (Context != null && Context.API != null)
+            if (Context?.API != null)
             {
                 Context.API.ThemeChanged -= OnThemeChanged;
             }

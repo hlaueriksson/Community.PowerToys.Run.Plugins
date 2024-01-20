@@ -10,7 +10,7 @@ namespace Community.PowerToys.Run.Plugin.Bang.UnitTests
     [TestClass]
     public class MainTests
     {
-        private Main subject = null!;
+        private Main _subject = null!;
 
         [TestInitialize]
         public void TestInitialize()
@@ -27,64 +27,64 @@ namespace Community.PowerToys.Run.Plugin.Bang.UnitTests
             var httpClient = mockHttp.ToHttpClient();
             httpClient.BaseAddress = new Uri("http://localhost");
 
-            subject = new Main(httpClient);
+            _subject = new Main(httpClient);
         }
 
         [TestMethod]
         public void Query_without_delayedExecution_should_return_empty_result()
         {
-            subject.Query(new(""))
+            _subject.Query(new(""))
                 .Should().BeEmpty();
 
-            subject.Query(new(""), false)
+            _subject.Query(new(""), false)
                 .Should().BeEmpty();
         }
 
         [TestMethod]
         public void Query_with_bang_query_should_return_default_Suggestion_result()
         {
-            subject.Query(new("!"), true)
+            _subject.Query(new("!"), true)
                 .Should().BeEquivalentTo(new[] { new Result { Title = "Wikipedia", SubTitle = "!w" } });
         }
 
         [TestMethod]
         public void Query_with_bang_gh_query_should_return_Suggestion_result()
         {
-            subject.Query(new("!gh"), true)
+            _subject.Query(new("!gh"), true)
                 .Should().BeEquivalentTo(new[] { new Result { Title = "GitHub", SubTitle = "!gh" } });
         }
 
         [TestMethod]
         public void Query_with_bang_unknown_query_should_return_empty_result()
         {
-            subject.Query(new("!unknown"), true)
+            _subject.Query(new("!unknown"), true)
                 .Should().BeEmpty();
         }
 
         [TestMethod]
         public void Query_with_bang_gh_PowerToys_query_should_return_Query_result()
         {
-            subject.Query(new("!gh PowerToys"), true)
+            _subject.Query(new("!gh PowerToys"), true)
                 .Should().BeEquivalentTo(new[] { new Result { Title = "GitHub: PowerToys", SubTitle = "!gh PowerToys" } });
         }
 
         [TestMethod]
         public void Query_should_URL_encode_q_parameter()
         {
-            subject.Query(new("!äx"), true)
+            _subject.Query(new("!äx"), true)
                 .Should().BeEquivalentTo(new[] { new Result { Title = "Levykauppa Äx", SubTitle = "!äx" } });
 
-            subject.Query(new("!äx Björk"), true)
+            _subject.Query(new("!äx Björk"), true)
                 .Single().ProgramArguments.Should().Be("https://duckduckgo.com/?va=j&t=hc&q=!%C3%A4x+Bj%C3%B6rk");
         }
 
         [TestMethod]
         public void Query_should_add_bang_if_missing()
         {
-            subject.Query(new("gh"), true)
+            _subject.Query(new("gh"), true)
                 .Should().BeEquivalentTo(new[] { new Result { Title = "GitHub", SubTitle = "!gh" } });
 
-            subject.Query(new("gh PowerToys"), true)
+            _subject.Query(new("gh PowerToys"), true)
                 .Single().ProgramArguments.Should().Be("https://duckduckgo.com/?va=j&t=hc&q=!gh+PowerToys");
         }
 

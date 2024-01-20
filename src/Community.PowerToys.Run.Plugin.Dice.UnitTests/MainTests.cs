@@ -8,17 +8,17 @@ namespace Community.PowerToys.Run.Plugin.Dice.UnitTests
     [TestClass]
     public class MainTests
     {
-        private Main subject = null!;
+        private Main _subject = null!;
 
         [TestInitialize]
         public void TestInitialize()
         {
             var settings = new DiceSettings
             {
-                RollOptions = new List<RollOption>
-                {
+                RollOptions =
+                [
                     new RollOption { Expression = "1d6" },
-                }
+                ]
             };
 
             var mockHttp = new MockHttpMessageHandler();
@@ -31,51 +31,51 @@ namespace Community.PowerToys.Run.Plugin.Dice.UnitTests
             var httpClient = mockHttp.ToHttpClient();
             httpClient.BaseAddress = new Uri("http://localhost/api/");
 
-            subject = new Main(settings, httpClient);
+            _subject = new Main(settings, httpClient);
         }
 
         [TestMethod]
         public void Query_without_delayedExecution_should_return_empty_result()
         {
-            subject.Query(new(""))
+            _subject.Query(new(""))
                 .Should().BeEmpty();
 
-            subject.Query(new(""), false)
+            _subject.Query(new(""), false)
                 .Should().BeEmpty();
         }
 
         [TestMethod]
         public void Query_without_expression_should_return_RollOptions_result()
         {
-            subject.Query(new(""), true)
+            _subject.Query(new(""), true)
                 .Should().BeEquivalentTo(new[] { new Result { Title = "1d6", SubTitle = "Roll 1d6" } });
         }
 
         [TestMethod]
         public void Query_with_expression_should_return_Roll_result()
         {
-            subject.Query(new("3d6"), true)
+            _subject.Query(new("3d6"), true)
                 .Should().BeEquivalentTo(new[] { new Result { Title = "12", SubTitle = "3d6 => (4 +4 +4) = 12" } });
         }
 
         [TestMethod]
         public void Query_should_return_empty_result_when_Rolz_response_is_empty()
         {
-            subject.Query(new("asd"), true)
+            _subject.Query(new("asd"), true)
                 .Should().BeEmpty();
         }
 
         [TestMethod]
         public void Query_should_return_empty_result_when_Rolz_response_is_error()
         {
-            subject.Query(new("+"), true)
+            _subject.Query(new("+"), true)
                 .Should().BeEmpty();
         }
 
         [TestMethod]
         public void LoadContextMenus_with_no_ContextData_should_return_empty_result()
         {
-            subject.LoadContextMenus(new Result())
+            _subject.LoadContextMenus(new Result())
                 .Should().BeEmpty();
         }
 
@@ -83,7 +83,7 @@ namespace Community.PowerToys.Run.Plugin.Dice.UnitTests
         public void LoadContextMenus_with_RollOption_should_return_menu_with_copy_result()
         {
             var result = new Result { ContextData = new RollOption() };
-            subject.LoadContextMenus(result)
+            _subject.LoadContextMenus(result)
                 .Should().HaveCount(1)
                 .And.Contain(x => x.Title == "Copy result (Enter)");
         }
@@ -92,7 +92,7 @@ namespace Community.PowerToys.Run.Plugin.Dice.UnitTests
         public void LoadContextMenus_with_Roll_should_return_menu_with_copy_result_and_copy_details()
         {
             var result = new Result { ContextData = new Roll() };
-            subject.LoadContextMenus(result)
+            _subject.LoadContextMenus(result)
                 .Should().HaveCount(2)
                 .And.Contain(x => x.Title == "Copy result (Enter)")
                 .And.Contain(x => x.Title == "Copy details (Ctrl+C)");

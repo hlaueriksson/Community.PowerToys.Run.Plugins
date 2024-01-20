@@ -20,7 +20,7 @@ namespace Community.PowerToys.Run.Plugin.Twitch
         /// </summary>
         public Main()
         {
-            Log.Info($"Ctor", GetType());
+            Log.Info("Ctor", GetType());
 
             Storage = new PluginJsonStorage<TwitchSettings>();
             Settings = Storage.Load();
@@ -95,13 +95,13 @@ namespace Community.PowerToys.Run.Plugin.Twitch
             }
 
             // TODO: config
-            var first = 100;
-            var language = "en";
-            var live_only = true;
+            const int first = 100;
+            const string language = "en";
+            const bool live_only = true;
 
             var tokens = args.Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
 
-            var command = tokens.First();
+            var command = tokens[0];
             var after = Param("after", tokens);
             var before = Param("before", tokens);
             var game_id = Param("game_id", tokens);
@@ -117,15 +117,15 @@ namespace Community.PowerToys.Run.Plugin.Twitch
                         TwitchClient.GetGamesAsync(after: after, before: before, first: first).Result :
                         TwitchClient.SearchGamesAsync(query: q, after: after, first: first).Result;
                     return GetResultsFromGamesResponse(response);
-                case "channel": return GetResultsFromChannelsResponse(TwitchClient.SearchChannelsAsync(query: q!, live_only: live_only, after: after, first: first).Result);
-                case "stream": return GetResultsFromStreamsResponse(TwitchClient.GetStreamsAsync(game_id: game_id, language: language, after: after, before: before, first: first).Result);
+                case "channel": return GetResultsFromChannelsResponse(TwitchClient.SearchChannelsAsync(query: q!, after: after, first: first, live_only: live_only).Result);
+                case "stream": return GetResultsFromStreamsResponse(TwitchClient.GetStreamsAsync(after: after, before: before, first: first, game_id: game_id, language: language).Result);
                 default: return new List<Result>(0);
             }
 #pragma warning restore VSTHRD002 // Avoid problematic synchronous waits
 
             string? Param(string name, string[] tokens)
             {
-                var param = tokens.FirstOrDefault(x => x.StartsWith(name, StringComparison.InvariantCulture));
+                var param = Array.Find(tokens, x => x.StartsWith(name, StringComparison.InvariantCulture));
 
                 if (param != null)
                 {
@@ -299,8 +299,8 @@ namespace Community.PowerToys.Run.Plugin.Twitch
         {
             if (selectedResult?.ContextData is GameData game)
             {
-                return new List<ContextMenuResult>
-                {
+                return
+                [
                     new ContextMenuResult
                     {
                         PluginName = Name,
@@ -341,13 +341,13 @@ namespace Community.PowerToys.Run.Plugin.Twitch
                             return true;
                         },
                     },
-                };
+                ];
             }
 
             if (selectedResult?.ContextData is Pagination pagination)
             {
-                return new List<ContextMenuResult>
-                {
+                return
+                [
                     new ContextMenuResult
                     {
                         PluginName = Name,
@@ -380,7 +380,7 @@ namespace Community.PowerToys.Run.Plugin.Twitch
                             return false;
                         },
                     },
-                };
+                ];
             }
 
             return new List<ContextMenuResult>(0);
@@ -404,7 +404,7 @@ namespace Community.PowerToys.Run.Plugin.Twitch
                 return;
             }
 
-            if (Context != null && Context.API != null)
+            if (Context?.API != null)
             {
                 Context.API.ThemeChanged -= OnThemeChanged;
             }

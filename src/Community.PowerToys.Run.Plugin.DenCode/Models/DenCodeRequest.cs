@@ -14,6 +14,6 @@ namespace Community.PowerToys.Run.Plugin.DenCode.Models
 
         public string tz { get; set; }
 
-        public Dictionary<string, string> options { get; set; } = new Dictionary<string, string>();
+        public Dictionary<string, string> options { get; set; } = [];
     }
 }
