@@ -74,6 +74,27 @@ namespace Community.PowerToys.Run.Plugin.Twitch
 #pragma warning disable CA1707 // Identifiers should not contain underscores
         Task<StreamsResponse?> GetStreamsAsync(string? after = null, string? before = null, int? first = null, string? game_id = null, string? language = null);
 #pragma warning restore CA1707 // Identifiers should not contain underscores
+
+        /// <summary>
+        /// Gets game URL.
+        /// </summary>
+        /// <param name="game">The game.</param>
+        /// <returns>The URL.</returns>
+        string GetUrl(GameData game);
+
+        /// <summary>
+        /// Gets channel URL.
+        /// </summary>
+        /// <param name="channel">The channel.</param>
+        /// <returns>The URL.</returns>
+        string GetUrl(ChannelData channel);
+
+        /// <summary>
+        /// Gets stream URL.
+        /// </summary>
+        /// <param name="stream">The stream.</param>
+        /// <returns>The URL.</returns>
+        string GetUrl(StreamData stream);
     }
 
     /// <inheritdoc/>
@@ -211,6 +232,30 @@ namespace Community.PowerToys.Run.Plugin.Twitch
             Log.Info($"GetStreamsAsync: {uri}", GetType());
             var response = await HttpClient.GetAsync(uri).ConfigureAwait(false);
             return await response.Content.ReadFromJsonAsync<StreamsResponse>().ConfigureAwait(false);
+        }
+
+        /// <inheritdoc/>
+        public string GetUrl(GameData game)
+        {
+            ArgumentNullException.ThrowIfNull(game);
+
+            return $"https://www.twitch.tv/directory/game/{UrlEncode(game.name)}";
+        }
+
+        /// <inheritdoc/>
+        public string GetUrl(ChannelData channel)
+        {
+            ArgumentNullException.ThrowIfNull(channel);
+
+            return $"https://www.twitch.tv/{UrlEncode(channel.broadcaster_login)}";
+        }
+
+        /// <inheritdoc/>
+        public string GetUrl(StreamData stream)
+        {
+            ArgumentNullException.ThrowIfNull(stream);
+
+            return $"https://www.twitch.tv/{UrlEncode(stream.user_login)}";
         }
 
         private static string? Query(params string?[] parameters)

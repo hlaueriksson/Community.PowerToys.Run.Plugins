@@ -48,17 +48,17 @@ namespace Community.PowerToys.Run.Plugin.Twitch
         /// </summary>
         public string Description => "Browse, search and view streams on Twitch";
 
-        private PluginJsonStorage<TwitchSettings>? Storage { get; }
-
-        private TwitchSettings Settings { get; }
-
-        private ITwitchClient TwitchClient { get; }
-
         private PluginInitContext? Context { get; set; }
 
         private string? IconPath { get; set; }
 
         private bool Disposed { get; set; }
+
+        private PluginJsonStorage<TwitchSettings>? Storage { get; }
+
+        private TwitchSettings Settings { get; }
+
+        private ITwitchClient TwitchClient { get; }
 
         /// <summary>
         /// Return a filtered list, based on the given query.
@@ -193,7 +193,7 @@ namespace Community.PowerToys.Run.Plugin.Twitch
 
                 foreach (var channel in response.data)
                 {
-                    var arguments = $"https://www.twitch.tv/{UrlEncode(channel.broadcaster_login)}";
+                    var arguments = TwitchClient.GetUrl(channel);
 
                     results.Add(new Result
                     {
@@ -234,7 +234,7 @@ namespace Community.PowerToys.Run.Plugin.Twitch
 
                 foreach (var stream in response.data)
                 {
-                    var arguments = $"https://www.twitch.tv/{UrlEncode(stream.user_login)}";
+                    var arguments = TwitchClient.GetUrl(stream);
 
                     results.Add(new Result
                     {
@@ -329,7 +329,7 @@ namespace Community.PowerToys.Run.Plugin.Twitch
                         {
                             Log.Info("Open website (Ctrl+Enter): " + game.name, GetType());
 
-                            var arguments = $"https://www.twitch.tv/directory/game/{UrlEncode(game.name)}";
+                            var arguments = TwitchClient.GetUrl(game);
 
                             if (!Helper.OpenCommandInShell(DefaultBrowserInfo.Path, DefaultBrowserInfo.ArgumentsPattern, arguments))
                             {
@@ -410,11 +410,6 @@ namespace Community.PowerToys.Run.Plugin.Twitch
             }
 
             Disposed = true;
-        }
-
-        private static string UrlEncode(string q)
-        {
-            return Uri.EscapeDataString(q);
         }
 
         private void UpdateIconPath(Theme theme) => IconPath = theme == Theme.Light || theme == Theme.HighContrastWhite ? "Images/twitch.light.png" : "Images/twitch.dark.png";
