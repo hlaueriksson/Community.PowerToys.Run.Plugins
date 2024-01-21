@@ -1,4 +1,4 @@
-namespace Community.PowerToys.Run.Plugin.Need
+namespace Community.PowerToys.Run.Plugin.Need.Models
 {
     /// <summary>
     /// Key/value record.

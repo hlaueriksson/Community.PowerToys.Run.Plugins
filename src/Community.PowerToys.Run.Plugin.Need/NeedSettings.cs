@@ -1,3 +1,5 @@
+using Community.PowerToys.Run.Plugin.Need.Models;
+
 namespace Community.PowerToys.Run.Plugin.Need
 {
     /// <summary>

@@ -1,5 +1,5 @@
-using System.Windows;
 using System.Windows.Input;
+using Community.PowerToys.Run.Plugin.Need.Models;
 using ManagedCommon;
 using Wox.Infrastructure.Storage;
 using Wox.Plugin;
@@ -43,15 +43,15 @@ namespace Community.PowerToys.Run.Plugin.Need
         /// </summary>
         public string Description => "Store things you need, but can't remember";
 
-        private PluginJsonStorage<NeedSettings>? Storage { get; }
-
-        private NeedSettings Settings { get; }
-
         private PluginInitContext? Context { get; set; }
 
         private string? IconPath { get; set; }
 
         private bool Disposed { get; set; }
+
+        private PluginJsonStorage<NeedSettings>? Storage { get; }
+
+        private NeedSettings Settings { get; }
 
         /// <summary>
         /// Return a filtered list, based on the given query.
@@ -148,7 +148,7 @@ namespace Community.PowerToys.Run.Plugin.Need
                         Action = _ =>
                         {
                             Log.Info("Copy value (Enter): " + record.Value, GetType());
-                            return CopyToClipboard(record.Value);
+                            return record.Value.CopyToClipboard();
                         },
                     },
                     new ContextMenuResult
@@ -206,16 +206,6 @@ namespace Community.PowerToys.Run.Plugin.Need
             }
 
             Disposed = true;
-        }
-
-        private static bool CopyToClipboard(string? value)
-        {
-            if (value != null)
-            {
-                Clipboard.SetText(value);
-            }
-
-            return true;
         }
 
         private void UpdateIconPath(Theme theme) => IconPath = theme == Theme.Light || theme == Theme.HighContrastWhite ? "Images/need.light.png" : "Images/need.dark.png";
