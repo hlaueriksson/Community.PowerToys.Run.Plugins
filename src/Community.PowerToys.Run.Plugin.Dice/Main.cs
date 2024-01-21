@@ -1,8 +1,6 @@
 using System.Globalization;
-using System.Net.Http;
-using System.Text.Json;
-using System.Windows;
 using System.Windows.Input;
+using Community.PowerToys.Run.Plugin.Dice.Models;
 using ManagedCommon;
 using Wox.Infrastructure.Storage;
 using Wox.Plugin;
@@ -15,8 +13,6 @@ namespace Community.PowerToys.Run.Plugin.Dice
     /// </summary>
     public class Main : IPlugin, IDelayedExecutionPlugin, IContextMenu, IDisposable
     {
-        private static readonly JsonSerializerOptions _jsonSerializerOptions = new() { PropertyNameCaseInsensitive = true };
-
         /// <summary>
         /// Initializes a new instance of the <see cref="Main"/> class.
         /// </summary>
@@ -26,19 +22,13 @@ namespace Community.PowerToys.Run.Plugin.Dice
 
             Storage = new PluginJsonStorage<DiceSettings>();
             Settings = Storage.Load();
-
-            HttpClient = new HttpClient
-            {
-                BaseAddress = new Uri("https://rolz.org/api/"),
-                Timeout = TimeSpan.FromSeconds(5),
-            };
-            HttpClient.DefaultRequestHeaders.Add("User-Agent", "Community.PowerToys.Run.Plugin.Dice");
+            RolzClient = new RolzClient();
         }
 
-        internal Main(DiceSettings settings, HttpClient httpClient)
+        internal Main(DiceSettings settings, IRolzClient rolzClient)
         {
             Settings = settings;
-            HttpClient = httpClient;
+            RolzClient = rolzClient;
         }
 
         /// <summary>
@@ -56,17 +46,17 @@ namespace Community.PowerToys.Run.Plugin.Dice
         /// </summary>
         public string Description => "Roleplaying Dice Roller";
 
-        private PluginJsonStorage<DiceSettings>? Storage { get; }
-
-        private DiceSettings Settings { get; }
-
-        private HttpClient HttpClient { get; }
-
         private PluginInitContext? Context { get; set; }
 
         private string? IconPath { get; set; }
 
         private bool Disposed { get; set; }
+
+        private PluginJsonStorage<DiceSettings>? Storage { get; }
+
+        private DiceSettings Settings { get; }
+
+        private IRolzClient RolzClient { get; }
 
         /// <summary>
         /// Return a filtered list, based on the given query.
@@ -171,7 +161,7 @@ namespace Community.PowerToys.Run.Plugin.Dice
 
                             var roll = Roll(option.Expression);
                             Log.Info("Expression Copy result (Enter): " + roll?.Result.ToString(CultureInfo.InvariantCulture), GetType());
-                            return CopyToClipboard(roll?.Result.ToString(CultureInfo.InvariantCulture));
+                            return roll?.Result.ToString(CultureInfo.InvariantCulture).CopyToClipboard() ?? false;
                         },
                     },
                 ];
@@ -191,7 +181,7 @@ namespace Community.PowerToys.Run.Plugin.Dice
                         Action = _ =>
                         {
                             Log.Info("Roll Copy result (Enter): " + roll.Result.ToString(CultureInfo.InvariantCulture), GetType());
-                            return CopyToClipboard(roll.Result.ToString(CultureInfo.InvariantCulture));
+                            return roll.Result.ToString(CultureInfo.InvariantCulture).CopyToClipboard();
                         },
                     },
                     new ContextMenuResult
@@ -205,7 +195,7 @@ namespace Community.PowerToys.Run.Plugin.Dice
                         Action = _ =>
                         {
                             Log.Info("Roll Copy details (Ctrl+C): " + roll.Details?.Trim(), GetType());
-                            return CopyToClipboard(roll.Details?.Trim());
+                            return roll.Details?.Trim().CopyToClipboard() ?? false;
                         },
                     },
                 ];
@@ -240,16 +230,6 @@ namespace Community.PowerToys.Run.Plugin.Dice
             Disposed = true;
         }
 
-        private static bool CopyToClipboard(string? value)
-        {
-            if (value != null)
-            {
-                Clipboard.SetText(value);
-            }
-
-            return true;
-        }
-
         private void UpdateIconPath(Theme theme) => IconPath = theme == Theme.Light || theme == Theme.HighContrastWhite ? "Images/dice.light.png" : "Images/dice.dark.png";
 
         private void OnThemeChanged(Theme currentTheme, Theme newTheme) => UpdateIconPath(newTheme);
@@ -259,15 +239,8 @@ namespace Community.PowerToys.Run.Plugin.Dice
             try
             {
 #pragma warning disable VSTHRD002 // Avoid problematic synchronous waits
-                var content = HttpClient.GetStringAsync($"?{expression}.json").Result;
+                return RolzClient.RollAsync(expression).Result;
 #pragma warning restore VSTHRD002 // Avoid problematic synchronous waits
-
-                if (string.IsNullOrEmpty(content) || content.Contains("dice code error", StringComparison.InvariantCulture))
-                {
-                    return null;
-                }
-
-                return JsonSerializer.Deserialize<Roll>(content, _jsonSerializerOptions);
             }
             catch (Exception ex)
             {

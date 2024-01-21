@@ -1,4 +1,4 @@
-namespace Community.PowerToys.Run.Plugin.Dice
+namespace Community.PowerToys.Run.Plugin.Dice.Models
 {
     /// <summary>
     /// Roll result from the https://rolz.org API.

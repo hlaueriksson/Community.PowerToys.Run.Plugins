@@ -1,6 +1,7 @@
+using Community.PowerToys.Run.Plugin.Dice.Models;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using RichardSzalay.MockHttp;
+using Moq;
 using Wox.Plugin;
 
 namespace Community.PowerToys.Run.Plugin.Dice.UnitTests
@@ -21,17 +22,11 @@ namespace Community.PowerToys.Run.Plugin.Dice.UnitTests
                 ]
             };
 
-            var mockHttp = new MockHttpMessageHandler();
-            mockHttp.When("http://localhost/api/?3d6.json")
-                .Respond("application/json", "{\"input\":\"3d6\",\"result\":12,\"details\":\" (4 +4 +4) \",\"code\":\"\",\"illustration\":\"<span style=\\\"color: gray;\\\"><\\/span> <span class=\\\"dc_dice_a\\\">3<\\/span><span class=\\\"dc_dice_d\\\">D6<\\/span>\",\"timestamp\":1664220883,\"x\":1664220883}");
-            mockHttp.When("http://localhost/api/?asd.json")
-                    .Respond("", "");
-            mockHttp.When("http://localhost/api/?+.json")
-                    .Respond("application/json", "{\"input\":\"+\",\"result\":\"dice code error\",\"details\":\"+\",\"code\":\"\",\"illustration\":\" <span class=\\\"dc_operator\\\">+<\\/span> \",\"timestamp\":1664222083,\"x\":1664222083}");
-            var httpClient = mockHttp.ToHttpClient();
-            httpClient.BaseAddress = new Uri("http://localhost/api/");
+            var mock = new Mock<IRolzClient>();
+            mock.Setup(x => x.RollAsync("3d6")).ReturnsAsync(new Roll { Input = "3d6", Result = 12, Details = " (4 +4 +4) " });
+            mock.Setup(x => x.RollAsync("unknown")).ReturnsAsync((Roll)null!);
 
-            _subject = new Main(settings, httpClient);
+            _subject = new Main(settings, mock.Object);
         }
 
         [TestMethod]
@@ -59,16 +54,9 @@ namespace Community.PowerToys.Run.Plugin.Dice.UnitTests
         }
 
         [TestMethod]
-        public void Query_should_return_empty_result_when_Rolz_response_is_empty()
+        public void Query_should_return_empty_result_when_Rolz_response_is_null()
         {
-            _subject.Query(new("asd"), true)
-                .Should().BeEmpty();
-        }
-
-        [TestMethod]
-        public void Query_should_return_empty_result_when_Rolz_response_is_error()
-        {
-            _subject.Query(new("+"), true)
+            _subject.Query(new("unknown"), true)
                 .Should().BeEmpty();
         }
 

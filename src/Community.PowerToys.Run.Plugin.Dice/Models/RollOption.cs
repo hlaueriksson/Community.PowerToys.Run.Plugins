@@ -1,4 +1,4 @@
-namespace Community.PowerToys.Run.Plugin.Dice
+namespace Community.PowerToys.Run.Plugin.Dice.Models
 {
     /// <summary>
     /// Preconfigured roll expression.

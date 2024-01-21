@@ -1,3 +1,5 @@
+using Community.PowerToys.Run.Plugin.Dice.Models;
+
 namespace Community.PowerToys.Run.Plugin.Dice
 {
     /// <summary>
