@@ -43,7 +43,7 @@ $platforms = "$($props.Project.PropertyGroup.Platforms)".Trim() -split ";"
 
 # Plugins
 $folders = Get-ChildItem -Path .\src -Directory -Exclude "*UnitTests", "libs"
-$libs = Get-ChildItem -Path .\src\libs
+$libs = Get-ChildItem -Path .\src\libs -File -Recurse
 
 foreach ($platform in $platforms)
 {
@@ -61,9 +61,10 @@ foreach ($platform in $platforms)
     foreach ($folder in $folders) {
         Write-Output "- $($folder.Name)"
 
+        $name = $($folder.Name.Split(".")[-1])
         $output = "$folder\bin\$platform\Release\net8.0-windows\"
-        $destination = "$folder\bin\$platform\$($folder.Name)"
-        $zip = "$folder\bin\$platform\$($folder.Name)-$version-$($platform.ToLower()).zip"
+        $destination = "$folder\bin\$platform\$name"
+        $zip = "$folder\bin\$platform\$name-$version-$($platform.ToLower()).zip"
 
         Copy-Item -Path $output -Destination $destination -Recurse -Exclude $libs
         Compress-Archive -Path $destination -DestinationPath $zip

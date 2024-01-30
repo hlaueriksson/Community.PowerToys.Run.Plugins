@@ -52,8 +52,11 @@ Write-Output "Platform: $platform"
 Write-Output "Deploy:"
 foreach ($folder in $folders) {
     Write-Output "- $($folder.Name)"
-    Remove-Item -LiteralPath "$env:LOCALAPPDATA\Microsoft\PowerToys\PowerToys Run\Plugins\$($folder.Name)" -Recurse -Force -ErrorAction SilentlyContinue
-    Copy-Item -Path "$folder\bin\$platform\$($folder.Name)" -Destination "$env:LOCALAPPDATA\Microsoft\PowerToys\PowerToys Run\Plugins\$($folder.Name)" -Recurse -Force
+
+    $name = $($folder.Name.Split(".")[-1])
+
+    Remove-Item -LiteralPath "$env:LOCALAPPDATA\Microsoft\PowerToys\PowerToys Run\Plugins\$name" -Recurse -Force -ErrorAction SilentlyContinue
+    Copy-Item -Path "$folder\bin\$platform\$name" -Destination "$env:LOCALAPPDATA\Microsoft\PowerToys\PowerToys Run\Plugins\$name" -Recurse -Force
 }
 
 Start-Process -FilePath "C:\Program Files\PowerToys\PowerToys.exe"
