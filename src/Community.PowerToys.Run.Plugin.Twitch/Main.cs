@@ -1,7 +1,9 @@
+using System.Windows.Controls;
 using System.Windows.Input;
 using Community.PowerToys.Run.Plugin.Twitch.Models;
 using LazyCache;
 using ManagedCommon;
+using Microsoft.PowerToys.Settings.UI.Library;
 using Wox.Infrastructure;
 using Wox.Infrastructure.Storage;
 using Wox.Plugin;
@@ -13,7 +15,7 @@ namespace Community.PowerToys.Run.Plugin.Twitch
     /// <summary>
     /// Main class of this plugin that implement all used interfaces.
     /// </summary>
-    public class Main : IPlugin, IDelayedExecutionPlugin, IContextMenu, IDisposable
+    public class Main : IPlugin, IDelayedExecutionPlugin, IContextMenu, ISettingProvider, ISavable, IDisposable
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Main"/> class.
@@ -29,6 +31,7 @@ namespace Community.PowerToys.Run.Plugin.Twitch
 
         internal Main(TwitchSettings settings, ITwitchClient twitchClient)
         {
+            Storage = new PluginJsonStorage<TwitchSettings>();
             Settings = settings;
             TwitchClient = twitchClient;
         }
@@ -48,13 +51,18 @@ namespace Community.PowerToys.Run.Plugin.Twitch
         /// </summary>
         public string Description => "Browse, search and view streams on Twitch";
 
+        /// <summary>
+        /// Additional options for the plugin.
+        /// </summary>
+        public IEnumerable<PluginAdditionalOption> AdditionalOptions => Settings.GetAdditionalOptions();
+
         private PluginInitContext? Context { get; set; }
 
         private string? IconPath { get; set; }
 
         private bool Disposed { get; set; }
 
-        private PluginJsonStorage<TwitchSettings>? Storage { get; }
+        private PluginJsonStorage<TwitchSettings> Storage { get; }
 
         private TwitchSettings Settings { get; }
 
@@ -384,6 +392,33 @@ namespace Community.PowerToys.Run.Plugin.Twitch
             }
 
             return new List<ContextMenuResult>(0);
+        }
+
+        /// <summary>
+        /// Creates setting panel.
+        /// </summary>
+        /// <returns>The control.</returns>
+        /// <exception cref="NotImplementedException">method is not implemented.</exception>
+        public Control CreateSettingPanel() => throw new NotImplementedException();
+
+        /// <summary>
+        /// Updates settings.
+        /// </summary>
+        /// <param name="settings">The plugin settings.</param>
+        public void UpdateSettings(PowerLauncherPluginSettings settings)
+        {
+            ArgumentNullException.ThrowIfNull(settings);
+
+            Settings.SetAdditionalOptions(settings.AdditionalOptions);
+            Save();
+        }
+
+        /// <summary>
+        /// Saves settings.
+        /// </summary>
+        public void Save()
+        {
+            Storage.Save();
         }
 
         /// <inheritdoc/>

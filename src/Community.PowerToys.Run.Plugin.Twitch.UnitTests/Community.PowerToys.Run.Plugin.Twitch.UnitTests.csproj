@@ -21,10 +21,12 @@
 
   <ItemGroup Condition="'$(Platform)' == 'x64'">
     <Reference Include="..\libs\x64\Wox.Plugin.dll" />
+    <Reference Include="..\libs\x64\PowerToys.Settings.UI.Lib.dll" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Platform)' == 'ARM64'">
     <Reference Include="..\libs\ARM64\Wox.Plugin.dll" />
+    <Reference Include="..\libs\ARM64\PowerToys.Settings.UI.Lib.dll" />
   </ItemGroup>
 
 </Project>

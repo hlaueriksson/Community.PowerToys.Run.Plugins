@@ -3,6 +3,7 @@
   <ItemGroup Condition="'$(Platform)' == 'x64'">
     <Reference Include="..\libs\x64\PowerToys.Common.UI.dll" />
     <Reference Include="..\libs\x64\PowerToys.ManagedCommon.dll" />
+    <Reference Include="..\libs\x64\PowerToys.Settings.UI.Lib.dll" />
     <Reference Include="..\libs\x64\Wox.Infrastructure.dll" />
     <Reference Include="..\libs\x64\Wox.Plugin.dll" />
   </ItemGroup>
@@ -10,6 +11,7 @@
   <ItemGroup Condition="'$(Platform)' == 'ARM64'">
     <Reference Include="..\libs\ARM64\PowerToys.Common.UI.dll" />
     <Reference Include="..\libs\ARM64\PowerToys.ManagedCommon.dll" />
+    <Reference Include="..\libs\ARM64\PowerToys.Settings.UI.Lib.dll" />
     <Reference Include="..\libs\ARM64\Wox.Infrastructure.dll" />
     <Reference Include="..\libs\ARM64\Wox.Plugin.dll" />
   </ItemGroup>

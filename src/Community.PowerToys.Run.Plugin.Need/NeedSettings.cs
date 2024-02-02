@@ -1,4 +1,5 @@
-using Community.PowerToys.Run.Plugin.Need.Models;
+using System.IO;
+using Microsoft.PowerToys.Settings.UI.Library;
 
 namespace Community.PowerToys.Run.Plugin.Need
 {
@@ -7,56 +8,50 @@ namespace Community.PowerToys.Run.Plugin.Need
     /// </summary>
     public class NeedSettings
     {
-        /// <summary>
-        /// Key-value store.
-        /// </summary>
-        public Dictionary<string, Record> Data { get; set; } = [];
+        private string _storageFileName = NeedStorage.DefaultFileName;
 
         /// <summary>
-        /// Gets all records.
+        /// File store.
         /// </summary>
-        /// <returns>The records.</returns>
-        public IReadOnlyCollection<Record> GetRecords() => Data.Values.ToList().AsReadOnly();
-
-        /// <summary>
-        /// Gets matching records.
-        /// </summary>
-        /// <param name="query">A key/value query.</param>
-        /// <returns>The records.</returns>
-        public IReadOnlyCollection<Record> GetRecords(string query) => Data.Values
-            .Where(x => x.Key.Contains(query, StringComparison.InvariantCultureIgnoreCase) || x.Value.Contains(query, StringComparison.InvariantCultureIgnoreCase))
-            .ToList().AsReadOnly();
-
-        /// <summary>
-        /// Gets the value.
-        /// </summary>
-        /// <param name="key">The key.</param>
-        /// <returns>The record.</returns>
-        public Record? GetRecord(string key) => Data.GetValueOrDefault(key);
-
-        /// <summary>
-        /// Sets the value.
-        /// </summary>
-        /// <param name="key">The key.</param>
-        /// <param name="value">The value.</param>
-        public void SetRecord(string key, string value)
+        public string StorageFileName
         {
-            if (Data.TryGetValue(key, out Record? record))
-            {
-                record.Value = value;
-                record.Updated = DateTime.UtcNow;
-            }
-            else
-            {
-                Data[key] = new Record { Key = key, Value = value, Created = DateTime.UtcNow };
-            }
+            get => _storageFileName;
+            set => _storageFileName = IsValidFileName(value) ? value : NeedStorage.DefaultFileName;
         }
 
-        /// <summary>
-        /// Removes the record.
-        /// </summary>
-        /// <param name="key">The key.</param>
-        /// <returns>The status.</returns>
-        public bool RemoveRecord(string key) => Data.Remove(key);
+        internal string StorageDirectoryPath { get; set; } = null!;
+
+        internal IEnumerable<PluginAdditionalOption> GetAdditionalOptions()
+        {
+            return new List<PluginAdditionalOption>()
+            {
+                new()
+                {
+                    Key = nameof(StorageFileName),
+                    DisplayLabel = "Storage File Name",
+                    DisplayDescription = StorageDirectoryPath,
+                    PluginOptionType = PluginAdditionalOption.AdditionalOptionType.Textbox,
+                    TextValue = StorageFileName,
+                },
+            };
+        }
+
+        internal void SetAdditionalOptions(IEnumerable<PluginAdditionalOption> additionalOptions)
+        {
+            ArgumentNullException.ThrowIfNull(additionalOptions);
+
+            var options = additionalOptions.ToList();
+            StorageFileName = options.Find(x => x.Key == nameof(StorageFileName))?.TextValue ?? NeedStorage.DefaultFileName;
+        }
+
+        private static bool IsValidFileName(string value)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                return false;
+            }
+
+            return value.IndexOfAny(Path.GetInvalidFileNameChars()) < 0;
+        }
     }
 }

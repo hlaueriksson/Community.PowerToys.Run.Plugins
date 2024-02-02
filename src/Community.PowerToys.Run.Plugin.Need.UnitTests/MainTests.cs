@@ -1,6 +1,7 @@
 using Community.PowerToys.Run.Plugin.Need.Models;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using Wox.Plugin;
 
 namespace Community.PowerToys.Run.Plugin.Need.UnitTests
@@ -15,13 +16,20 @@ namespace Community.PowerToys.Run.Plugin.Need.UnitTests
         {
             var settings = new NeedSettings
             {
-                Data = new Dictionary<string, Record>
-                {
-                    { "foo", new Record { Key = "foo", Value = "bar" } },
-                    { "baz", new Record { Key = "baz", Value = "qux" } },
-                }
             };
-            _subject = new Main(settings);
+
+            var mock = new Mock<INeedStorage>();
+            mock.Setup(x => x.GetRecords()).Returns(new[]
+            {
+                new Record { Key = "foo", Value = "bar" },
+                new Record { Key = "baz", Value = "qux" },
+            });
+            mock.Setup(x => x.GetRecords("foo")).Returns(new[]
+            {
+                new Record { Key = "foo", Value = "bar" },
+            });
+
+            _subject = new Main(settings, mock.Object);
         }
 
         [TestMethod]

@@ -1,7 +1,7 @@
 namespace Community.PowerToys.Run.Plugin.Dice.Models
 {
     /// <summary>
-    /// Roll result from the https://rolz.org API.
+    /// Roll result from the Rolz API.
     /// </summary>
     public class Roll
     {

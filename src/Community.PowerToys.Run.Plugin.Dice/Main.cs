@@ -1,7 +1,9 @@
 using System.Globalization;
+using System.Windows.Controls;
 using System.Windows.Input;
 using Community.PowerToys.Run.Plugin.Dice.Models;
 using ManagedCommon;
+using Microsoft.PowerToys.Settings.UI.Library;
 using Wox.Infrastructure.Storage;
 using Wox.Plugin;
 using Wox.Plugin.Logger;
@@ -11,7 +13,7 @@ namespace Community.PowerToys.Run.Plugin.Dice
     /// <summary>
     /// Main class of this plugin that implement all used interfaces.
     /// </summary>
-    public class Main : IPlugin, IDelayedExecutionPlugin, IContextMenu, IDisposable
+    public class Main : IPlugin, IDelayedExecutionPlugin, IContextMenu, ISettingProvider, ISavable, IDisposable
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Main"/> class.
@@ -23,10 +25,13 @@ namespace Community.PowerToys.Run.Plugin.Dice
             Storage = new PluginJsonStorage<DiceSettings>();
             Settings = Storage.Load();
             RolzClient = new RolzClient();
+
+            Log.Info($"Main: RollOptions = {string.Join(",", Settings.RollOptions.Select(x => x.Expression))}", GetType());
         }
 
         internal Main(DiceSettings settings, IRolzClient rolzClient)
         {
+            Storage = new PluginJsonStorage<DiceSettings>();
             Settings = settings;
             RolzClient = rolzClient;
         }
@@ -46,13 +51,18 @@ namespace Community.PowerToys.Run.Plugin.Dice
         /// </summary>
         public string Description => "Roleplaying Dice Roller";
 
+        /// <summary>
+        /// Additional options for the plugin.
+        /// </summary>
+        public IEnumerable<PluginAdditionalOption> AdditionalOptions => Settings.GetAdditionalOptions();
+
         private PluginInitContext? Context { get; set; }
 
         private string? IconPath { get; set; }
 
         private bool Disposed { get; set; }
 
-        private PluginJsonStorage<DiceSettings>? Storage { get; }
+        private PluginJsonStorage<DiceSettings> Storage { get; }
 
         private DiceSettings Settings { get; }
 
@@ -202,6 +212,33 @@ namespace Community.PowerToys.Run.Plugin.Dice
             }
 
             return new List<ContextMenuResult>(0);
+        }
+
+        /// <summary>
+        /// Creates setting panel.
+        /// </summary>
+        /// <returns>The control.</returns>
+        /// <exception cref="NotImplementedException">method is not implemented.</exception>
+        public Control CreateSettingPanel() => throw new NotImplementedException();
+
+        /// <summary>
+        /// Updates settings.
+        /// </summary>
+        /// <param name="settings">The plugin settings.</param>
+        public void UpdateSettings(PowerLauncherPluginSettings settings)
+        {
+            ArgumentNullException.ThrowIfNull(settings);
+
+            Settings.SetAdditionalOptions(settings.AdditionalOptions);
+            Save();
+        }
+
+        /// <summary>
+        /// Saves settings.
+        /// </summary>
+        public void Save()
+        {
+            Storage.Save();
         }
 
         /// <inheritdoc/>

@@ -1,6 +1,8 @@
+using System.Windows.Controls;
 using System.Windows.Input;
 using Community.PowerToys.Run.Plugin.Need.Models;
 using ManagedCommon;
+using Microsoft.PowerToys.Settings.UI.Library;
 using Wox.Infrastructure.Storage;
 using Wox.Plugin;
 using Wox.Plugin.Logger;
@@ -10,7 +12,7 @@ namespace Community.PowerToys.Run.Plugin.Need
     /// <summary>
     /// Main class of this plugin that implement all used interfaces.
     /// </summary>
-    public class Main : IPlugin, IContextMenu, ISavable, IDisposable
+    public class Main : IPlugin, IContextMenu, ISettingProvider, ISavable, IReloadable, IDisposable
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Main"/> class.
@@ -21,11 +23,15 @@ namespace Community.PowerToys.Run.Plugin.Need
 
             Storage = new PluginJsonStorage<NeedSettings>();
             Settings = Storage.Load();
+            Settings.StorageDirectoryPath = Storage.DirectoryPath;
+            NeedStorage = new NeedStorage(Settings);
         }
 
-        internal Main(NeedSettings settings)
+        internal Main(NeedSettings settings, INeedStorage needStorage)
         {
+            Storage = new PluginJsonStorage<NeedSettings>();
             Settings = settings;
+            NeedStorage = needStorage;
         }
 
         /// <summary>
@@ -43,15 +49,22 @@ namespace Community.PowerToys.Run.Plugin.Need
         /// </summary>
         public string Description => "Store things you need, but can't remember";
 
+        /// <summary>
+        /// Additional options for the plugin.
+        /// </summary>
+        public IEnumerable<PluginAdditionalOption> AdditionalOptions => Settings.GetAdditionalOptions();
+
         private PluginInitContext? Context { get; set; }
 
         private string? IconPath { get; set; }
 
         private bool Disposed { get; set; }
 
-        private PluginJsonStorage<NeedSettings>? Storage { get; }
+        private PluginJsonStorage<NeedSettings> Storage { get; }
 
         private NeedSettings Settings { get; }
+
+        private INeedStorage NeedStorage { get; }
 
         /// <summary>
         /// Return a filtered list, based on the given query.
@@ -71,7 +84,7 @@ namespace Community.PowerToys.Run.Plugin.Need
 
             if (string.IsNullOrEmpty(args))
             {
-                return Settings.GetRecords().Select(GetResultForGetRecord).ToList() ?? new List<Result>(0);
+                return NeedStorage.GetRecords().Select(GetResultForGetRecord).ToList() ?? new List<Result>(0);
             }
 
             var tokens = args.Split(' ', 2, StringSplitOptions.RemoveEmptyEntries);
@@ -80,7 +93,7 @@ namespace Community.PowerToys.Run.Plugin.Need
             {
                 var q = tokens[0];
 
-                return Settings.GetRecords(q).Select(GetResultForGetRecord).ToList() ?? new List<Result>(0);
+                return NeedStorage.GetRecords(q).Select(GetResultForGetRecord).ToList() ?? new List<Result>(0);
             }
 
             var key = tokens[0];
@@ -108,7 +121,7 @@ namespace Community.PowerToys.Run.Plugin.Need
                 Action = _ =>
                 {
                     Log.Info("Set: " + args, GetType());
-                    Settings.SetRecord(key, value);
+                    NeedStorage.SetRecord(key, value);
                     return true;
                 },
             };
@@ -162,7 +175,7 @@ namespace Community.PowerToys.Run.Plugin.Need
                         Action = _ =>
                         {
                             Log.Info("Delete key (Ctrl+Del): " + record.Key, GetType());
-                            Settings.RemoveRecord(record.Key);
+                            NeedStorage.RemoveRecord(record.Key);
                             return true;
                         },
                     },
@@ -172,12 +185,42 @@ namespace Community.PowerToys.Run.Plugin.Need
             return new List<ContextMenuResult>(0);
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Creates setting panel.
+        /// </summary>
+        /// <returns>The control.</returns>
+        /// <exception cref="NotImplementedException">method is not implemented.</exception>
+        public Control CreateSettingPanel() => throw new NotImplementedException();
+
+        /// <summary>
+        /// Updates settings.
+        /// </summary>
+        /// <param name="settings">The plugin settings.</param>
+        public void UpdateSettings(PowerLauncherPluginSettings settings)
+        {
+            ArgumentNullException.ThrowIfNull(settings);
+
+            Settings.SetAdditionalOptions(settings.AdditionalOptions);
+            Save();
+        }
+
+        /// <summary>
+        /// Saves data.
+        /// </summary>
         public void Save()
         {
-            Log.Info("Save", GetType());
+            Storage.Save();
+            NeedStorage.Save();
+        }
 
-            Storage?.Save();
+        /// <summary>
+        /// Reloads data.
+        /// </summary>
+        public void ReloadData()
+        {
+            Log.Info("ReloadData", GetType());
+
+            NeedStorage.Load();
         }
 
         /// <inheritdoc/>
