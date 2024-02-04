@@ -2,7 +2,9 @@ using System.Net;
 using System.Web;
 using Community.PowerToys.Run.Plugin.Bang.Models;
 using FluentAssertions;
+using LazyCache;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using RichardSzalay.MockHttp;
 
 namespace Community.PowerToys.Run.Plugin.Bang.UnitTests
@@ -25,7 +27,7 @@ namespace Community.PowerToys.Run.Plugin.Bang.UnitTests
             var httpClient = mockHttp.ToHttpClient();
             httpClient.BaseAddress = new Uri("http://localhost");
 
-            _subject = new DuckDuckGoClient(httpClient);
+            _subject = new DuckDuckGoClient(new Mock<IAppCache>().Object, httpClient);
         }
 
         [TestMethod]
@@ -53,7 +55,7 @@ namespace Community.PowerToys.Run.Plugin.Bang.UnitTests
         public void GetSearchUrl_should_URL_encode_q_parameter()
         {
             var result = _subject.GetSearchUrl("!äx Björk");
-            result.Should().Be("https://duckduckgo.com/?va=j&t=hc&q=!%C3%A4x+Bj%C3%B6rk");
+            result.Should().Be("https://duckduckgo.com/?t=h_&q=!%C3%A4x+Bj%C3%B6rk");
         }
 
         [TestMethod]

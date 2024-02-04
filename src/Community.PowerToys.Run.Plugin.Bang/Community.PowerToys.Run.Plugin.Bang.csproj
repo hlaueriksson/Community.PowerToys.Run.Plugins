@@ -10,6 +10,10 @@
   <Import Project="../../Plugin.props" />
 
   <ItemGroup>
+    <PackageReference Include="LazyCache" Version="2.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <InternalsVisibleTo Include="Community.PowerToys.Run.Plugin.Bang.UnitTests" />
   </ItemGroup>
 

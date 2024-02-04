@@ -1,4 +1,6 @@
+using System.Windows.Input;
 using Community.PowerToys.Run.Plugin.Bang.Models;
+using LazyCache;
 using ManagedCommon;
 using Wox.Infrastructure;
 using Wox.Plugin;
@@ -10,7 +12,7 @@ namespace Community.PowerToys.Run.Plugin.Bang
     /// <summary>
     /// Main class of this plugin that implement all used interfaces.
     /// </summary>
-    public class Main : IPlugin, IDelayedExecutionPlugin, IDisposable
+    public class Main : IPlugin, IDelayedExecutionPlugin, IContextMenu, IDisposable
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Main"/> class.
@@ -19,7 +21,7 @@ namespace Community.PowerToys.Run.Plugin.Bang
         {
             Log.Info("Ctor", GetType());
 
-            DuckDuckGoClient = new DuckDuckGoClient();
+            DuckDuckGoClient = new DuckDuckGoClient(new CachingService());
         }
 
         internal Main(IDuckDuckGoClient duckDuckGoClient)
@@ -40,7 +42,7 @@ namespace Community.PowerToys.Run.Plugin.Bang
         /// <summary>
         /// Description of the plugin.
         /// </summary>
-        public string Description => "Search websites with DuckDuckGo !Bang";
+        public string Description => "Search websites with DuckDuckGo !Bangs";
 
         private PluginInitContext? Context { get; set; }
 
@@ -79,72 +81,84 @@ namespace Community.PowerToys.Run.Plugin.Bang
 
             var q = query.Search;
 
-            if (IsPhraseOnly(q))
-            {
-                var suggestions = AutoComplete(Bangify(q));
-
-                return suggestions?.Select(GetResultFromSuggestion).ToList() ?? new List<Result>(0);
-            }
-
-            var result = GetResultFromQuery(Bangify(q));
-
-            if (result != null)
-            {
-                return [result];
-            }
-
-            return new List<Result>(0);
-
-            bool IsPhraseOnly(string q) => !q.Contains(' ', StringComparison.InvariantCulture);
+            return GetResultsFromQuery(Bangify(q)).ToList();
 
             string Bangify(string q) => q.StartsWith('!') ? q : "!" + q;
 
-            Result GetResultFromSuggestion(Suggestion suggestion) => new()
+            IEnumerable<Result> GetResultsFromQuery(string q)
+            {
+                var suggestions = AutoComplete(q);
+
+                if (suggestions?.Any() != true)
+                {
+                    yield break;
+                }
+
+                foreach (var suggestion in suggestions)
+                {
+                    if (suggestion.Snippet != null)
+                    {
+                        yield return GetResultFromSnippet(suggestion);
+                    }
+                    else
+                    {
+                        yield return GetResultFromPhrase(suggestion);
+                    }
+                }
+
+                if (suggestions.All(x => x.Snippet == null) && suggestions.All(x => x.Phrase != q))
+                {
+                    yield return GetResultFromQuery(q);
+                }
+            }
+
+            Result GetResultFromSnippet(Suggestion suggestion) => new()
             {
                 QueryTextDisplay = suggestion.Phrase + " ",
                 IcoPath = IconPath,
                 Title = suggestion.Snippet,
                 SubTitle = suggestion.Phrase,
                 ToolTipData = new ToolTipData("Bang", $"Search {suggestion.Snippet}"),
+                ContextData = suggestion,
             };
 
-            Result? GetResultFromQuery(string q)
+            Result GetResultFromPhrase(Suggestion suggestion)
             {
-                var index = q.IndexOf(' ', StringComparison.InvariantCulture);
-                var phrase = q.Substring(0, index);
-                var terms = q.Substring(index + 1);
+                var website = GetSnippet(suggestion.Phrase);
+                var terms = DuckDuckGoClient.GetSearchTerms(suggestion.Phrase);
+                var arguments = DuckDuckGoClient.GetSearchUrl(suggestion.Phrase);
 
-                var suggestions = AutoComplete(phrase);
-                var suggestion = suggestions?.FirstOrDefault(x => x.Phrase == phrase);
-
-                if (suggestion == null)
+                return new()
                 {
-                    return null;
-                }
+                    QueryTextDisplay = suggestion.Phrase,
+                    IcoPath = IconPath,
+                    Title = $"{website?.Snippet}: {terms}",
+                    SubTitle = suggestion.Phrase,
+                    ToolTipData = new ToolTipData("Bang", $"Search {website?.Snippet}"),
+                    ContextData = suggestion,
+                    Score = suggestion.Phrase == q ? 100 : 0,
+                    ProgramArguments = arguments,
+                    Action = _ => OpenInBrowser(arguments),
+                };
+            }
 
+            Result GetResultFromQuery(string q)
+            {
+                var website = GetSnippet(q);
+                var terms = DuckDuckGoClient.GetSearchTerms(q);
                 var arguments = DuckDuckGoClient.GetSearchUrl(q);
 
                 return new()
                 {
                     QueryTextDisplay = q,
                     IcoPath = IconPath,
-                    Title = $"{suggestion.Snippet}: {terms}",
+                    Title = $"{website?.Snippet}: {terms}",
                     SubTitle = q,
-                    ToolTipData = new ToolTipData("Bang", $"Search {suggestion.Snippet}"),
+                    ToolTipData = new ToolTipData("Bang", $"Search {website?.Snippet}"),
+                    ContextData = q,
+                    Score = 100,
                     ProgramArguments = arguments,
-                    Action = _ =>
-                    {
-                        Log.Info("Query: " + q, GetType());
-
-                        if (!Helper.OpenCommandInShell(DefaultBrowserInfo.Path, DefaultBrowserInfo.ArgumentsPattern, arguments))
-                        {
-                            Log.Error("Open default browser failed.", GetType());
-                            Context?.API.ShowMsg($"Plugin: {Name}", "Open default browser failed.");
-                            return false;
-                        }
-
-                        return true;
-                    },
+                    Action = _ => OpenInBrowser(arguments),
                 };
             }
 
@@ -163,6 +177,22 @@ namespace Community.PowerToys.Run.Plugin.Bang
 
                 return null;
             }
+
+            Suggestion? GetSnippet(string q)
+            {
+                try
+                {
+#pragma warning disable VSTHRD002 // Avoid problematic synchronous waits
+                    return DuckDuckGoClient.GetSnippetAsync(q).Result;
+#pragma warning restore VSTHRD002 // Avoid problematic synchronous waits
+                }
+                catch (Exception ex)
+                {
+                    Log.Exception("GetSnippet failed.", ex, GetType());
+                }
+
+                return null;
+            }
         }
 
         /// <summary>
@@ -174,6 +204,71 @@ namespace Community.PowerToys.Run.Plugin.Bang
             Context = context ?? throw new ArgumentNullException(nameof(context));
             Context.API.ThemeChanged += OnThemeChanged;
             UpdateIconPath(Context.API.GetCurrentTheme());
+        }
+
+        /// <summary>
+        /// Return a list context menu entries for a given <see cref="Result"/> (shown at the right side of the result).
+        /// </summary>
+        /// <param name="selectedResult">The <see cref="Result"/> for the list with context menu entries.</param>
+        /// <returns>A list context menu entries.</returns>
+        public List<ContextMenuResult> LoadContextMenus(Result selectedResult)
+        {
+            if (selectedResult?.ContextData is Suggestion suggestion)
+            {
+                var arguments = DuckDuckGoClient.GetSearchUrl(suggestion.Phrase);
+
+                if (suggestion.Snippet != null)
+                {
+                    return
+                    [
+                        new ContextMenuResult
+                        {
+                            PluginName = Name,
+                            Title = "Open website (Ctrl+Enter)",
+                            FontFamily = "Segoe MDL2 Assets",
+                            Glyph = "\xF6FA", // F6FA => Symbol: WebSearch
+                            AcceleratorKey = Key.Enter,
+                            AcceleratorModifiers = ModifierKeys.Control,
+                            Action = _ => OpenInBrowser(arguments),
+                        },
+                    ];
+                }
+                else
+                {
+                    return
+                    [
+                        new ContextMenuResult
+                        {
+                            PluginName = Name,
+                            Title = "Open website (Enter)",
+                            FontFamily = "Segoe MDL2 Assets",
+                            Glyph = "\xF6FA", // F6FA => Symbol: WebSearch
+                            /* AcceleratorKey = Key.Enter, */
+                            Action = _ => OpenInBrowser(arguments),
+                        },
+                    ];
+                }
+            }
+
+            if (selectedResult?.ContextData is string q)
+            {
+                var arguments = DuckDuckGoClient.GetSearchUrl(q);
+
+                return
+                [
+                    new ContextMenuResult
+                    {
+                        PluginName = Name,
+                        Title = "Open website (Enter)",
+                        FontFamily = "Segoe MDL2 Assets",
+                        Glyph = "\xF6FA", // F6FA => Symbol: WebSearch
+                        /* AcceleratorKey = Key.Enter, */
+                        Action = _ => OpenInBrowser(arguments),
+                    },
+                ];
+            }
+
+            return new List<ContextMenuResult>(0);
         }
 
         /// <inheritdoc/>
@@ -205,5 +300,17 @@ namespace Community.PowerToys.Run.Plugin.Bang
         private void UpdateIconPath(Theme theme) => IconPath = theme == Theme.Light || theme == Theme.HighContrastWhite ? "Images/bang.light.png" : "Images/bang.dark.png";
 
         private void OnThemeChanged(Theme currentTheme, Theme newTheme) => UpdateIconPath(newTheme);
+
+        private bool OpenInBrowser(string url)
+        {
+            if (!Helper.OpenCommandInShell(DefaultBrowserInfo.Path, DefaultBrowserInfo.ArgumentsPattern, url))
+            {
+                Log.Error("Open default browser failed.", GetType());
+                Context?.API.ShowMsg($"Plugin: {Name}", "Open default browser failed.");
+                return false;
+            }
+
+            return true;
+        }
     }
 }

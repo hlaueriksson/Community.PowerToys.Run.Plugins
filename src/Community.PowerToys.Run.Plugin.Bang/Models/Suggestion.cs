@@ -8,7 +8,7 @@ namespace Community.PowerToys.Run.Plugin.Bang.Models
         /// <summary>
         /// Bang phrase.
         /// </summary>
-        public string? Phrase { get; set; }
+        public string Phrase { get; set; }
 
         /// <summary>
         /// Website.
