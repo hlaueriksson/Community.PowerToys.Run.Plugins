@@ -157,21 +157,17 @@ namespace Community.PowerToys.Run.Plugin.Dice
                     new ContextMenuResult
                     {
                         PluginName = Name,
-                        Title = "Copy result (Enter)",
+                        Title = "Roll expression (Enter)",
                         FontFamily = "Segoe MDL2 Assets",
-                        Glyph = "\xE8C8", // E8C8 => Symbol: Copy
+                        Glyph = "\xE72C", // E72C => Symbol: Refresh
                         AcceleratorKey = Key.Enter,
                         Action = _ =>
                         {
-                            Log.Info("Expression Copy result (Enter): " + option.Expression, GetType());
-                            if (option.Expression == null)
-                            {
-                                return false;
-                            }
+                            Log.Info("Roll expression (Enter): " + option.Expression, GetType());
 
-                            var roll = Roll(option.Expression);
-                            Log.Info("Expression Copy result (Enter): " + roll?.Result.ToString(CultureInfo.InvariantCulture), GetType());
-                            return roll?.Result.ToString(CultureInfo.InvariantCulture).CopyToClipboard() ?? false;
+                            Context?.API.ChangeQuery(Context?.CurrentPluginMetadata.ActionKeyword + " " + option.Expression, true);
+
+                            return false;
                         },
                     },
                 ];
@@ -205,7 +201,7 @@ namespace Community.PowerToys.Run.Plugin.Dice
                         Action = _ =>
                         {
                             Log.Info("Roll Copy details (Ctrl+C): " + roll.Details?.Trim(), GetType());
-                            return roll.Details?.Trim().CopyToClipboard() ?? false;
+                            return (roll.Input + " => " + roll.Details?.Trim() + " = " + roll.Result.ToString(CultureInfo.InvariantCulture)).CopyToClipboard();
                         },
                     },
                 ];

@@ -68,12 +68,12 @@ namespace Community.PowerToys.Run.Plugin.Dice.UnitTests
         }
 
         [TestMethod]
-        public void LoadContextMenus_with_RollOption_should_return_menu_with_copy_result()
+        public void LoadContextMenus_with_RollOption_should_return_menu_with_roll_result()
         {
             var result = new Result { ContextData = new RollOption() };
             _subject.LoadContextMenus(result)
                 .Should().HaveCount(1)
-                .And.Contain(x => x.Title == "Copy result (Enter)");
+                .And.Contain(x => x.Title == "Roll expression (Enter)");
         }
 
         [TestMethod]

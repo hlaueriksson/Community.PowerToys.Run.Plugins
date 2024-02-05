@@ -17,6 +17,7 @@ namespace Community.PowerToys.Run.Plugin.Dice.Models
         public static readonly RollOption Empty = new();
 
         private const string Separator = ";";
+        private const string QuotationMark = "\"";
 
         /// <summary>
         /// Roll expression.
@@ -35,6 +36,11 @@ namespace Community.PowerToys.Run.Plugin.Dice.Models
                 return string.Empty;
             }
 
+            if (value.Expression?.Contains(Separator, StringComparison.Ordinal) == true || value.Description?.Contains(Separator, StringComparison.Ordinal) == true)
+            {
+                return QuotationMark + value.Expression?.Trim() + QuotationMark + Separator + QuotationMark + value.Description?.Trim() + QuotationMark;
+            }
+
             return value.Expression?.Trim() + Separator + value.Description?.Trim();
         }
 
@@ -45,8 +51,14 @@ namespace Community.PowerToys.Run.Plugin.Dice.Models
                 return RollOption.Empty;
             }
 
-            var tokens = value.Split(Separator);
-            return new RollOption { Expression = tokens?.FirstOrDefault()?.Trim(), Description = tokens?.LastOrDefault()?.Trim() };
+            if (value.Contains(QuotationMark, StringComparison.Ordinal))
+            {
+                var quotes = value.Split(QuotationMark, StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+                return new RollOption { Expression = quotes?.FirstOrDefault(), Description = quotes?.LastOrDefault() };
+            }
+
+            var tokens = value.Split(Separator, StringSplitOptions.TrimEntries);
+            return new RollOption { Expression = tokens?.FirstOrDefault(), Description = tokens?.LastOrDefault() };
         }
     }
 }

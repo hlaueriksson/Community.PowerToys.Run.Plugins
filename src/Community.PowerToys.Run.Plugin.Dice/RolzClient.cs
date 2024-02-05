@@ -45,7 +45,7 @@ namespace Community.PowerToys.Run.Plugin.Dice
         /// <inheritdoc/>
         public async Task<Roll?> RollAsync(string expression)
         {
-            var content = await HttpClient.GetStringAsync($"?{expression}.json").ConfigureAwait(false);
+            var content = await HttpClient.GetStringAsync($"?{expression.Clean()}.json").ConfigureAwait(false);
 
             if (string.IsNullOrEmpty(content) || content.Contains("dice code error", StringComparison.InvariantCulture))
             {

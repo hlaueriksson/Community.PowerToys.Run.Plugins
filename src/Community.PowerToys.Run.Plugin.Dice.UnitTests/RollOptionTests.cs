@@ -13,6 +13,9 @@ namespace Community.PowerToys.Run.Plugin.Dice.UnitTests
             string result = new RollOption { Expression = " Expression ", Description = " Description " };
             result.Should().Be("Expression;Description");
 
+            result = new RollOption { Expression = "Exp;ression", Description = "Description ;)" };
+            result.Should().Be("\"Exp;ression\";\"Description ;)\"");
+
             result = new RollOption();
             result.Should().Be(";");
 
@@ -25,6 +28,9 @@ namespace Community.PowerToys.Run.Plugin.Dice.UnitTests
         {
             RollOption result = " Expression ; Description ";
             result.Should().BeEquivalentTo(new RollOption { Expression = "Expression", Description = "Description" });
+
+            result = "\"Exp;ression\";\"Description ;)\"";
+            result.Should().BeEquivalentTo(new RollOption { Expression = "Exp;ression", Description = "Description ;)" });
 
             result = ";";
             result.Should().BeEquivalentTo(new RollOption { Expression = "", Description = "" });
