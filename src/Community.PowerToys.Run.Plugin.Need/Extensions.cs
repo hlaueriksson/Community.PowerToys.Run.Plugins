@@ -1,4 +1,6 @@
+using System.Text.Json;
 using System.Windows;
+using Community.PowerToys.Run.Plugin.Need.Models;
 
 namespace Community.PowerToys.Run.Plugin.Need
 {
@@ -12,6 +14,11 @@ namespace Community.PowerToys.Run.Plugin.Need
             }
 
             return true;
+        }
+
+        public static string ToJson(this Record record)
+        {
+            return JsonSerializer.Serialize(record);
         }
     }
 }

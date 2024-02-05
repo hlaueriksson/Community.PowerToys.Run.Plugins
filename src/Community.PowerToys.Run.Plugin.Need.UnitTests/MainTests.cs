@@ -71,13 +71,23 @@ namespace Community.PowerToys.Run.Plugin.Need.UnitTests
         }
 
         [TestMethod]
-        public void LoadContextMenus_with_Record_should_return_menu_with_copy_value_and_delete_key()
+        public void LoadContextMenus_with_Record_should_return_menu_with_copy_value_copy_details_and_delete_key()
         {
             var result = new Result { ContextData = new Record() };
             _subject.LoadContextMenus(result)
-                .Should().HaveCount(2)
+                .Should().HaveCount(3)
                 .And.Contain(x => x.Title == "Copy value (Enter)")
+                .And.Contain(x => x.Title == "Copy details (Ctrl+C)")
                 .And.Contain(x => x.Title == "Delete key (Ctrl+Del)");
+        }
+
+        [TestMethod]
+        public void LoadContextMenus_with_string_tuple_should_return_menu_with_add_value()
+        {
+            var result = new Result { ContextData = ("key", "value") };
+            _subject.LoadContextMenus(result)
+                .Should().HaveCount(1)
+                .And.Contain(x => x.Title == "Add value (Enter)");
         }
     }
 }

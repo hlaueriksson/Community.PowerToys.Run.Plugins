@@ -111,20 +111,20 @@ namespace Community.PowerToys.Run.Plugin.Need
                 ContextData = record,
             };
 
-            Result GetResultForSetRecord(string key, string value) => new()
+            Result GetResultForSetRecord(string key, string value)
             {
-                QueryTextDisplay = args,
-                IcoPath = IconPath,
-                Title = key,
-                SubTitle = value,
-                ToolTipData = new ToolTipData("Set", $"Key: {key}\nValue: {value}"),
-                Action = _ =>
+                var existing = NeedStorage.GetRecord(key);
+
+                return new()
                 {
-                    Log.Info("Set: " + args, GetType());
-                    NeedStorage.SetRecord(key, value);
-                    return true;
-                },
-            };
+                    QueryTextDisplay = args,
+                    IcoPath = IconPath,
+                    Title = key,
+                    SubTitle = existing != null ? existing.Value + " -> " + value : value,
+                    ToolTipData = existing != null ? new ToolTipData("Set", $"Key: {key}\nOld value: {existing.Value}\nNew value: {value}") : new ToolTipData("Set", $"Key: {key}\nValue: {value}"),
+                    ContextData = (key, value),
+                };
+            }
         }
 
         /// <summary>
@@ -167,6 +167,20 @@ namespace Community.PowerToys.Run.Plugin.Need
                     new ContextMenuResult
                     {
                         PluginName = Name,
+                        Title = "Copy details (Ctrl+C)",
+                        FontFamily = "Segoe MDL2 Assets",
+                        Glyph = "\xF413", // F413 => Symbol: CopyTo
+                        AcceleratorKey = Key.C,
+                        AcceleratorModifiers = ModifierKeys.Control,
+                        Action = _ =>
+                        {
+                            Log.Info("Copy details (Ctrl+C)", GetType());
+                            return record.ToJson().CopyToClipboard();
+                        },
+                    },
+                    new ContextMenuResult
+                    {
+                        PluginName = Name,
                         Title = "Delete key (Ctrl+Del)",
                         FontFamily = "Segoe MDL2 Assets",
                         Glyph = "\xE74D", // E74D => Symbol: Delete
@@ -176,6 +190,29 @@ namespace Community.PowerToys.Run.Plugin.Need
                         {
                             Log.Info("Delete key (Ctrl+Del): " + record.Key, GetType());
                             NeedStorage.RemoveRecord(record.Key);
+                            return true;
+                        },
+                    },
+                ];
+            }
+
+            if (selectedResult?.ContextData is (string key, string value))
+            {
+                var existing = NeedStorage.GetRecord(key);
+
+                return
+                [
+                    new ContextMenuResult
+                    {
+                        PluginName = Name,
+                        Title = existing != null ? "Update value (Enter)" : "Add value (Enter)",
+                        FontFamily = "Segoe MDL2 Assets",
+                        Glyph = "\xE74E", // E74E => Symbol: Save
+                        AcceleratorKey = Key.Enter,
+                        Action = _ =>
+                        {
+                            Log.Info("Set: " + key, GetType());
+                            NeedStorage.SetRecord(key, value);
                             return true;
                         },
                     },
