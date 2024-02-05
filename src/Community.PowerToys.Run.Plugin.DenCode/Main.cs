@@ -46,7 +46,7 @@ namespace Community.PowerToys.Run.Plugin.DenCode
         /// <summary>
         /// Description of the plugin.
         /// </summary>
-        public string Description => "Encoding and decoding values";
+        public string Description => "Encoding & Decoding";
 
         private PluginInitContext? Context { get; set; }
 
@@ -169,6 +169,7 @@ namespace Community.PowerToys.Run.Plugin.DenCode
 
                     results.Add(new Result
                     {
+                        QueryTextDisplay = method?.Key + " " + value,
                         IcoPath = IconPath,
                         Title = result,
                         SubTitle = prefix + (method?.label[kvp.Key] ?? kvp.Key),
@@ -250,7 +251,7 @@ namespace Community.PowerToys.Run.Plugin.DenCode
                         Title = "Copy result (Enter)",
                         FontFamily = "Segoe MDL2 Assets",
                         Glyph = "\xE8C8", // E8C8 => Symbol: Copy
-                        /*AcceleratorKey = Key.Enter,*/
+                        /* AcceleratorKey = Key.Enter, */
                         Action = _ =>
                         {
                             var result = data.Result.Value.GetString();
