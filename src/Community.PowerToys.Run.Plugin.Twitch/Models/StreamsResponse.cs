@@ -1,6 +1,6 @@
 namespace Community.PowerToys.Run.Plugin.Twitch.Models
 {
-    public class StreamsResponse
+    public class StreamsResponse : IPaginationResponse
     {
         public StreamData[] data { get; set; }
 
@@ -25,15 +25,13 @@ namespace Community.PowerToys.Run.Plugin.Twitch.Models
 
         public string title { get; set; }
 
+        public string[] tags { get; set; }
+
         public int viewer_count { get; set; }
 
-        public DateTime started_at { get; set; }
+        public string started_at { get; set; }
 
         public string language { get; set; }
-
-        public string thumbnail_url { get; set; }
-
-        public string[] tag_ids { get; set; }
 
         public bool is_mature { get; set; }
     }

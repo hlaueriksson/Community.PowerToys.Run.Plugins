@@ -1,18 +1,18 @@
 namespace Community.PowerToys.Run.Plugin.Twitch.Models
 {
-    public class GamesResponse
+    public class CategoriesResponse : IPaginationResponse
     {
-        public GameData[] data { get; set; }
+        public CategoryData[] data { get; set; }
 
         public Pagination pagination { get; set; }
     }
 
-    public class GameData
+    public class CategoryData
     {
         public string id { get; set; }
 
         public string name { get; set; }
 
-        public string box_art_url { get; set; }
+        public string igdb_id { get; set; }
     }
 }

@@ -1,6 +1,6 @@
 namespace Community.PowerToys.Run.Plugin.Twitch.Models
 {
-    public class ChannelsResponse
+    public class ChannelsResponse : IPaginationResponse
     {
         public ChannelData[] data { get; set; }
 
@@ -23,12 +23,10 @@ namespace Community.PowerToys.Run.Plugin.Twitch.Models
 
         public bool is_live { get; set; }
 
-        public string[] tag_ids { get; set; }
-
-        public string thumbnail_url { get; set; }
+        public string[] tags { get; set; }
 
         public string title { get; set; }
 
-        public object started_at { get; set; }
+        public string started_at { get; set; }
     }
 }

@@ -14,6 +14,10 @@ namespace Community.PowerToys.Run.Plugin.Twitch.UnitTests
         [TestInitialize]
         public void TestInitialize()
         {
+            var settings = new TwitchSettings { TwitchApiClientId = "foo", TwitchApiClientSecret = "bar" };
+
+            var cache = new Mock<IAppCache>();
+
             var mockHttp = new MockHttpMessageHandler();
             mockHttp.When(HttpMethod.Post, "https://id.twitch.tv/oauth2/token")
                 .Respond("application/json", "{ \"access_token\": \"i610c3a6q5v8ikm7u6ezdhpa7otcwo\", \"expires_in\": 5332108, \"token_type\": \"bearer\" }");
@@ -28,28 +32,27 @@ namespace Community.PowerToys.Run.Plugin.Twitch.UnitTests
             var httpClient = mockHttp.ToHttpClient();
             httpClient.BaseAddress = new Uri("http://localhost");
 
-            var settings = new TwitchSettings { TwitchApiClientId = "foo", TwitchApiClientSecret = "bar" };
-            _subject = new TwitchClient(settings, new Mock<IAppCache>().Object, httpClient);
+            _subject = new TwitchClient(settings, cache.Object, httpClient);
         }
 
         [TestMethod]
         public async Task GetTokenAsync()
         {
-            var result = await _subject.GetTokenAsync();
+            var result = await _subject.GetAuthTokenAsync();
             result.Should().NotBeNull();
         }
 
         [TestMethod]
         public async Task GetGamesAsync()
         {
-            var result = await _subject.GetGamesAsync();
+            var result = await _subject.GetTopGamesAsync();
             result.Should().NotBeNull();
         }
 
         [TestMethod]
         public async Task SearchGamesAsync()
         {
-            var result = await _subject.SearchGamesAsync("cs");
+            var result = await _subject.SearchCategoriesAsync("cs");
             result.Should().NotBeNull();
         }
 
@@ -63,7 +66,7 @@ namespace Community.PowerToys.Run.Plugin.Twitch.UnitTests
         [TestMethod]
         public async Task GetStreamsAsync()
         {
-            var result = await _subject.GetStreamsAsync();
+            var result = await _subject.GetStreamsAsync("32399");
             result.Should().NotBeNull();
         }
     }

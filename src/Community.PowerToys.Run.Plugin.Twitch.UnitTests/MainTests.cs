@@ -15,16 +15,16 @@ namespace Community.PowerToys.Run.Plugin.Twitch.UnitTests
         public void TestInitialize()
         {
             var mock = new Mock<ITwitchClient>();
-            mock.Setup(x => x.GetGamesAsync(null, null, 100)).ReturnsAsync(GamesResponse());
-            mock.Setup(x => x.SearchGamesAsync("cs", null, 100)).ReturnsAsync(GamesResponse());
-            mock.Setup(x => x.SearchChannelsAsync("cs", null, 100, true)).ReturnsAsync(ChannelsResponse());
-            mock.Setup(x => x.GetStreamsAsync(null, null, 100, "1", "en")).ReturnsAsync(StreamsResponse());
+            mock.Setup(x => x.GetTopGamesAsync(Page.None)).ReturnsAsync(GamesResponse());
+            mock.Setup(x => x.SearchCategoriesAsync("cs", Page.None)).ReturnsAsync(GamesResponse());
+            mock.Setup(x => x.SearchChannelsAsync("cs", Page.None)).ReturnsAsync(ChannelsResponse());
+            mock.Setup(x => x.GetStreamsAsync("1", Page.None)).ReturnsAsync(StreamsResponse());
 
-            _subject = new Main(new TwitchSettings(), mock.Object);
+            _subject = new Main(new TwitchSettings { TwitchApiClientId = "foo", TwitchApiClientSecret = "bar" }, mock.Object);
 
-            GamesResponse GamesResponse() => new()
+            CategoriesResponse GamesResponse() => new()
             {
-                data = [new GameData { id = "1", name = "CS" }],
+                data = [new CategoryData { id = "1", name = "CS" }],
                 pagination = new Pagination { cursor = "abc" }
             };
 
@@ -52,30 +52,53 @@ namespace Community.PowerToys.Run.Plugin.Twitch.UnitTests
         }
 
         [TestMethod]
-        public void Query_with_game_query_should_return_top_games()
+        public void Empty_query_should_return_start_commands()
         {
-            _subject.Query(new("game"), true)
+            _subject.Query(new(""), true)
+                .Should().BeEquivalentTo(new[]
+                {
+                    new Result { Title = "Top games", SubTitle = "Gets information about all broadcasts on Twitch." },
+                    new Result { Title = "Search channels", SubTitle = "Gets the channels that match the specified query and have streamed content within the past 6 months." },
+                    new Result { Title = "Search categories", SubTitle = "Gets the games or categories that match the specified query." },
+                });
+        }
+
+        [TestMethod]
+        public void Query_should_return_search_commands()
+        {
+            _subject.Query(new("foo"), true)
+                .Should().BeEquivalentTo(new[]
+                {
+                    new Result { Title = "Search channels: foo", SubTitle = "Gets the channels that match the specified query and have streamed content within the past 6 months." },
+                    new Result { Title = "Search categories: foo", SubTitle = "Gets the games or categories that match the specified query." },
+                });
+        }
+
+        [TestMethod]
+        public void Games_query_should_return_top_games()
+        {
+            _subject.Query(new("games"), true)
                 .Should().NotBeEmpty();
         }
 
         [TestMethod]
-        public void Query_with_game_query_should_return_games_from_search()
+        public void Categories_query_should_return_categories_from_search()
         {
-            _subject.Query(new("game cs"), true)
+            _subject.Query(new("categories cs"), true)
                 .Should().NotBeEmpty();
         }
 
         [TestMethod]
-        public void Query_with_channel_query_should_return_channels_from_search()
+        public void Channels_query_should_return_channels_from_search()
         {
-            _subject.Query(new("channel cs"), true)
+            _subject.Query(new("channels cs"), true)
                 .Should().NotBeEmpty();
         }
 
         [TestMethod]
-        public void Query_with_stream_query_should_return_streams_for_game()
+        public void Streams_query_should_return_streams_for_game()
         {
-            _subject.Query(new("stream game_id=1"), true)
+            _subject.Query(new("streams 1"), true)
                 .Should().NotBeEmpty();
         }
 

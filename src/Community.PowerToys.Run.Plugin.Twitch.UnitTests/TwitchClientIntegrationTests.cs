@@ -13,28 +13,28 @@ namespace Community.PowerToys.Run.Plugin.Twitch.UnitTests
         [TestInitialize]
         public void TestInitialize()
         {
-            var settings = new TwitchSettings();
+            var settings = new TwitchSettings { TwitchApiClientId = "SECRET", TwitchApiClientSecret = "SECRET" };
             _subject = new TwitchClient(settings, new CachingService());
         }
 
         [TestMethod]
         public async Task GetTokenAsync()
         {
-            var result = await _subject.GetTokenAsync();
+            var result = await _subject.GetAuthTokenAsync();
             result.Should().NotBeNull();
         }
 
         [TestMethod]
         public async Task GetGamesAsync()
         {
-            var result = await _subject.GetGamesAsync();
+            var result = await _subject.GetTopGamesAsync();
             result.Should().NotBeNull();
         }
 
         [TestMethod]
         public async Task SearchGamesAsync()
         {
-            var result = await _subject.SearchGamesAsync("cs");
+            var result = await _subject.SearchCategoriesAsync("cs");
             result.Should().NotBeNull();
         }
 
@@ -48,7 +48,7 @@ namespace Community.PowerToys.Run.Plugin.Twitch.UnitTests
         [TestMethod]
         public async Task GetStreamsAsync()
         {
-            var result = await _subject.GetStreamsAsync();
+            var result = await _subject.GetStreamsAsync("32399");
             result.Should().NotBeNull();
         }
     }

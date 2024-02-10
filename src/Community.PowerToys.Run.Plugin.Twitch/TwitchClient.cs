@@ -9,78 +9,59 @@ using Wox.Plugin.Logger;
 
 namespace Community.PowerToys.Run.Plugin.Twitch
 {
-    // TODO:
-    // https://dev.twitch.tv/docs/api/reference#get-followed-streams
-    //
-    // https://dev.twitch.tv/docs/api/guide#pagination
-    // https://dev.twitch.tv/docs/api/guide#twitch-rate-limits
-    // https://devstatus.twitch.tv/
-
     /// <summary>
     /// Twitch API.
     /// </summary>
     public interface ITwitchClient
     {
         /// <summary>
-        /// Gets OAuth token.
+        /// Gets auth token.
         /// </summary>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         /// <seealso href="https://dev.twitch.tv/docs/authentication/getting-tokens-oauth#client-credentials-grant-flow"/>
-        Task<TokenResponse?> GetTokenAsync();
+        Task<TokenResponse?> GetAuthTokenAsync();
 
         /// <summary>
         /// Gets top games.
         /// </summary>
-        /// <param name="after">Cursor for forward pagination.</param>
-        /// <param name="before">Cursor for backward pagination.</param>
-        /// <param name="first">Maximum number of objects to return.</param>
+        /// <param name="page">The previous or next page of results.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         /// <seealso href="https://dev.twitch.tv/docs/api/reference#get-top-games"/>
-        Task<GamesResponse?> GetGamesAsync(string? after = null, string? before = null, int? first = null);
+        Task<CategoriesResponse?> GetTopGamesAsync(Page page = Page.None);
 
         /// <summary>
-        /// Search games or categories.
+        /// Search categories or games.
         /// </summary>
         /// <param name="query">Search query.</param>
-        /// <param name="after">Cursor for forward pagination.</param>
-        /// <param name="first">Maximum number of objects to return.</param>
+        /// <param name="page">The previous or next page of results.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         /// <seealso href="https://dev.twitch.tv/docs/api/reference#search-categories"/>
-        Task<GamesResponse?> SearchGamesAsync(string query, string? after = null, int? first = null);
+        Task<CategoriesResponse?> SearchCategoriesAsync(string query, Page page = Page.None);
 
         /// <summary>
         /// Search channels.
         /// </summary>
         /// <param name="query">Search query.</param>
-        /// <param name="after">Cursor for forward pagination.</param>
-        /// <param name="first">Maximum number of objects to return.</param>
-        /// <param name="live_only">Filter results for live streams only.</param>
+        /// <param name="page">The previous or next page of results.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         /// <seealso href="https://dev.twitch.tv/docs/api/reference#search-channels"/>
-#pragma warning disable CA1707 // Identifiers should not contain underscores
-        Task<ChannelsResponse?> SearchChannelsAsync(string query, string? after = null, int? first = null, bool? live_only = null);
-#pragma warning restore CA1707 // Identifiers should not contain underscores
+        Task<ChannelsResponse?> SearchChannelsAsync(string query, Page page = Page.None);
 
         /// <summary>
-        /// Gets top streams.
+        /// Gets streams.
         /// </summary>
-        /// <param name="after">Cursor for forward pagination.</param>
-        /// <param name="before">Cursor for backward pagination.</param>
-        /// <param name="first">Maximum number of objects to return.</param>
-        /// <param name="game_id">Returns streams broadcasting a specified game ID.</param>
-        /// <param name="language">Stream language.</param>
+        /// <param name="gameId">Returns streams broadcasting a specified game ID.</param>
+        /// <param name="page">The previous or next page of results.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         /// <seealso href="https://dev.twitch.tv/docs/api/reference#get-streams"/>
-#pragma warning disable CA1707 // Identifiers should not contain underscores
-        Task<StreamsResponse?> GetStreamsAsync(string? after = null, string? before = null, int? first = null, string? game_id = null, string? language = null);
-#pragma warning restore CA1707 // Identifiers should not contain underscores
+        Task<StreamsResponse?> GetStreamsAsync(string gameId, Page page = Page.None);
 
         /// <summary>
-        /// Gets game URL.
+        /// Gets category or game URL.
         /// </summary>
-        /// <param name="game">The game.</param>
+        /// <param name="category">The category.</param>
         /// <returns>The URL.</returns>
-        string GetUrl(GameData game);
+        string GetUrl(CategoryData category);
 
         /// <summary>
         /// Gets channel URL.
@@ -104,7 +85,7 @@ namespace Community.PowerToys.Run.Plugin.Twitch
         /// Initializes a new instance of the <see cref="TwitchClient"/> class.
         /// </summary>
         /// <param name="settings">Plugin settings.</param>
-        /// <param name="cache">Plugin cache.</param>
+        /// <param name="cache">Client cache.</param>
         public TwitchClient(TwitchSettings settings, IAppCache cache)
         {
             Settings = settings;
@@ -133,7 +114,7 @@ namespace Community.PowerToys.Run.Plugin.Twitch
         private HttpClient HttpClient { get; }
 
         /// <inheritdoc/>
-        public async Task<TokenResponse?> GetTokenAsync()
+        public async Task<TokenResponse?> GetAuthTokenAsync()
         {
             const string uri = "https://id.twitch.tv/oauth2/token";
 
@@ -177,69 +158,72 @@ namespace Community.PowerToys.Run.Plugin.Twitch
         }
 
         /// <inheritdoc/>
-        public async Task<GamesResponse?> GetGamesAsync(string? after = null, string? before = null, int? first = null)
+        public async Task<CategoriesResponse?> GetTopGamesAsync(Page page = Page.None)
         {
-            var uri = "/helix/games/top" + Query(Parameter(after), Parameter(before), Parameter(first));
-
-            Log.Info($"GetGamesAsync: {uri}", GetType());
-
-            var result = await Cache.GetAsync<GamesResponse?>(uri).ConfigureAwait(false);
-
-            if (result != null)
-            {
-                return result;
-            }
-
-            Log.Info("GetGamesAsync not cached", GetType());
-
             await SetAuthorizationAsync().ConfigureAwait(false);
+            var uri = "/helix/games/top" + Query(Pagination(page), Parameter(Settings.TwitchApiParameterFirst));
+            Log.Info($"GetTopGamesAsync: {uri}", GetType());
             var response = await HttpClient.GetAsync(uri).ConfigureAwait(false);
-            result = await response.Content.ReadFromJsonAsync<GamesResponse>().ConfigureAwait(false);
-
-            if (result != null)
-            {
-                Cache.Add(uri, result, DateTimeOffset.Now.AddMinutes(1));
-            }
-
-            return result;
+            response.EnsureSuccessStatusCode();
+            return CachePagination(await response.Content.ReadFromJsonAsync<CategoriesResponse>().ConfigureAwait(false));
         }
 
         /// <inheritdoc/>
-        public async Task<GamesResponse?> SearchGamesAsync(string query, string? after = null, int? first = null)
+        public async Task<CategoriesResponse?> SearchCategoriesAsync(string query, Page page = Page.None)
         {
+            if (string.IsNullOrWhiteSpace(query))
+            {
+                return null;
+            }
+
+            // NOTE: not previous
             await SetAuthorizationAsync().ConfigureAwait(false);
-            var uri = "/helix/search/categories" + Query(Parameter(query), Parameter(after), Parameter(first));
-            Log.Info($"SearchGamesAsync: {uri}", GetType());
+            var uri = "/helix/search/categories" + Query(Parameter(query), Pagination(page), Parameter(Settings.TwitchApiParameterFirst));
+            Log.Info($"SearchCategoriesAsync: {uri}", GetType());
             var response = await HttpClient.GetAsync(uri).ConfigureAwait(false);
-            return await response.Content.ReadFromJsonAsync<GamesResponse>().ConfigureAwait(false);
+            response.EnsureSuccessStatusCode();
+            return CachePagination(await response.Content.ReadFromJsonAsync<CategoriesResponse>().ConfigureAwait(false));
         }
 
         /// <inheritdoc/>
-        public async Task<ChannelsResponse?> SearchChannelsAsync(string query, string? after = null, int? first = null, bool? live_only = null)
+        public async Task<ChannelsResponse?> SearchChannelsAsync(string query, Page page = Page.None)
         {
+            if (string.IsNullOrWhiteSpace(query))
+            {
+                return null;
+            }
+
+            // NOTE: not previous
             await SetAuthorizationAsync().ConfigureAwait(false);
-            var uri = "helix/search/channels" + Query(Parameter(query), Parameter(after), Parameter(first), Parameter(live_only));
+            var uri = "helix/search/channels" + Query(Parameter(query), Pagination(page), Parameter(Settings.TwitchApiParameterFirst), Parameter(Settings.TwitchApiParameterLiveOnly));
             Log.Info($"SearchChannelsAsync: {uri}", GetType());
             var response = await HttpClient.GetAsync(uri).ConfigureAwait(false);
-            return await response.Content.ReadFromJsonAsync<ChannelsResponse>().ConfigureAwait(false);
+            response.EnsureSuccessStatusCode();
+            return CachePagination(await response.Content.ReadFromJsonAsync<ChannelsResponse>().ConfigureAwait(false));
         }
 
         /// <inheritdoc/>
-        public async Task<StreamsResponse?> GetStreamsAsync(string? after = null, string? before = null, int? first = null, string? game_id = null, string? language = null)
+        public async Task<StreamsResponse?> GetStreamsAsync(string gameId, Page page = Page.None)
         {
+            if (string.IsNullOrWhiteSpace(gameId))
+            {
+                return null;
+            }
+
             await SetAuthorizationAsync().ConfigureAwait(false);
-            var uri = "/helix/streams" + Query(Parameter(after), Parameter(before), Parameter(first), Parameter(game_id), Parameter(language));
+            var uri = "/helix/streams" + Query(Parameter(gameId), Pagination(page), Parameter(Settings.TwitchApiParameterFirst), Parameter(Settings.TwitchApiParameterLiveOnly ? "live" : "all", "type"), Parameter(Settings.TwitchApiParameterLanguage));
             Log.Info($"GetStreamsAsync: {uri}", GetType());
             var response = await HttpClient.GetAsync(uri).ConfigureAwait(false);
-            return await response.Content.ReadFromJsonAsync<StreamsResponse>().ConfigureAwait(false);
+            response.EnsureSuccessStatusCode();
+            return CachePagination(await response.Content.ReadFromJsonAsync<StreamsResponse>().ConfigureAwait(false));
         }
 
         /// <inheritdoc/>
-        public string GetUrl(GameData game)
+        public string GetUrl(CategoryData category)
         {
-            ArgumentNullException.ThrowIfNull(game);
+            ArgumentNullException.ThrowIfNull(category);
 
-            return $"https://www.twitch.tv/directory/game/{UrlEncode(game.name)}";
+            return $"https://www.twitch.tv/directory/category/{KebabCase(category.name)}";
         }
 
         /// <inheritdoc/>
@@ -247,7 +231,7 @@ namespace Community.PowerToys.Run.Plugin.Twitch
         {
             ArgumentNullException.ThrowIfNull(channel);
 
-            return $"https://www.twitch.tv/{UrlEncode(channel.broadcaster_login)}";
+            return $"https://www.twitch.tv/{channel.broadcaster_login}";
         }
 
         /// <inheritdoc/>
@@ -255,7 +239,7 @@ namespace Community.PowerToys.Run.Plugin.Twitch
         {
             ArgumentNullException.ThrowIfNull(stream);
 
-            return $"https://www.twitch.tv/{UrlEncode(stream.user_login)}";
+            return $"https://www.twitch.tv/{stream.user_login}";
         }
 
         private static string? Query(params string?[] parameters)
@@ -275,7 +259,16 @@ namespace Community.PowerToys.Run.Plugin.Twitch
                 return null;
             }
 
-            return $"{name}={UrlEncode(value)}";
+            return $"{GetParameterName(name)}={UrlEncode(value)}";
+
+            static string GetParameterName(string name) => name switch
+            {
+                var x when x.EndsWith(nameof(Settings.TwitchApiParameterFirst), StringComparison.Ordinal) => "first",
+                var x when x.EndsWith(nameof(Settings.TwitchApiParameterLiveOnly), StringComparison.Ordinal) => "live_only",
+                var x when x.EndsWith(nameof(Settings.TwitchApiParameterLanguage), StringComparison.Ordinal) => "language",
+                "gameId" => "game_id",
+                _ => name,
+            };
         }
 
         private static string? UrlEncode(object value)
@@ -283,9 +276,40 @@ namespace Community.PowerToys.Run.Plugin.Twitch
             return WebUtility.UrlEncode(value.ToString());
         }
 
+        private static string KebabCase(string value)
+        {
+            return value.ToLowerInvariant().Replace(" ", "-", StringComparison.Ordinal);
+        }
+
+        private T? CachePagination<T>(T? response)
+            where T : IPaginationResponse
+        {
+            Cache.Add(nameof(Pagination), response?.pagination, DateTimeOffset.Now.AddDays(1));
+
+            return response;
+        }
+
+        private string? Pagination(Page page)
+        {
+            var result = Cache.Get<Pagination>(nameof(Pagination));
+            var cursor = result?.cursor;
+
+            if (cursor == null)
+            {
+                return null;
+            }
+
+            return page switch
+            {
+                Page.Previous => $"before={cursor}",
+                Page.Next => $"after={cursor}",
+                _ => null,
+            };
+        }
+
         private async Task SetAuthorizationAsync()
         {
-            var token = await GetTokenAsync().ConfigureAwait(false);
+            var token = await GetAuthTokenAsync().ConfigureAwait(false);
             HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token?.access_token);
         }
     }
