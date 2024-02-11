@@ -36,13 +36,15 @@ param (
     [string]$platform = "x64"
 )
 
+#Requires -RunAsAdministrator
+
 # Pack
 Invoke-Expression -Command $PSScriptRoot\pack.ps1
 
 Stop-Process -Name "PowerToys" -Force -ErrorAction SilentlyContinue
 
 # Wait
-Start-Sleep -Seconds 2
+Start-Sleep -Seconds 3
 
 # Plugins
 $folders = Get-ChildItem -Path .\src -Directory -Exclude "*UnitTests", "libs"
