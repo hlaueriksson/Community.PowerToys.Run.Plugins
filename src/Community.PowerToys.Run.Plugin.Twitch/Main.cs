@@ -24,8 +24,6 @@ namespace Community.PowerToys.Run.Plugin.Twitch
         /// </summary>
         public Main()
         {
-            Log.Info("Ctor", GetType());
-
             Storage = new PluginJsonStorage<TwitchSettings>();
             Settings = Storage.Load();
             TwitchClient = new TwitchClient(Settings, new CachingService());
@@ -77,8 +75,6 @@ namespace Community.PowerToys.Run.Plugin.Twitch
         /// <returns>A filtered list, can be empty when nothing was found.</returns>
         public List<Result> Query(Query query)
         {
-            Log.Info($"Query: {query?.RawQuery}", GetType());
-
             return new List<Result>(0);
         }
 
@@ -90,8 +86,6 @@ namespace Community.PowerToys.Run.Plugin.Twitch
         /// <returns>A filtered list, can be empty when nothing was found.</returns>
         public List<Result> Query(Query query, bool delayedExecution)
         {
-            Log.Info($"Query: {query?.RawQuery}, {delayedExecution}", GetType());
-
             if (query?.Search is null || !delayedExecution)
             {
                 return new List<Result>(0);

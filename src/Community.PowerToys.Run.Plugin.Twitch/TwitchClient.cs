@@ -125,8 +125,6 @@ namespace Community.PowerToys.Run.Plugin.Twitch
                 return result;
             }
 
-            Log.Info("GetTokenAsync not cached", GetType());
-
             if (string.IsNullOrEmpty(Settings.TwitchApiClientId))
             {
                 Log.Error("TwitchApiClientId is invalid", GetType());
@@ -162,7 +160,7 @@ namespace Community.PowerToys.Run.Plugin.Twitch
         {
             await SetAuthorizationAsync().ConfigureAwait(false);
             var uri = "/helix/games/top" + Query(Pagination(page), Parameter(Settings.TwitchApiParameterFirst));
-            Log.Info($"GetTopGamesAsync: {uri}", GetType());
+            Log.Debug($"GetTopGamesAsync: {uri}", GetType());
             var response = await HttpClient.GetAsync(uri).ConfigureAwait(false);
             response.EnsureSuccessStatusCode();
             return CachePagination(await response.Content.ReadFromJsonAsync<CategoriesResponse>().ConfigureAwait(false));
@@ -179,7 +177,7 @@ namespace Community.PowerToys.Run.Plugin.Twitch
             // NOTE: not previous
             await SetAuthorizationAsync().ConfigureAwait(false);
             var uri = "/helix/search/categories" + Query(Parameter(query), Pagination(page), Parameter(Settings.TwitchApiParameterFirst));
-            Log.Info($"SearchCategoriesAsync: {uri}", GetType());
+            Log.Debug($"SearchCategoriesAsync: {uri}", GetType());
             var response = await HttpClient.GetAsync(uri).ConfigureAwait(false);
             response.EnsureSuccessStatusCode();
             return CachePagination(await response.Content.ReadFromJsonAsync<CategoriesResponse>().ConfigureAwait(false));
@@ -196,7 +194,7 @@ namespace Community.PowerToys.Run.Plugin.Twitch
             // NOTE: not previous
             await SetAuthorizationAsync().ConfigureAwait(false);
             var uri = "helix/search/channels" + Query(Parameter(query), Pagination(page), Parameter(Settings.TwitchApiParameterFirst), Parameter(Settings.TwitchApiParameterLiveOnly));
-            Log.Info($"SearchChannelsAsync: {uri}", GetType());
+            Log.Debug($"SearchChannelsAsync: {uri}", GetType());
             var response = await HttpClient.GetAsync(uri).ConfigureAwait(false);
             response.EnsureSuccessStatusCode();
             return CachePagination(await response.Content.ReadFromJsonAsync<ChannelsResponse>().ConfigureAwait(false));
@@ -212,7 +210,7 @@ namespace Community.PowerToys.Run.Plugin.Twitch
 
             await SetAuthorizationAsync().ConfigureAwait(false);
             var uri = "/helix/streams" + Query(Parameter(gameId), Pagination(page), Parameter(Settings.TwitchApiParameterFirst), Parameter(Settings.TwitchApiParameterLiveOnly ? "live" : "all", "type"), Parameter(Settings.TwitchApiParameterLanguage));
-            Log.Info($"GetStreamsAsync: {uri}", GetType());
+            Log.Debug($"GetStreamsAsync: {uri}", GetType());
             var response = await HttpClient.GetAsync(uri).ConfigureAwait(false);
             response.EnsureSuccessStatusCode();
             return CachePagination(await response.Content.ReadFromJsonAsync<StreamsResponse>().ConfigureAwait(false));

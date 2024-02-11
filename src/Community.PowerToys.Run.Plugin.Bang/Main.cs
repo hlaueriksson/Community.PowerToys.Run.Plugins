@@ -19,8 +19,6 @@ namespace Community.PowerToys.Run.Plugin.Bang
         /// </summary>
         public Main()
         {
-            Log.Info("Ctor", GetType());
-
             DuckDuckGoClient = new DuckDuckGoClient(new CachingService());
         }
 
@@ -59,8 +57,6 @@ namespace Community.PowerToys.Run.Plugin.Bang
         /// <returns>A filtered list, can be empty when nothing was found.</returns>
         public List<Result> Query(Query query)
         {
-            Log.Info($"Query: {query?.RawQuery}", GetType());
-
             return new List<Result>(0);
         }
 
@@ -72,8 +68,6 @@ namespace Community.PowerToys.Run.Plugin.Bang
         /// <returns>A filtered list, can be empty when nothing was found.</returns>
         public List<Result> Query(Query query, bool delayedExecution)
         {
-            Log.Info($"Query: {query?.RawQuery}, {delayedExecution}", GetType());
-
             if (query?.Search is null || !delayedExecution)
             {
                 return new List<Result>(0);

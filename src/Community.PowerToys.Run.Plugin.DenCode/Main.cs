@@ -1,4 +1,5 @@
 using System.Text.Json;
+using System.Windows;
 using System.Windows.Input;
 using Community.PowerToys.Run.Plugin.DenCode.Models;
 using ManagedCommon;
@@ -19,8 +20,6 @@ namespace Community.PowerToys.Run.Plugin.DenCode
         /// </summary>
         public Main()
         {
-            Log.Info("Ctor", GetType());
-
             DenCodeClient = new DenCodeClient();
             DenCodeMethods = Constants.Methods.GetDenCodeMethods();
             DenCodeLabels = DenCodeMethods.GetDenCodeLabels();
@@ -67,8 +66,6 @@ namespace Community.PowerToys.Run.Plugin.DenCode
         /// <returns>A filtered list, can be empty when nothing was found.</returns>
         public List<Result> Query(Query query)
         {
-            Log.Info($"Query: {query?.RawQuery}", GetType());
-
             return new List<Result>(0);
         }
 
@@ -80,8 +77,6 @@ namespace Community.PowerToys.Run.Plugin.DenCode
         /// <returns>A filtered list, can be empty when nothing was found.</returns>
         public List<Result> Query(Query query, bool delayedExecution)
         {
-            Log.Info($"Query: {query?.RawQuery}, {delayedExecution}", GetType());
-
             if (query?.Search is null || !delayedExecution)
             {
                 return new List<Result>(0);
@@ -174,17 +169,13 @@ namespace Community.PowerToys.Run.Plugin.DenCode
                         Title = result,
                         SubTitle = prefix + (method?.label[kvp.Key] ?? kvp.Key),
                         ToolTipData = new ToolTipData(method?.title ?? "DenCode", method?.desc ?? kvp.Key),
-                        Action = _ =>
-                        {
-                            Log.Info("Copy result (Enter): " + result, GetType());
-                            return result.CopyToClipboard();
-                        },
                         ContextData = new DenCodeContextData
                         {
                             Value = value,
                             Result = kvp,
                             Method = method,
                         },
+                        Action = _ => CopyToClipboard(result),
                     });
                 }
 
@@ -222,21 +213,7 @@ namespace Community.PowerToys.Run.Plugin.DenCode
                         Glyph = "\xF6FA", // F6FA => Symbol: WebSearch
                         AcceleratorKey = Key.Enter,
                         AcceleratorModifiers = ModifierKeys.Control,
-                        Action = _ =>
-                        {
-                            var arguments = DenCodeClient.GetUrl(method);
-
-                            Log.Info("Open website (Ctrl+Enter): " + arguments, GetType());
-
-                            if (!Helper.OpenCommandInShell(DefaultBrowserInfo.Path, DefaultBrowserInfo.ArgumentsPattern, arguments))
-                            {
-                                Log.Error("Open default browser failed.", GetType());
-                                Context?.API.ShowMsg($"Plugin: {Name}", "Open default browser failed.");
-                                return false;
-                            }
-
-                            return true;
-                        },
+                        Action = _ => OpenInBrowser(DenCodeClient.GetUrl(method)),
                     },
                 ];
             }
@@ -252,12 +229,7 @@ namespace Community.PowerToys.Run.Plugin.DenCode
                         FontFamily = "Segoe MDL2 Assets",
                         Glyph = "\xE8C8", // E8C8 => Symbol: Copy
                         /* AcceleratorKey = Key.Enter, */
-                        Action = _ =>
-                        {
-                            var result = data.Result.Value.GetString();
-                            Log.Info("Copy result (Enter): " + result, GetType());
-                            return result.CopyToClipboard();
-                        },
+                        Action = _ => CopyToClipboard(data.Result.Value.GetString()),
                     },
                     new ContextMenuResult
                     {
@@ -267,21 +239,7 @@ namespace Community.PowerToys.Run.Plugin.DenCode
                         Glyph = "\xF6FA", // F6FA => Symbol: WebSearch
                         AcceleratorKey = Key.Enter,
                         AcceleratorModifiers = ModifierKeys.Control,
-                        Action = _ =>
-                        {
-                            var arguments = DenCodeClient.GetUrl(data);
-
-                            Log.Info("Open website (Ctrl+Enter): " + arguments, GetType());
-
-                            if (!Helper.OpenCommandInShell(DefaultBrowserInfo.Path, DefaultBrowserInfo.ArgumentsPattern, arguments))
-                            {
-                                Log.Error("Open default browser failed.", GetType());
-                                Context?.API.ShowMsg($"Plugin: {Name}", "Open default browser failed.");
-                                return false;
-                            }
-
-                            return true;
-                        },
+                        Action = _ => OpenInBrowser(DenCodeClient.GetUrl(data)),
                     },
                 ];
             }
@@ -318,5 +276,27 @@ namespace Community.PowerToys.Run.Plugin.DenCode
         private void UpdateIconPath(Theme theme) => IconPath = theme == Theme.Light || theme == Theme.HighContrastWhite ? "Images/dencode.light.png" : "Images/dencode.dark.png";
 
         private void OnThemeChanged(Theme currentTheme, Theme newTheme) => UpdateIconPath(newTheme);
+
+        private static bool CopyToClipboard(string? value)
+        {
+            if (value != null)
+            {
+                Clipboard.SetText(value);
+            }
+
+            return true;
+        }
+
+        private bool OpenInBrowser(string url)
+        {
+            if (!Helper.OpenCommandInShell(DefaultBrowserInfo.Path, DefaultBrowserInfo.ArgumentsPattern, url))
+            {
+                Log.Error("Open default browser failed.", GetType());
+                Context?.API.ShowMsg($"Plugin: {Name}", "Open default browser failed.");
+                return false;
+            }
+
+            return true;
+        }
     }
 }

@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Community.PowerToys.Run.Plugin.Dice.Models;
@@ -20,13 +21,9 @@ namespace Community.PowerToys.Run.Plugin.Dice
         /// </summary>
         public Main()
         {
-            Log.Info("Ctor", GetType());
-
             Storage = new PluginJsonStorage<DiceSettings>();
             Settings = Storage.Load();
             RolzClient = new RolzClient();
-
-            Log.Info($"Main: RollOptions = {string.Join(",", Settings.RollOptions.Select(x => x.Expression))}", GetType());
         }
 
         internal Main(DiceSettings settings, IRolzClient rolzClient)
@@ -75,8 +72,6 @@ namespace Community.PowerToys.Run.Plugin.Dice
         /// <returns>A filtered list, can be empty when nothing was found.</returns>
         public List<Result> Query(Query query)
         {
-            Log.Info($"Query: {query?.RawQuery}", GetType());
-
             return new List<Result>(0);
         }
 
@@ -88,8 +83,6 @@ namespace Community.PowerToys.Run.Plugin.Dice
         /// <returns>A filtered list, can be empty when nothing was found.</returns>
         public List<Result> Query(Query query, bool delayedExecution)
         {
-            Log.Info($"Query: {query?.RawQuery}, {delayedExecution}", GetType());
-
             if (query?.Search is null || !delayedExecution)
             {
                 return new List<Result>(0);
@@ -163,10 +156,7 @@ namespace Community.PowerToys.Run.Plugin.Dice
                         AcceleratorKey = Key.Enter,
                         Action = _ =>
                         {
-                            Log.Info("Roll expression (Enter): " + option.Expression, GetType());
-
                             Context?.API.ChangeQuery(Context?.CurrentPluginMetadata.ActionKeyword + " " + option.Expression, true);
-
                             return false;
                         },
                     },
@@ -184,11 +174,7 @@ namespace Community.PowerToys.Run.Plugin.Dice
                         FontFamily = "Segoe MDL2 Assets",
                         Glyph = "\xE8C8", // E8C8 => Symbol: Copy
                         AcceleratorKey = Key.Enter,
-                        Action = _ =>
-                        {
-                            Log.Info("Roll Copy result (Enter): " + roll.Result.ToString(CultureInfo.InvariantCulture), GetType());
-                            return roll.Result.ToString(CultureInfo.InvariantCulture).CopyToClipboard();
-                        },
+                        Action = _ => CopyToClipboard(roll.Result.ToString(CultureInfo.InvariantCulture)),
                     },
                     new ContextMenuResult
                     {
@@ -198,11 +184,7 @@ namespace Community.PowerToys.Run.Plugin.Dice
                         Glyph = "\xF413", // F413 => Symbol: CopyTo
                         AcceleratorKey = Key.C,
                         AcceleratorModifiers = ModifierKeys.Control,
-                        Action = _ =>
-                        {
-                            Log.Info("Roll Copy details (Ctrl+C): " + roll.Details?.Trim(), GetType());
-                            return (roll.Input + " => " + roll.Details?.Trim() + " = " + roll.Result.ToString(CultureInfo.InvariantCulture)).CopyToClipboard();
-                        },
+                        Action = _ => CopyToClipboard(roll.Input + " => " + roll.Details?.Trim() + " = " + roll.Result.ToString(CultureInfo.InvariantCulture)),
                     },
                 ];
             }
@@ -281,6 +263,16 @@ namespace Community.PowerToys.Run.Plugin.Dice
             }
 
             return null;
+        }
+
+        private static bool CopyToClipboard(string? value)
+        {
+            if (value != null)
+            {
+                Clipboard.SetText(value);
+            }
+
+            return true;
         }
     }
 }

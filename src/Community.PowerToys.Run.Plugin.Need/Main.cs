@@ -1,3 +1,4 @@
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Community.PowerToys.Run.Plugin.Need.Models;
@@ -5,7 +6,6 @@ using ManagedCommon;
 using Microsoft.PowerToys.Settings.UI.Library;
 using Wox.Infrastructure.Storage;
 using Wox.Plugin;
-using Wox.Plugin.Logger;
 
 namespace Community.PowerToys.Run.Plugin.Need
 {
@@ -19,8 +19,6 @@ namespace Community.PowerToys.Run.Plugin.Need
         /// </summary>
         public Main()
         {
-            Log.Info("Ctor", GetType());
-
             Storage = new PluginJsonStorage<NeedSettings>();
             Settings = Storage.Load();
             Settings.StorageDirectoryPath = Storage.DirectoryPath;
@@ -73,8 +71,6 @@ namespace Community.PowerToys.Run.Plugin.Need
         /// <returns>A filtered list, can be empty when nothing was found.</returns>
         public List<Result> Query(Query query)
         {
-            Log.Info($"Query: {query?.RawQuery}", GetType());
-
             if (query?.Search is null)
             {
                 return new List<Result>(0);
@@ -133,8 +129,6 @@ namespace Community.PowerToys.Run.Plugin.Need
         /// <param name="context">The <see cref="PluginInitContext"/> for this plugin.</param>
         public void Init(PluginInitContext context)
         {
-            Log.Info("Init", GetType());
-
             Context = context ?? throw new ArgumentNullException(nameof(context));
             Context.API.ThemeChanged += OnThemeChanged;
             UpdateIconPath(Context.API.GetCurrentTheme());
@@ -158,11 +152,7 @@ namespace Community.PowerToys.Run.Plugin.Need
                         FontFamily = "Segoe MDL2 Assets",
                         Glyph = "\xE8C8", // E8C8 => Symbol: Copy
                         AcceleratorKey = Key.Enter,
-                        Action = _ =>
-                        {
-                            Log.Info("Copy value (Enter): " + record.Value, GetType());
-                            return record.Value.CopyToClipboard();
-                        },
+                        Action = _ => CopyToClipboard(record.Value),
                     },
                     new ContextMenuResult
                     {
@@ -172,11 +162,7 @@ namespace Community.PowerToys.Run.Plugin.Need
                         Glyph = "\xF413", // F413 => Symbol: CopyTo
                         AcceleratorKey = Key.C,
                         AcceleratorModifiers = ModifierKeys.Control,
-                        Action = _ =>
-                        {
-                            Log.Info("Copy details (Ctrl+C)", GetType());
-                            return record.ToJson().CopyToClipboard();
-                        },
+                        Action = _ => CopyToClipboard(record.ToJson()),
                     },
                     new ContextMenuResult
                     {
@@ -188,7 +174,6 @@ namespace Community.PowerToys.Run.Plugin.Need
                         AcceleratorModifiers = ModifierKeys.Control,
                         Action = _ =>
                         {
-                            Log.Info("Delete key (Ctrl+Del): " + record.Key, GetType());
                             NeedStorage.RemoveRecord(record.Key);
                             return true;
                         },
@@ -211,7 +196,6 @@ namespace Community.PowerToys.Run.Plugin.Need
                         AcceleratorKey = Key.Enter,
                         Action = _ =>
                         {
-                            Log.Info("Set: " + key, GetType());
                             NeedStorage.SetRecord(key, value);
                             return true;
                         },
@@ -255,8 +239,6 @@ namespace Community.PowerToys.Run.Plugin.Need
         /// </summary>
         public void ReloadData()
         {
-            Log.Info("ReloadData", GetType());
-
             NeedStorage.Load();
         }
 
@@ -273,8 +255,6 @@ namespace Community.PowerToys.Run.Plugin.Need
         /// <param name="disposing">Indicate that the plugin is disposed.</param>
         protected virtual void Dispose(bool disposing)
         {
-            Log.Info("Dispose", GetType());
-
             if (Disposed || !disposing)
             {
                 return;
@@ -291,5 +271,15 @@ namespace Community.PowerToys.Run.Plugin.Need
         private void UpdateIconPath(Theme theme) => IconPath = theme == Theme.Light || theme == Theme.HighContrastWhite ? "Images/need.light.png" : "Images/need.dark.png";
 
         private void OnThemeChanged(Theme currentTheme, Theme newTheme) => UpdateIconPath(newTheme);
+
+        private static bool CopyToClipboard(string? value)
+        {
+            if (value != null)
+            {
+                Clipboard.SetText(value);
+            }
+
+            return true;
+        }
     }
 }

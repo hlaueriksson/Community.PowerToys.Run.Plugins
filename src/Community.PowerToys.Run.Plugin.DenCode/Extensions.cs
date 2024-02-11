@@ -1,5 +1,4 @@
 using System.Text.Json;
-using System.Windows;
 using Community.PowerToys.Run.Plugin.DenCode.Models;
 
 namespace Community.PowerToys.Run.Plugin.DenCode
@@ -29,16 +28,6 @@ namespace Community.PowerToys.Run.Plugin.DenCode
         public static string GetRequestType(this DenCodeMethod method)
         {
             return method.Key.Substring(0, method.Key.IndexOf('.', StringComparison.Ordinal));
-        }
-
-        public static bool CopyToClipboard(this string? value)
-        {
-            if (value != null)
-            {
-                Clipboard.SetText(value);
-            }
-
-            return true;
         }
     }
 }
