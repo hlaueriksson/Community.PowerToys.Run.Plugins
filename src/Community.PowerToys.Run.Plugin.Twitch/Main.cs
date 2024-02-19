@@ -259,7 +259,6 @@ namespace Community.PowerToys.Run.Plugin.Twitch
                         Title = category.name,
                         SubTitle = "ID: " + category.id,
                         ToolTipData = new ToolTipData("Category", $"Name: {category.name}\nID: {category.id}\nIGDB ID: {category.igdb_id}"),
-                        Action = _ => ChangeQuery(Command.Streams + " " + category.id),
                         ContextData = category,
                     });
                 }
@@ -283,8 +282,6 @@ namespace Community.PowerToys.Run.Plugin.Twitch
 
                 foreach (var channel in response.data)
                 {
-                    var arguments = TwitchClient.GetUrl(channel);
-
                     results.Add(new Result
                     {
                         QueryTextDisplay = args,
@@ -293,8 +290,6 @@ namespace Community.PowerToys.Run.Plugin.Twitch
                         SubTitle = channel.display_name.Pipe(channel.game_name, channel.broadcaster_language, channel.is_live ? "📺 " + channel.started_at.Elapsed() : string.Empty),
                         ToolTipData = new ToolTipData("Channel", $"Title: {channel.title}\nID: {channel.id}\nBroadcaster: {channel.display_name}\nGame: {channel.game_name}\nLanguage: {channel.broadcaster_language}\nLive: {channel.is_live}\nStarted: {channel.started_at}\nTags: {string.Join(", ", channel.tags ?? [])}"),
                         ContextData = channel,
-                        ProgramArguments = arguments,
-                        Action = _ => OpenInBrowser(arguments),
                     });
                 }
 
@@ -317,8 +312,6 @@ namespace Community.PowerToys.Run.Plugin.Twitch
 
                 foreach (var stream in response.data)
                 {
-                    var arguments = TwitchClient.GetUrl(stream);
-
                     results.Add(new Result
                     {
                         QueryTextDisplay = args,
@@ -327,8 +320,6 @@ namespace Community.PowerToys.Run.Plugin.Twitch
                         SubTitle = stream.user_name.Pipe(stream.game_name, stream.language, stream.type == "live" ? "📺 " + stream.started_at.Elapsed() : string.Empty, stream.viewer_count > 0 ? "👤 " + stream.viewer_count.Format() : string.Empty, stream.is_mature ? "🔞" : string.Empty),
                         ToolTipData = new ToolTipData("Channel", $"Title: {stream.title}\nID: {stream.id}\nBroadcaster: {stream.user_name}\nGame: {stream.game_name}\nLanguage: {stream.language}\nLive: {stream.type == "live"}\nStarted: {stream.started_at}\nViewers: {stream.viewer_count}\nMature: {stream.is_mature}\nTags: {string.Join(", ", stream.tags ?? [])}"),
                         ContextData = stream,
-                        ProgramArguments = arguments,
-                        Action = _ => OpenInBrowser(arguments),
                     });
                 }
 
@@ -383,7 +374,7 @@ namespace Community.PowerToys.Run.Plugin.Twitch
                         Title = "Get streams (Enter)",
                         FontFamily = "Segoe MDL2 Assets",
                         Glyph = "\xEC05", // EC05 => Symbol: NetworkTower
-                        /* AcceleratorKey = Key.Enter, */
+                        AcceleratorKey = Key.Enter,
                         Action = _ => ChangeQuery(Command.Streams + " " + category.id),
                     },
                     new ContextMenuResult
@@ -409,7 +400,7 @@ namespace Community.PowerToys.Run.Plugin.Twitch
                         Title = "Open website (Enter)",
                         FontFamily = "Segoe MDL2 Assets",
                         Glyph = "\xE774", // E774 => Symbol: Globe
-                        /* AcceleratorKey = Key.Enter, */
+                        AcceleratorKey = Key.Enter,
                         Action = _ => OpenInBrowser(TwitchClient.GetUrl(channel)),
                     },
                 ];
@@ -425,7 +416,7 @@ namespace Community.PowerToys.Run.Plugin.Twitch
                         Title = "Open website (Enter)",
                         FontFamily = "Segoe MDL2 Assets",
                         Glyph = "\xE774", // E774 => Symbol: Globe
-                        /* AcceleratorKey = Key.Enter, */
+                        AcceleratorKey = Key.Enter,
                         Action = _ => OpenInBrowser(TwitchClient.GetUrl(stream)),
                     },
                 ];

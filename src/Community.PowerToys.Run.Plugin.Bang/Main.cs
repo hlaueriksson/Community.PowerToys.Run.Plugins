@@ -120,7 +120,6 @@ namespace Community.PowerToys.Run.Plugin.Bang
             {
                 var website = GetSnippet(suggestion.Phrase);
                 var terms = DuckDuckGoClient.GetSearchTerms(suggestion.Phrase);
-                var arguments = DuckDuckGoClient.GetSearchUrl(suggestion.Phrase);
 
                 return new()
                 {
@@ -131,8 +130,6 @@ namespace Community.PowerToys.Run.Plugin.Bang
                     ToolTipData = new ToolTipData("Bang", $"Search {website?.Snippet}"),
                     ContextData = suggestion,
                     Score = suggestion.Phrase == q ? 100 : 0,
-                    ProgramArguments = arguments,
-                    Action = _ => OpenInBrowser(arguments),
                 };
             }
 
@@ -140,7 +137,6 @@ namespace Community.PowerToys.Run.Plugin.Bang
             {
                 var website = GetSnippet(q);
                 var terms = DuckDuckGoClient.GetSearchTerms(q);
-                var arguments = DuckDuckGoClient.GetSearchUrl(q);
 
                 return new()
                 {
@@ -151,8 +147,6 @@ namespace Community.PowerToys.Run.Plugin.Bang
                     ToolTipData = new ToolTipData("Bang", $"Search {website?.Snippet}"),
                     ContextData = q,
                     Score = 100,
-                    ProgramArguments = arguments,
-                    Action = _ => OpenInBrowser(arguments),
                 };
             }
 
@@ -220,7 +214,7 @@ namespace Community.PowerToys.Run.Plugin.Bang
                             PluginName = Name,
                             Title = "Open website (Ctrl+Enter)",
                             FontFamily = "Segoe MDL2 Assets",
-                            Glyph = "\xF6FA", // F6FA => Symbol: WebSearch
+                            Glyph = "\xE774", // E774 => Symbol: Globe
                             AcceleratorKey = Key.Enter,
                             AcceleratorModifiers = ModifierKeys.Control,
                             Action = _ => OpenInBrowser(arguments),
@@ -237,7 +231,7 @@ namespace Community.PowerToys.Run.Plugin.Bang
                             Title = "Open website (Enter)",
                             FontFamily = "Segoe MDL2 Assets",
                             Glyph = "\xF6FA", // F6FA => Symbol: WebSearch
-                            /* AcceleratorKey = Key.Enter, */
+                            AcceleratorKey = Key.Enter,
                             Action = _ => OpenInBrowser(arguments),
                         },
                     ];
@@ -256,7 +250,7 @@ namespace Community.PowerToys.Run.Plugin.Bang
                         Title = "Open website (Enter)",
                         FontFamily = "Segoe MDL2 Assets",
                         Glyph = "\xF6FA", // F6FA => Symbol: WebSearch
-                        /* AcceleratorKey = Key.Enter, */
+                        AcceleratorKey = Key.Enter,
                         Action = _ => OpenInBrowser(arguments),
                     },
                 ];

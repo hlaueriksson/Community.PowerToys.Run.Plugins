@@ -175,7 +175,6 @@ namespace Community.PowerToys.Run.Plugin.DenCode
                             Result = kvp,
                             Method = method,
                         },
-                        Action = _ => CopyToClipboard(result),
                     });
                 }
 
@@ -228,7 +227,7 @@ namespace Community.PowerToys.Run.Plugin.DenCode
                         Title = "Copy result (Enter)",
                         FontFamily = "Segoe MDL2 Assets",
                         Glyph = "\xE8C8", // E8C8 => Symbol: Copy
-                        /* AcceleratorKey = Key.Enter, */
+                        AcceleratorKey = Key.Enter,
                         Action = _ => CopyToClipboard(data.Result.Value.GetString()),
                     },
                     new ContextMenuResult
