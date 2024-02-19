@@ -34,8 +34,8 @@ namespace Community.PowerToys.Run.Plugin.Twitch
 
         internal IEnumerable<PluginAdditionalOption> GetAdditionalOptions()
         {
-            return new List<PluginAdditionalOption>()
-            {
+            return
+            [
                 new()
                 {
                     Key = nameof(TwitchApiClientId),
@@ -78,7 +78,7 @@ namespace Community.PowerToys.Run.Plugin.Twitch
                     PluginOptionType = PluginAdditionalOption.AdditionalOptionType.Checkbox,
                     Value = TwitchApiParameterLiveOnly,
                 },
-            };
+            ];
         }
 
         internal void SetAdditionalOptions(IEnumerable<PluginAdditionalOption> additionalOptions)

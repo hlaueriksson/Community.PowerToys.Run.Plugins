@@ -73,14 +73,14 @@ namespace Community.PowerToys.Run.Plugin.Need
         {
             if (query?.Search is null)
             {
-                return new List<Result>(0);
+                return [];
             }
 
             var args = query.Search;
 
             if (string.IsNullOrEmpty(args))
             {
-                return NeedStorage.GetRecords().Select(GetResultForGetRecord).ToList() ?? new List<Result>(0);
+                return NeedStorage.GetRecords().Select(GetResultForGetRecord).ToList() ?? [];
             }
 
             var tokens = args.Split(' ', 2, StringSplitOptions.RemoveEmptyEntries);
@@ -89,7 +89,7 @@ namespace Community.PowerToys.Run.Plugin.Need
             {
                 var q = tokens[0];
 
-                return NeedStorage.GetRecords(q).Select(GetResultForGetRecord).ToList() ?? new List<Result>(0);
+                return NeedStorage.GetRecords(q).Select(GetResultForGetRecord).ToList() ?? [];
             }
 
             var key = tokens[0];
@@ -203,7 +203,7 @@ namespace Community.PowerToys.Run.Plugin.Need
                 ];
             }
 
-            return new List<ContextMenuResult>(0);
+            return [];
         }
 
         /// <summary>

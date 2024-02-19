@@ -57,7 +57,7 @@ namespace Community.PowerToys.Run.Plugin.Bang
         /// <returns>A filtered list, can be empty when nothing was found.</returns>
         public List<Result> Query(Query query)
         {
-            return new List<Result>(0);
+            return [];
         }
 
         /// <summary>
@@ -70,7 +70,7 @@ namespace Community.PowerToys.Run.Plugin.Bang
         {
             if (query?.Search is null || !delayedExecution)
             {
-                return new List<Result>(0);
+                return [];
             }
 
             var q = query.Search;
@@ -262,7 +262,7 @@ namespace Community.PowerToys.Run.Plugin.Bang
                 ];
             }
 
-            return new List<ContextMenuResult>(0);
+            return [];
         }
 
         /// <inheritdoc/>

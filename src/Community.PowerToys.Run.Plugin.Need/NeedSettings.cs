@@ -23,8 +23,8 @@ namespace Community.PowerToys.Run.Plugin.Need
 
         internal IEnumerable<PluginAdditionalOption> GetAdditionalOptions()
         {
-            return new List<PluginAdditionalOption>()
-            {
+            return
+            [
                 new()
                 {
                     Key = nameof(StorageFileName),
@@ -33,7 +33,7 @@ namespace Community.PowerToys.Run.Plugin.Need
                     PluginOptionType = PluginAdditionalOption.AdditionalOptionType.Textbox,
                     TextValue = StorageFileName,
                 },
-            };
+            ];
         }
 
         internal void SetAdditionalOptions(IEnumerable<PluginAdditionalOption> additionalOptions)

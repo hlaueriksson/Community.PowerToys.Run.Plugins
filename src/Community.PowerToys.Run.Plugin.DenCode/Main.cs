@@ -66,7 +66,7 @@ namespace Community.PowerToys.Run.Plugin.DenCode
         /// <returns>A filtered list, can be empty when nothing was found.</returns>
         public List<Result> Query(Query query)
         {
-            return new List<Result>(0);
+            return [];
         }
 
         /// <summary>
@@ -79,14 +79,14 @@ namespace Community.PowerToys.Run.Plugin.DenCode
         {
             if (query?.Search is null || !delayedExecution)
             {
-                return new List<Result>(0);
+                return [];
             }
 
             var args = query.Search;
 
             if (string.IsNullOrEmpty(args))
             {
-                return DenCodeMethods.Values.Where(x => x.method != null).Select(GetResultFromDenCodeMethod).ToList() ?? new List<Result>(0);
+                return DenCodeMethods.Values.Where(x => x.method != null).Select(GetResultFromDenCodeMethod).ToList() ?? [];
             }
 
             var tokens = args.Split(' ', 2, StringSplitOptions.RemoveEmptyEntries);
@@ -244,7 +244,7 @@ namespace Community.PowerToys.Run.Plugin.DenCode
                 ];
             }
 
-            return new List<ContextMenuResult>(0);
+            return [];
         }
 
         /// <inheritdoc/>

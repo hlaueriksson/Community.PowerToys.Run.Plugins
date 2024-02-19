@@ -116,7 +116,7 @@ namespace Community.PowerToys.Run.Plugin.Twitch.UnitTests
 
             subject.RawQuery.Should().Be("a b c d e f");
             subject.Search.Should().Be("b c d e f");
-            subject.Terms.Should().BeEquivalentTo(new[] { "b", "c", "d", "e", "f" });
+            subject.Terms.Should().BeEquivalentTo(["b", "c", "d", "e", "f"]);
             subject.FirstSearch.Should().Be("c");
             subject.SecondToEndSearch.Should().Be("d e f");
             subject.SecondSearch.Should().Be("d");

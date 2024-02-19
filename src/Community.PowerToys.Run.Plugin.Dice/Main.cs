@@ -72,7 +72,7 @@ namespace Community.PowerToys.Run.Plugin.Dice
         /// <returns>A filtered list, can be empty when nothing was found.</returns>
         public List<Result> Query(Query query)
         {
-            return new List<Result>(0);
+            return [];
         }
 
         /// <summary>
@@ -85,14 +85,14 @@ namespace Community.PowerToys.Run.Plugin.Dice
         {
             if (query?.Search is null || !delayedExecution)
             {
-                return new List<Result>(0);
+                return [];
             }
 
             var expression = query.Search;
 
             if (string.IsNullOrEmpty(expression))
             {
-                return Settings.RollOptions.ConvertAll(GetResultFromRollOption) ?? new List<Result>(0);
+                return Settings.RollOptions.ConvertAll(GetResultFromRollOption) ?? [];
             }
 
             var roll = Roll(expression);
@@ -102,7 +102,7 @@ namespace Community.PowerToys.Run.Plugin.Dice
                 return [GetResultFromRoll(roll)];
             }
 
-            return new List<Result>(0);
+            return [];
 
             Result GetResultFromRollOption(RollOption option) => new()
             {
@@ -189,7 +189,7 @@ namespace Community.PowerToys.Run.Plugin.Dice
                 ];
             }
 
-            return new List<ContextMenuResult>(0);
+            return [];
         }
 
         /// <summary>

@@ -19,15 +19,15 @@ namespace Community.PowerToys.Run.Plugin.Need.UnitTests
             };
 
             var mock = new Mock<INeedStorage>();
-            mock.Setup(x => x.GetRecords()).Returns(new[]
-            {
+            mock.Setup(x => x.GetRecords()).Returns(
+            [
                 new Record { Key = "foo", Value = "bar" },
                 new Record { Key = "baz", Value = "qux" },
-            });
-            mock.Setup(x => x.GetRecords("foo")).Returns(new[]
-            {
+            ]);
+            mock.Setup(x => x.GetRecords("foo")).Returns(
+            [
                 new Record { Key = "foo", Value = "bar" },
-            });
+            ]);
 
             _subject = new Main(settings, mock.Object);
         }

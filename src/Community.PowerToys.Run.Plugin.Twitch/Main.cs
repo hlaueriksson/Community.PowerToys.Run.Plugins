@@ -75,7 +75,7 @@ namespace Community.PowerToys.Run.Plugin.Twitch
         /// <returns>A filtered list, can be empty when nothing was found.</returns>
         public List<Result> Query(Query query)
         {
-            return new List<Result>(0);
+            return [];
         }
 
         /// <summary>
@@ -88,7 +88,7 @@ namespace Community.PowerToys.Run.Plugin.Twitch
         {
             if (query?.Search is null || !delayedExecution)
             {
-                return new List<Result>(0);
+                return [];
             }
 
             if (!Settings.HasValidTwitchApiCredentials())
@@ -131,7 +131,7 @@ namespace Community.PowerToys.Run.Plugin.Twitch
                 Context?.API.ShowMsg($"Plugin: {Name}", "The Twitch API returned 401 Unauthorized. Make sure the plugin settings has the correct Client ID and Client Secret and then restart PowerToys.");
             }
 
-            return new List<Result>(0);
+            return [];
 
             string Query(string args)
             {
@@ -461,7 +461,7 @@ namespace Community.PowerToys.Run.Plugin.Twitch
                 ];
             }
 
-            return new List<ContextMenuResult>(0);
+            return [];
         }
 
         /// <summary>
