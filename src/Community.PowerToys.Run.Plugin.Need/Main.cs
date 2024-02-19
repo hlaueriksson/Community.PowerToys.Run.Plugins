@@ -175,7 +175,7 @@ namespace Community.PowerToys.Run.Plugin.Need
                         Action = _ =>
                         {
                             NeedStorage.RemoveRecord(record.Key);
-                            return true;
+                            return ChangeQuery(selectedResult.QueryTextDisplay);
                         },
                     },
                 ];
@@ -197,7 +197,7 @@ namespace Community.PowerToys.Run.Plugin.Need
                         Action = _ =>
                         {
                             NeedStorage.SetRecord(key, value);
-                            return true;
+                            return ChangeQuery(selectedResult.QueryTextDisplay);
                         },
                     },
                 ];
@@ -278,6 +278,13 @@ namespace Community.PowerToys.Run.Plugin.Need
             {
                 Clipboard.SetText(value);
             }
+
+            return true;
+        }
+
+        private bool ChangeQuery(string query)
+        {
+            Context?.API.ChangeQuery(query, true);
 
             return true;
         }
