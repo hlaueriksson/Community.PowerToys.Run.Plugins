@@ -58,7 +58,11 @@ namespace Community.PowerToys.Run.Plugin.Twitch
 
         private PluginInitContext? Context { get; set; }
 
-        private string? IconPath { get; set; }
+        private static string IconPathTwitch => @"Images\twitch.png";
+
+        private static string IconPathGames => @"Images\twitch.games.png";
+
+        private static string IconPathPagination => @"Images\twitch.pagination.png";
 
         private bool Disposed { get; set; }
 
@@ -157,11 +161,13 @@ namespace Community.PowerToys.Run.Plugin.Twitch
             {
                 const string twitch = "https://dev.twitch.tv/console/apps/create";
                 const string github = "https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins";
+                var theme = Context?.API.GetCurrentTheme();
+                var warning = theme == Theme.Light || theme == Theme.HighContrastWhite ? @"Images\Warning.light.png" : @"Images\Warning.dark.png";
 
                 return [
                     new Result
                     {
-                        IcoPath = IconPath,
+                        IcoPath = warning,
                         Title = "1. Register Your Application",
                         SubTitle = "Register a new application that uses the Twitch API to interact with Twitch",
                         ToolTipData = new ToolTipData("Help", "1. Enter a Name\n2. Enter an dummy OAuth Redirect URL, for example http://localhost\n3. Select Category, for example Application Integration\n4. Select Confidential Client Type\n5. Click the Create button"),
@@ -171,7 +177,7 @@ namespace Community.PowerToys.Run.Plugin.Twitch
                     },
                     new Result
                     {
-                        IcoPath = IconPath,
+                        IcoPath = warning,
                         Title = "2. Update Plugin Settings",
                         SubTitle = "Open the plugin settings and enter the Client ID and Client Secret",
                         ToolTipData = new ToolTipData("Help", "1. Open PowerToys Settings\n2. Click PowerToys Run\n3. Scroll down and expand the Twitch plugin\n4. Paste the Twitch API Client ID\n5. Paste the Twitch API Client Secret"),
@@ -179,7 +185,7 @@ namespace Community.PowerToys.Run.Plugin.Twitch
                     },
                     new Result
                     {
-                        IcoPath = IconPath,
+                        IcoPath = warning,
                         Title = "3. Documentation",
                         SubTitle = "Read the plugin documentation in the GitHub repo",
                         ToolTipData = new ToolTipData("Help", "1. Requirements\n2. Installation\n3. Usage\n4. Configuration"),
@@ -194,7 +200,7 @@ namespace Community.PowerToys.Run.Plugin.Twitch
                 new Result
                 {
                     QueryTextDisplay = Command.Games,
-                    IcoPath = IconPath,
+                    IcoPath = IconPathGames,
                     Title = "Top games",
                     SubTitle = "Gets information about all broadcasts on Twitch.",
                     ToolTipData = new ToolTipData("Games", "Live streams of all your favorite games, from shooters to platformers and everything in between."),
@@ -203,7 +209,7 @@ namespace Community.PowerToys.Run.Plugin.Twitch
                 new Result
                 {
                     QueryTextDisplay = Command.Channels + " ",
-                    IcoPath = IconPath,
+                    IcoPath = IconPathTwitch,
                     Title = "Search channels",
                     SubTitle = "Gets the channels that match the specified query and have streamed content within the past 6 months.",
                     ToolTipData = new ToolTipData("Channels", "The fields that the API uses for comparison depends on the value that the live_only query parameter is set to. If live_only is false, the API matches on the broadcaster’s login name. However, if live_only is true, the API matches on the broadcaster’s name and category name.\r\nTo match, the beginning of the broadcaster’s name or category must match the query string. The comparison is case insensitive. If the query string is angel_of_death, it matches all names that begin with angel_of_death. However, if the query string is a phrase like angel of death, it matches to names starting with angelofdeath or names starting with angel_of_death.\r\nBy default, the results include both live and offline channels. To get only live channels set the live_only query parameter to true."),
@@ -212,7 +218,7 @@ namespace Community.PowerToys.Run.Plugin.Twitch
                 new Result
                 {
                     QueryTextDisplay = Command.Categories + " ",
-                    IcoPath = IconPath,
+                    IcoPath = IconPathTwitch,
                     Title = "Search categories",
                     SubTitle = "Gets the games or categories that match the specified query.",
                     ToolTipData = new ToolTipData("Categories", "To match, the category’s name must contain all parts of the query string. For example, if the query string is 42, the response includes any category name that contains 42 in the title. If the query string is a phrase like love computer, the response includes any category name that contains the words love and computer anywhere in the name. The comparison is case insensitive."),
@@ -224,7 +230,7 @@ namespace Community.PowerToys.Run.Plugin.Twitch
                 new Result
                 {
                     QueryTextDisplay = Command.Channels + " " + q,
-                    IcoPath = IconPath,
+                    IcoPath = IconPathTwitch,
                     Title = "Search channels: " + q,
                     SubTitle = "Gets the channels that match the specified query and have streamed content within the past 6 months.",
                     ToolTipData = new ToolTipData("Channels", "The fields that the API uses for comparison depends on the value that the live_only query parameter is set to. If live_only is false, the API matches on the broadcaster’s login name. However, if live_only is true, the API matches on the broadcaster’s name and category name.\r\nTo match, the beginning of the broadcaster’s name or category must match the query string. The comparison is case insensitive. If the query string is angel_of_death, it matches all names that begin with angel_of_death. However, if the query string is a phrase like angel of death, it matches to names starting with angelofdeath or names starting with angel_of_death.\r\nBy default, the results include both live and offline channels. To get only live channels set the live_only query parameter to true."),
@@ -233,7 +239,7 @@ namespace Community.PowerToys.Run.Plugin.Twitch
                 new Result
                 {
                     QueryTextDisplay = Command.Categories + " " + q,
-                    IcoPath = IconPath,
+                    IcoPath = IconPathTwitch,
                     Title = "Search categories: " + q,
                     SubTitle = "Gets the games or categories that match the specified query.",
                     ToolTipData = new ToolTipData("Categories", "To match, the category’s name must contain all parts of the query string. For example, if the query string is 42, the response includes any category name that contains 42 in the title. If the query string is a phrase like love computer, the response includes any category name that contains the words love and computer anywhere in the name. The comparison is case insensitive."),
@@ -255,7 +261,7 @@ namespace Community.PowerToys.Run.Plugin.Twitch
                     results.Add(new Result
                     {
                         QueryTextDisplay = Command.Streams + " " + category.id,
-                        IcoPath = IconPath,
+                        IcoPath = IconPathTwitch,
                         Title = category.name,
                         SubTitle = "ID: " + category.id,
                         ToolTipData = new ToolTipData("Category", $"Name: {category.name}\nID: {category.id}\nIGDB ID: {category.igdb_id}"),
@@ -285,7 +291,7 @@ namespace Community.PowerToys.Run.Plugin.Twitch
                     results.Add(new Result
                     {
                         QueryTextDisplay = args,
-                        IcoPath = IconPath,
+                        IcoPath = IconPathTwitch,
                         Title = channel.title,
                         SubTitle = channel.display_name.Pipe(channel.game_name, channel.broadcaster_language, channel.is_live ? "📺 " + channel.started_at.Elapsed() : string.Empty),
                         ToolTipData = new ToolTipData("Channel", $"Title: {channel.title}\nID: {channel.id}\nBroadcaster: {channel.display_name}\nGame: {channel.game_name}\nLanguage: {channel.broadcaster_language}\nLive: {channel.is_live}\nStarted: {channel.started_at}\nTags: {string.Join(", ", channel.tags ?? [])}"),
@@ -315,7 +321,7 @@ namespace Community.PowerToys.Run.Plugin.Twitch
                     results.Add(new Result
                     {
                         QueryTextDisplay = args,
-                        IcoPath = IconPath,
+                        IcoPath = IconPathTwitch,
                         Title = stream.title,
                         SubTitle = stream.user_name.Pipe(stream.game_name, stream.language, stream.type == "live" ? "📺 " + stream.started_at.Elapsed() : string.Empty, stream.viewer_count > 0 ? "👤 " + stream.viewer_count.Format() : string.Empty, stream.is_mature ? "🔞" : string.Empty),
                         ToolTipData = new ToolTipData("Channel", $"Title: {stream.title}\nID: {stream.id}\nBroadcaster: {stream.user_name}\nGame: {stream.game_name}\nLanguage: {stream.language}\nLive: {stream.type == "live"}\nStarted: {stream.started_at}\nViewers: {stream.viewer_count}\nMature: {stream.is_mature}\nTags: {string.Join(", ", stream.tags ?? [])}"),
@@ -336,7 +342,7 @@ namespace Community.PowerToys.Run.Plugin.Twitch
                 return new Result
                 {
                     QueryTextDisplay = args,
-                    IcoPath = IconPath,
+                    IcoPath = IconPathPagination,
                     Title = "Pagination: Next",
                     SubTitle = $"Get next {Settings.TwitchApiParameterFirst} results",
                     ToolTipData = new ToolTipData("Pagination", $"Cursor: {pagination.cursor}"),
@@ -353,8 +359,6 @@ namespace Community.PowerToys.Run.Plugin.Twitch
         public void Init(PluginInitContext context)
         {
             Context = context ?? throw new ArgumentNullException(nameof(context));
-            Context.API.ThemeChanged += OnThemeChanged;
-            UpdateIconPath(Context.API.GetCurrentTheme());
         }
 
         /// <summary>
@@ -500,17 +504,8 @@ namespace Community.PowerToys.Run.Plugin.Twitch
                 return;
             }
 
-            if (Context?.API != null)
-            {
-                Context.API.ThemeChanged -= OnThemeChanged;
-            }
-
             Disposed = true;
         }
-
-        private void UpdateIconPath(Theme theme) => IconPath = theme == Theme.Light || theme == Theme.HighContrastWhite ? "Images/twitch.light.png" : "Images/twitch.dark.png";
-
-        private void OnThemeChanged(Theme currentTheme, Theme newTheme) => UpdateIconPath(newTheme);
 
         private bool OpenInBrowser(string url)
         {

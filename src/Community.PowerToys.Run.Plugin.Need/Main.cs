@@ -2,7 +2,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Community.PowerToys.Run.Plugin.Need.Models;
-using ManagedCommon;
 using Microsoft.PowerToys.Settings.UI.Library;
 using Wox.Infrastructure.Storage;
 using Wox.Plugin;
@@ -54,7 +53,7 @@ namespace Community.PowerToys.Run.Plugin.Need
 
         private PluginInitContext? Context { get; set; }
 
-        private string? IconPath { get; set; }
+        private static string IconPath => @"Images\need.png";
 
         private bool Disposed { get; set; }
 
@@ -130,8 +129,6 @@ namespace Community.PowerToys.Run.Plugin.Need
         public void Init(PluginInitContext context)
         {
             Context = context ?? throw new ArgumentNullException(nameof(context));
-            Context.API.ThemeChanged += OnThemeChanged;
-            UpdateIconPath(Context.API.GetCurrentTheme());
         }
 
         /// <summary>
@@ -260,17 +257,8 @@ namespace Community.PowerToys.Run.Plugin.Need
                 return;
             }
 
-            if (Context?.API != null)
-            {
-                Context.API.ThemeChanged -= OnThemeChanged;
-            }
-
             Disposed = true;
         }
-
-        private void UpdateIconPath(Theme theme) => IconPath = theme == Theme.Light || theme == Theme.HighContrastWhite ? "Images/need.light.png" : "Images/need.dark.png";
-
-        private void OnThemeChanged(Theme currentTheme, Theme newTheme) => UpdateIconPath(newTheme);
 
         private static bool CopyToClipboard(string? value)
         {

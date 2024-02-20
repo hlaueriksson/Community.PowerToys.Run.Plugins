@@ -57,9 +57,9 @@ namespace Community.PowerToys.Run.Plugin.Twitch.UnitTests
             _subject.Query(new(""), true)
                 .Should().BeEquivalentTo(new[]
                 {
-                    new Result { Title = "Top games", SubTitle = "Gets information about all broadcasts on Twitch." },
-                    new Result { Title = "Search channels", SubTitle = "Gets the channels that match the specified query and have streamed content within the past 6 months." },
-                    new Result { Title = "Search categories", SubTitle = "Gets the games or categories that match the specified query." },
+                    new Result { Title = "Top games", SubTitle = "Gets information about all broadcasts on Twitch.", IcoPath = @"Images\twitch.games.png" },
+                    new Result { Title = "Search channels", SubTitle = "Gets the channels that match the specified query and have streamed content within the past 6 months.", IcoPath = @"Images\twitch.png" },
+                    new Result { Title = "Search categories", SubTitle = "Gets the games or categories that match the specified query.", IcoPath = @"Images\twitch.png" },
                 });
         }
 
@@ -69,8 +69,8 @@ namespace Community.PowerToys.Run.Plugin.Twitch.UnitTests
             _subject.Query(new("foo"), true)
                 .Should().BeEquivalentTo(new[]
                 {
-                    new Result { Title = "Search channels: foo", SubTitle = "Gets the channels that match the specified query and have streamed content within the past 6 months." },
-                    new Result { Title = "Search categories: foo", SubTitle = "Gets the games or categories that match the specified query." },
+                    new Result { Title = "Search channels: foo", SubTitle = "Gets the channels that match the specified query and have streamed content within the past 6 months.", IcoPath = @"Images\twitch.png" },
+                    new Result { Title = "Search categories: foo", SubTitle = "Gets the games or categories that match the specified query.", IcoPath = @"Images\twitch.png" },
                 });
         }
 

@@ -38,8 +38,8 @@ namespace Community.PowerToys.Run.Plugin.Need.UnitTests
             _subject.Query(new(""))
                 .Should().BeEquivalentTo(new[]
                 {
-                    new Result { Title = "foo", SubTitle = "bar" },
-                    new Result { Title = "baz", SubTitle = "qux" },
+                    new Result { Title = "foo", SubTitle = "bar", IcoPath = @"Images\need.png" },
+                    new Result { Title = "baz", SubTitle = "qux", IcoPath = @"Images\need.png" },
                 });
         }
 
@@ -49,7 +49,7 @@ namespace Community.PowerToys.Run.Plugin.Need.UnitTests
             _subject.Query(new("foo"))
                 .Should().BeEquivalentTo(new[]
                 {
-                    new Result { Title = "foo", SubTitle = "bar" },
+                    new Result { Title = "foo", SubTitle = "bar", IcoPath = @"Images\need.png" },
                 });
         }
 
@@ -59,7 +59,7 @@ namespace Community.PowerToys.Run.Plugin.Need.UnitTests
             _subject.Query(new("fizz buzz"))
                 .Should().BeEquivalentTo(new[]
                 {
-                    new Result { Title = "fizz", SubTitle = "buzz" },
+                    new Result { Title = "fizz", SubTitle = "buzz", IcoPath = @"Images\need.png" },
                 });
         }
 

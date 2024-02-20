@@ -1,7 +1,6 @@
 using System.Windows.Input;
 using Community.PowerToys.Run.Plugin.Bang.Models;
 using LazyCache;
-using ManagedCommon;
 using Wox.Infrastructure;
 using Wox.Plugin;
 using Wox.Plugin.Common;
@@ -44,7 +43,7 @@ namespace Community.PowerToys.Run.Plugin.Bang
 
         private PluginInitContext? Context { get; set; }
 
-        private string? IconPath { get; set; }
+        private static string IconPath => @"Images\bang.png";
 
         private bool Disposed { get; set; }
 
@@ -190,8 +189,6 @@ namespace Community.PowerToys.Run.Plugin.Bang
         public void Init(PluginInitContext context)
         {
             Context = context ?? throw new ArgumentNullException(nameof(context));
-            Context.API.ThemeChanged += OnThemeChanged;
-            UpdateIconPath(Context.API.GetCurrentTheme());
         }
 
         /// <summary>
@@ -277,17 +274,8 @@ namespace Community.PowerToys.Run.Plugin.Bang
                 return;
             }
 
-            if (Context?.API != null)
-            {
-                Context.API.ThemeChanged -= OnThemeChanged;
-            }
-
             Disposed = true;
         }
-
-        private void UpdateIconPath(Theme theme) => IconPath = theme == Theme.Light || theme == Theme.HighContrastWhite ? "Images/bang.light.png" : "Images/bang.dark.png";
-
-        private void OnThemeChanged(Theme currentTheme, Theme newTheme) => UpdateIconPath(newTheme);
 
         private bool OpenInBrowser(string url)
         {

@@ -43,14 +43,14 @@ namespace Community.PowerToys.Run.Plugin.Dice.UnitTests
         public void Query_without_expression_should_return_RollOptions_result()
         {
             _subject.Query(new(""), true)
-                .Should().BeEquivalentTo(new[] { new Result { Title = "1d6", SubTitle = "Roll 1d6" } });
+                .Should().BeEquivalentTo(new[] { new Result { Title = "1d6", SubTitle = "Roll 1d6", IcoPath = @"Images\dice.png" } });
         }
 
         [TestMethod]
         public void Query_with_expression_should_return_Roll_result()
         {
             _subject.Query(new("3d6"), true)
-                .Should().BeEquivalentTo(new[] { new Result { Title = "12", SubTitle = "3d6 => (4 +4 +4) = 12" } });
+                .Should().BeEquivalentTo(new[] { new Result { Title = "12", SubTitle = "3d6 => (4 +4 +4) = 12", IcoPath = @"Images\dice.png" } });
         }
 
         [TestMethod]

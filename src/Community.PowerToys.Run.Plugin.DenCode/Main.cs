@@ -2,7 +2,6 @@ using System.Text.Json;
 using System.Windows;
 using System.Windows.Input;
 using Community.PowerToys.Run.Plugin.DenCode.Models;
-using ManagedCommon;
 using Wox.Infrastructure;
 using Wox.Plugin;
 using Wox.Plugin.Common;
@@ -49,7 +48,7 @@ namespace Community.PowerToys.Run.Plugin.DenCode
 
         private PluginInitContext? Context { get; set; }
 
-        private string? IconPath { get; set; }
+        private static string IconPath => @"Images\dencode.png";
 
         private bool Disposed { get; set; }
 
@@ -189,8 +188,6 @@ namespace Community.PowerToys.Run.Plugin.DenCode
         public void Init(PluginInitContext context)
         {
             Context = context ?? throw new ArgumentNullException(nameof(context));
-            Context.API.ThemeChanged += OnThemeChanged;
-            UpdateIconPath(Context.API.GetCurrentTheme());
         }
 
         /// <summary>
@@ -264,17 +261,8 @@ namespace Community.PowerToys.Run.Plugin.DenCode
                 return;
             }
 
-            if (Context?.API != null)
-            {
-                Context.API.ThemeChanged -= OnThemeChanged;
-            }
-
             Disposed = true;
         }
-
-        private void UpdateIconPath(Theme theme) => IconPath = theme == Theme.Light || theme == Theme.HighContrastWhite ? "Images/dencode.light.png" : "Images/dencode.dark.png";
-
-        private void OnThemeChanged(Theme currentTheme, Theme newTheme) => UpdateIconPath(newTheme);
 
         private static bool CopyToClipboard(string? value)
         {

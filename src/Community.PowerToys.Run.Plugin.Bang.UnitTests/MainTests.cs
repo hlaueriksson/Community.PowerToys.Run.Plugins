@@ -41,14 +41,14 @@ namespace Community.PowerToys.Run.Plugin.Bang.UnitTests
         public void Query_for_bang_should_return_default_snippet_result()
         {
             _subject.Query(new("!"), true)
-                .Should().BeEquivalentTo(new[] { new Result { Title = "Wikipedia", SubTitle = "!w" } });
+                .Should().BeEquivalentTo(new[] { new Result { Title = "Wikipedia", SubTitle = "!w", IcoPath = @"Images\bang.png" } });
         }
 
         [TestMethod]
         public void Query_for_bang_gh_should_return_snippet_result()
         {
             _subject.Query(new("!gh"), true)
-                .Should().BeEquivalentTo(new[] { new Result { Title = "GitHub", SubTitle = "!gh" } });
+                .Should().BeEquivalentTo(new[] { new Result { Title = "GitHub", SubTitle = "!gh", IcoPath = @"Images\bang.png" } });
         }
 
         [TestMethod]
@@ -62,21 +62,21 @@ namespace Community.PowerToys.Run.Plugin.Bang.UnitTests
         public void Query_for_bang_gh_PowerToys_should_return_phrase_result()
         {
             _subject.Query(new("!gh PowerToys"), true).Single()
-                .Should().BeEquivalentTo(new Result { Title = "GitHub: PowerToys", SubTitle = "!gh PowerToys", ProgramArguments = "https://duckduckgo.com/?t=h_&q=!gh+PowerToys" });
+                .Should().BeEquivalentTo(new Result { Title = "GitHub: PowerToys", SubTitle = "!gh PowerToys", IcoPath = @"Images\bang.png" });
         }
 
         [TestMethod]
         public void Query_should_URL_encode_q_parameter()
         {
             _subject.Query(new("!äx"), true)
-                .Should().BeEquivalentTo(new[] { new Result { Title = "Levykauppa Äx", SubTitle = "!äx" } });
+                .Should().BeEquivalentTo(new[] { new Result { Title = "Levykauppa Äx", SubTitle = "!äx", IcoPath = @"Images\bang.png" } });
         }
 
         [TestMethod]
         public void Query_should_add_bang_if_missing()
         {
             _subject.Query(new("gh"), true)
-                .Should().BeEquivalentTo(new[] { new Result { Title = "GitHub", SubTitle = "!gh" } });
+                .Should().BeEquivalentTo(new[] { new Result { Title = "GitHub", SubTitle = "!gh", IcoPath = @"Images\bang.png" } });
         }
     }
 }
