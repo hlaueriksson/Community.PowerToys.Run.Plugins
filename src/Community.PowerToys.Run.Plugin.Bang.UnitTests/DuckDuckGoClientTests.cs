@@ -3,7 +3,6 @@ using System.Web;
 using Community.PowerToys.Run.Plugin.Bang.Models;
 using FluentAssertions;
 using LazyCache;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using RichardSzalay.MockHttp;
 

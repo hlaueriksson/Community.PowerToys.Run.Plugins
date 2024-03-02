@@ -1,5 +1,5 @@
 # Clean
-Get-ChildItem -Path ".\src" -Directory -Include "bin", "obj" -Recurse | Remove-Item -Recurse -Force
+Get-ChildItem -Path ".\src" -Directory -Include "bin", "obj", "TestResults" -Recurse | Remove-Item -Recurse -Force
 Remove-Item -LiteralPath "TestResults" -Recurse -Force
 
 # Test

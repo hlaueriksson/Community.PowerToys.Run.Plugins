@@ -1,6 +1,5 @@
 using FluentAssertions;
 using LazyCache;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using RichardSzalay.MockHttp;
 

@@ -1,6 +1,5 @@
 using Community.PowerToys.Run.Plugin.DenCode.Models;
 using FluentAssertions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Community.PowerToys.Run.Plugin.DenCode.UnitTests
 {

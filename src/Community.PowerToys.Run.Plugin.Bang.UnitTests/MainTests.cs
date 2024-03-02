@@ -1,6 +1,5 @@
 using Community.PowerToys.Run.Plugin.Bang.Models;
 using FluentAssertions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Wox.Plugin;
 

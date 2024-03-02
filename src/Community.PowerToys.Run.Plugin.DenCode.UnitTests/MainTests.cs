@@ -1,7 +1,6 @@
 using System.Text.Json;
 using Community.PowerToys.Run.Plugin.DenCode.Models;
 using FluentAssertions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Wox.Plugin;
 

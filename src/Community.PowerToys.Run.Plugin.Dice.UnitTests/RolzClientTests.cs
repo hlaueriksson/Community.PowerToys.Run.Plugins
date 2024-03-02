@@ -1,6 +1,5 @@
 using Community.PowerToys.Run.Plugin.Dice.Models;
 using FluentAssertions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RichardSzalay.MockHttp;
 
 namespace Community.PowerToys.Run.Plugin.Dice.UnitTests

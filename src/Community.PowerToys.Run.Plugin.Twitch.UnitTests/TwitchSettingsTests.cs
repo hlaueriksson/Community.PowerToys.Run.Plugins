@@ -1,6 +1,5 @@
 using FluentAssertions;
 using Microsoft.PowerToys.Settings.UI.Library;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Community.PowerToys.Run.Plugin.Twitch.UnitTests
 {
