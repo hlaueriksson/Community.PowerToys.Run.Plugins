@@ -25,29 +25,39 @@
     .Parameter Platform
     Platform: ARM64 | x64
 
+    .Parameter Plugin
+    Plugin to deploy
+
     .Example
     .\deploy.ps1
+
+    .Example
+    .\deploy.ps1 -plugin Bang
 
     .Link
     https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins
 #>
 param (
     [ValidateSet("ARM64", "x64")]
-    [string]$platform = "x64"
+    [string]$platform = "x64",
+
+    [string]$plugin
 )
 
 #Requires -RunAsAdministrator
 
-# Pack
-Invoke-Expression -Command $PSScriptRoot\pack.ps1
-
 Stop-Process -Name "PowerToys" -Force -ErrorAction SilentlyContinue
 
-# Wait
-Start-Sleep -Seconds 3
-
 # Plugins
-$folders = Get-ChildItem -Path .\src -Directory -Exclude "*UnitTests", "libs"
+$folders = Get-ChildItem -Path .\src -Directory -Exclude "*UnitTests", "libs" | Where-Object { $_ -match $plugin }
+
+# Build
+if ($folders.Count -eq 1) {
+    dotnet build $folders[0] -c Release /p:TF_BUILD=true /p:Platform=$platform
+}
+else {
+    dotnet build -c Release /p:TF_BUILD=true /p:Platform=$platform
+}
 
 Write-Output "Platform: $platform"
 
@@ -58,7 +68,18 @@ foreach ($folder in $folders) {
     $name = $($folder.Name.Split(".")[-1])
 
     Remove-Item -LiteralPath "$env:LOCALAPPDATA\Microsoft\PowerToys\PowerToys Run\Plugins\$name" -Recurse -Force -ErrorAction SilentlyContinue
-    Copy-Item -Path "$folder\bin\$platform\$name" -Destination "$env:LOCALAPPDATA\Microsoft\PowerToys\PowerToys Run\Plugins\$name" -Recurse -Force
+    Copy-Item -Path "$folder\bin\$platform\Release\net8.0-windows" -Destination "$env:LOCALAPPDATA\Microsoft\PowerToys\PowerToys Run\Plugins\$name" -Recurse -Force
 }
 
-Start-Process -FilePath "C:\Program Files\PowerToys\PowerToys.exe"
+$machinePath = "C:\Program Files\PowerToys\PowerToys.exe"
+$userPath = "$env:LOCALAPPDATA\PowerToys\PowerToys.exe"
+
+if (Test-Path $machinePath) {
+    Start-Process -FilePath $machinePath
+}
+elseif (Test-Path $userPath) {
+    Start-Process -FilePath $userPath
+}
+else {
+    Write-Error "Unable to start PowerToys"
+}

@@ -50,7 +50,7 @@ foreach ($platform in $platforms)
     Write-Output "Platform: $platform"
 
     # Build
-    dotnet build $path -c Release /p:TF_BUILD=true /p:Platform=$platform
+    dotnet build -c Release /p:TF_BUILD=true /p:Platform=$platform
 
     if (!$?) {
         # Build FAILED.
