@@ -1,6 +1,23 @@
 # Community.PowerToys.Run.Plugins<!-- omit in toc -->
 
+[![Build](https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins/actions/workflows/build.yml/badge.svg)](https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins/actions/workflows/build.yml)
+[![Maintainability](https://api.codeclimate.com/v1/badges/d2abc8ef70cc7b973f64/maintainability)](https://codeclimate.com/github/hlaueriksson/Community.PowerToys.Run.Plugins/maintainability)
+<!--
+[![Known Vulnerabilities](https://snyk.io/test/github/hlaueriksson/Community.PowerToys.Run.Plugins/badge.svg)](https://snyk.io/test/github/hlaueriksson/Community.PowerToys.Run.Plugins)
+[![Mentioned in Awesome PowerToys Run Plugins](https://awesome.re/mentioned-badge.svg)](https://github.com/hlaueriksson/awesome-powertoys-run-plugins)
+-->
+
 > 🗂️🔎 Community PowerToys Run Plugins 🔌
+
+[<img src="docs/powertoys.png" align="right" width="100">](https://learn.microsoft.com/en-us/windows/powertoys/run)
+
+The plugins has been developed and tested with PowerToys `v0.79.0`.
+
+Prerequisites:
+
+1. [Install PowerToys](https://docs.microsoft.com/en-us/windows/powertoys/install)
+
+## Contents<!-- omit in toc -->
 
 - [Bang](#bang)
 - [DenCode](#dencode)
@@ -8,9 +25,11 @@
 - [Need](#need)
 - [Twitch](#twitch)
 
-The plugins has been developed and tested with `PowerToys` `v0.78.0`.
-
 ## Bang
+
+[![Bang](https://img.shields.io/badge/DuckDuckGo-API-blue?logo=duckduckgo)](https://duckduckgo.com)
+
+[<img src="docs/bang.png" align="right" width="96">](https://duckduckgo.com/bangs)
 
 > Search websites with DuckDuckGo !Bangs
 
@@ -37,6 +56,10 @@ The plugins has been developed and tested with `PowerToys` `v0.78.0`.
 
 ## DenCode
 
+[![DenCode](https://img.shields.io/badge/DenCode-API-blue)](https://dencode.com)
+
+[<img src="docs/dencode.png" align="right" width="96">](https://dencode.com)
+
 > Encoding & Decoding
 
 <https://dencode.com>
@@ -62,6 +85,10 @@ The plugins has been developed and tested with `PowerToys` `v0.78.0`.
 7. Press `Ctrl + Enter` to open the selected encoding / decoding on the DenCode website
 
 ## Dice
+
+[![Dice](https://img.shields.io/badge/Rolz-API-blue)](https://rolz.org/help/api)
+
+[<img src="docs/dice.png" align="right" width="96">](https://rolz.org)
 
 > Roleplaying Dice Roller
 
@@ -94,7 +121,7 @@ Dice Codes:
 6. Press `Enter` to copy the selected result to clipboard
 7. Press `Ctrl + C` to copy the selected roll details to clipboard
 
-### Configuration<!-- omit in toc -->
+### Settings<!-- omit in toc -->
 
 Add, update or delete preconfigured roll expressions via the plugin settings.
 
@@ -109,6 +136,8 @@ Located in the folder:
 - `%LocalAppData%\Microsoft\PowerToys\PowerToys Run\Settings\Plugins\Community.PowerToys.Run.Plugin.Dice\`
 
 ## Need
+
+[<img src="docs/need.png" align="right" width="96">](https://en.wikipedia.org/wiki/Key%E2%80%93value_database)
 
 > Store things you need, but can't remember
 
@@ -159,7 +188,7 @@ Example:
 
 - `need mykey My new value`
 
-### Configuration<!-- omit in toc -->
+### Settings<!-- omit in toc -->
 
 Change the file where records are stored via the plugin settings.
 
@@ -174,6 +203,10 @@ Located in the folder:
 - `%LocalAppData%\Microsoft\PowerToys\PowerToys Run\Settings\Plugins\Community.PowerToys.Run.Plugin.Need\`
 
 ## Twitch
+
+[![Twitch](https://img.shields.io/badge/Twitch-API-blue?logo=twitch)](https://dev.twitch.tv/docs/api/)
+
+[<img src="docs/twitch.png" align="right" width="96">](https://www.twitch.tv)
 
 > Browse, search and view streams on Twitch
 
@@ -234,7 +267,7 @@ Find channels:
 4. Use ⬆️ and ⬇️ keys to select a channel
 5. Press `Enter` to open the channel on the Twitch website
 
-### Configuration<!-- omit in toc -->
+### Settings<!-- omit in toc -->
 
 Set credentials and parameters for the Twitch API via the plugin settings.
 
