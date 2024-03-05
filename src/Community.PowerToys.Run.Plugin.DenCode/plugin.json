@@ -4,7 +4,7 @@
   "IsGlobal": false,
   "Name": "DenCode",
   "Author": "hlaueriksson",
-  "Version": "0.0.0",
+  "Version": "0.79.0",
   "Language": "csharp",
   "Website": "https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins",
   "ExecuteFileName": "Community.PowerToys.Run.Plugin.DenCode.dll",
