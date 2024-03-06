@@ -33,9 +33,15 @@ Prerequisites:
 
 > Search websites with DuckDuckGo !Bangs
 
-<https://duckduckgo.com/bangs>
+DuckDuckGo is a search engine that doesn't track your search history.
+Bangs are shortcuts that lets you quickly search other sites.
+For example, when you know you want to search Wikipedia or IMDb, DuckDuckGo !Bangs gets you there faster.
 
-<!-- TODO: gif -->
+Read more:
+
+- <https://duckduckgo.com/bangs>
+
+![Bang](docs/bang.gif)
 
 ### Installation<!-- omit in toc -->
 
@@ -62,9 +68,14 @@ Prerequisites:
 
 > Encoding & Decoding
 
-<https://dencode.com>
+DenCode is a web site that lets you encode and decode values.
+For example, HTML Escape / URL Encoding / Base64 / MD5 / SHA-1 / CRC32 / and many other String, Number, DateTime, Color, Cipher and Hash formats.
 
-<!-- TODO: gif -->
+Read more:
+
+- <https://dencode.com>
+
+![DenCode](docs/dencode.gif)
 
 ### Installation<!-- omit in toc -->
 
@@ -92,15 +103,21 @@ Prerequisites:
 
 > Roleplaying Dice Roller
 
-<https://rolz.org>
+Rolz is a free tool for rolling dice for roleplaying games.
+Dice Codes lets you express the specific dice to roll and the rules system to use.
+For example, `D6+1` to roll a six sided die and add 1 or `2D20H` to roll two 20 sided dice and keep the highest.
 
-<!-- TODO: gif -->
+Read more:
+
+- <https://rolz.org>
 
 Dice Codes:
 
 - <https://rolz.org/help/general>
 - <https://rolz.org/wiki/inframe?w=help&n=basiccodes>
 - <https://rolz.org/wiki/inframe?w=help&n=successcodes>
+
+![Dice](docs/dice.gif)
 
 ### Installation<!-- omit in toc -->
 
@@ -125,7 +142,7 @@ Dice Codes:
 
 Add, update or delete preconfigured roll expressions via the plugin settings.
 
-<!-- TODO: png -->
+![Dice Settings](docs/dice-settings.png)
 
 The settings are stored in the file:
 
@@ -141,7 +158,12 @@ Located in the folder:
 
 > Store things you need, but can't remember
 
-<!-- TODO: gif -->
+Need is a key-value store for things that you think are important and want to keep handy later.
+Find stored values and copy them to clipboard.
+Use CRUD operations to manage the store.
+For example, `need repo https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins` to add the URL of this GitHub repository to the store.
+
+![Need](docs/need.gif)
 
 ### Installation<!-- omit in toc -->
 
@@ -190,9 +212,9 @@ Example:
 
 ### Settings<!-- omit in toc -->
 
-Change the file where records are stored via the plugin settings.
+Change the filename where records are stored via the plugin settings.
 
-<!-- TODO: png -->
+![Need Settings](docs/need-settings.png)
 
 The records are, by default, stored in the file:
 
@@ -210,9 +232,13 @@ Located in the folder:
 
 > Browse, search and view streams on Twitch
 
-<https://www.twitch.tv>
+Twitch is a video streaming service where millions of people come together live every day to chat, interact, and make their own entertainment together.
 
-<!-- TODO: gif -->
+Read more:
+
+- <https://www.twitch.tv>
+
+![Twitch](docs/twitch.gif)
 
 ### Requirements<!-- omit in toc -->
 
@@ -271,7 +297,7 @@ Find channels:
 
 Set credentials and parameters for the Twitch API via the plugin settings.
 
-<!-- TODO: png -->
+![Twitch Settings](docs/twitch-settings.png)
 
 The settings are stored in the file:
 
