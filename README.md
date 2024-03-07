@@ -33,6 +33,8 @@ Prerequisites:
 
 > Search websites with DuckDuckGo !Bangs
 
+ActionKeyword: `bang`
+
 DuckDuckGo is a search engine that doesn't track your search history.
 Bangs are shortcuts that lets you quickly search other sites.
 For example, when you know you want to search Wikipedia or IMDb, DuckDuckGo !Bangs gets you there faster.
@@ -68,6 +70,8 @@ Read more:
 
 > Encoding & Decoding
 
+ActionKeyword: `dencode`
+
 DenCode is a web site that lets you encode and decode values.
 For example, HTML Escape / URL Encoding / Base64 / MD5 / SHA-1 / CRC32 / and many other String, Number, DateTime, Color, Cipher and Hash formats.
 
@@ -102,6 +106,8 @@ Read more:
 [<img src="docs/dice.png" align="right" width="96">](https://rolz.org)
 
 > Roleplaying Dice Roller
+
+ActionKeyword: `roll`
 
 Rolz is a free tool for rolling dice for roleplaying games.
 Dice Codes lets you express the specific dice to roll and the rules system to use.
@@ -157,6 +163,8 @@ Located in the folder:
 [<img src="docs/need.png" align="right" width="96">](https://en.wikipedia.org/wiki/Key%E2%80%93value_database)
 
 > Store things you need, but can't remember
+
+ActionKeyword: `need`
 
 Need is a key-value store for things that you think are important and want to keep handy later.
 Find stored values and copy them to clipboard.
@@ -231,6 +239,8 @@ Located in the folder:
 [<img src="docs/twitch.png" align="right" width="96">](https://www.twitch.tv)
 
 > Browse, search and view streams on Twitch
+
+ActionKeyword: `twitch`
 
 Twitch is a video streaming service where millions of people come together live every day to chat, interact, and make their own entertainment together.
 
