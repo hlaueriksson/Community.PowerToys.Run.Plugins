@@ -85,7 +85,7 @@ namespace Community.PowerToys.Run.Plugin.DenCode
 
             if (string.IsNullOrEmpty(args))
             {
-                return DenCodeMethods.Values.Where(x => x.method != null).Select(GetResultFromDenCodeMethod).ToList() ?? [];
+                return DenCodeMethods.Values.Where(x => x.Method != null).Select(GetResultFromDenCodeMethod).ToList() ?? [];
             }
 
             var tokens = args.Split(' ', 2, StringSplitOptions.RemoveEmptyEntries);
@@ -94,7 +94,7 @@ namespace Community.PowerToys.Run.Plugin.DenCode
 
             if (tokens.Length == 1)
             {
-                var methods = DenCodeMethods.Values.Where(x => x.method != null && x.Key.Contains(key, StringComparison.InvariantCultureIgnoreCase)).ToList();
+                var methods = DenCodeMethods.Values.Where(x => x.Method != null && x.Key.Contains(key, StringComparison.InvariantCultureIgnoreCase)).ToList();
 
                 if (methods.Count != 0)
                 {
@@ -129,9 +129,9 @@ namespace Community.PowerToys.Run.Plugin.DenCode
             {
                 QueryTextDisplay = method.Key + " ",
                 IcoPath = IconPath,
-                Title = method.method,
-                SubTitle = method.desc,
-                ToolTipData = new ToolTipData(method.title, method.tooltip),
+                Title = method.Method,
+                SubTitle = method.Description,
+                ToolTipData = new ToolTipData(method.Title, method.Tooltip),
                 ContextData = method,
             };
 
@@ -166,8 +166,8 @@ namespace Community.PowerToys.Run.Plugin.DenCode
                         QueryTextDisplay = method?.Key + " " + value,
                         IcoPath = IconPath,
                         Title = result,
-                        SubTitle = prefix + (method?.label[kvp.Key] ?? kvp.Key),
-                        ToolTipData = new ToolTipData(method?.title ?? "DenCode", method?.desc ?? kvp.Key),
+                        SubTitle = prefix + (method?.Label[kvp.Key] ?? kvp.Key),
+                        ToolTipData = new ToolTipData(method?.Title ?? "DenCode", method?.Description ?? kvp.Key),
                         ContextData = new DenCodeContextData
                         {
                             Value = value,

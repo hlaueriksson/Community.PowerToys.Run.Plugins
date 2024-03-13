@@ -16,7 +16,7 @@ namespace Community.PowerToys.Run.Plugin.DenCode
 
             foreach (var method in methods.Values)
             {
-                foreach (var label in method.label.Keys)
+                foreach (var label in method.Label.Keys)
                 {
                     result[label] = method;
                 }

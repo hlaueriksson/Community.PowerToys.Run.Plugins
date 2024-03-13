@@ -90,6 +90,11 @@ namespace Community.PowerToys.Run.Plugin.DenCode
         {
             ArgumentNullException.ThrowIfNull(method);
 
+            if (method.Method == Constants.AllMethod)
+            {
+                return "https://dencode.com";
+            }
+
             var slug = method.Key.Replace('.', '/') ?? string.Empty;
             return $"https://dencode.com/{slug}";
         }

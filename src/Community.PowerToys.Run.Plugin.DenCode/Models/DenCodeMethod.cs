@@ -4,26 +4,14 @@ namespace Community.PowerToys.Run.Plugin.DenCode.Models
     {
         public string Key { get; set; }
 
-        // config
-        public bool useOe { get; set; }
+        public string Method { get; set; }
 
-        public bool useNl { get; set; }
+        public string Title { get; set; }
 
-        public bool useTz { get; set; }
+        public string Description { get; set; }
 
-        public bool hasEncoded { get; set; }
+        public string Tooltip { get; set; }
 
-        public bool hasDecoded { get; set; }
-
-        // messages
-        public string method { get; set; }
-
-        public string title { get; set; }
-
-        public string desc { get; set; }
-
-        public string tooltip { get; set; }
-
-        public Dictionary<string, string> label { get; set; } = [];
+        public Dictionary<string, string> Label { get; set; } = [];
     }
 }
