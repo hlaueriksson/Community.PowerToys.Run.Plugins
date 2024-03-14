@@ -68,6 +68,7 @@ namespace Community.PowerToys.Run.Plugin.DenCode
         {
             var request = JsonSerializer.Deserialize<DenCodeRequest>(Constants.AllRequest);
             request!.value = value;
+            request!.tz = TimeZoneInfo.Local.Id;
             var response = await HttpClient.PostAsJsonAsync("dencode", request).ConfigureAwait(false);
             return await response.Content.ReadFromJsonAsync<DenCodeResponse>().ConfigureAwait(false);
         }
@@ -81,6 +82,7 @@ namespace Community.PowerToys.Run.Plugin.DenCode
             request!.type = method.GetRequestType();
             request!.method = method.Key;
             request!.value = value;
+            request!.tz = TimeZoneInfo.Local.Id;
             var response = await HttpClient.PostAsJsonAsync("dencode", request).ConfigureAwait(false);
             return await response.Content.ReadFromJsonAsync<DenCodeResponse>().ConfigureAwait(false);
         }
