@@ -68,7 +68,7 @@ namespace Community.PowerToys.Run.Plugin.DenCode
         {
             var request = JsonSerializer.Deserialize<DenCodeRequest>(Constants.AllRequest);
             request!.value = value;
-            request!.tz = GetIanaTimeZoneId(TimeZoneInfo.Local, "UTC");;
+            request!.tz = GetIanaTimeZoneId(TimeZoneInfo.Local, "UTC");
             var response = await HttpClient.PostAsJsonAsync("dencode", request).ConfigureAwait(false);
             return await response.Content.ReadFromJsonAsync<DenCodeResponse>().ConfigureAwait(false);
         }
@@ -119,7 +119,7 @@ namespace Community.PowerToys.Run.Plugin.DenCode
         /// Gets IANA ID from TimeZoneInfo.
         /// </summary>
         /// <param name="timeZoneInfo">The TimeZoneInfo instance.</param>
-        /// <param name="defaultIanaId">The defailt IANA ID.</param>
+        /// <param name="defaultIanaId">The default IANA ID.</param>
         /// <returns>IANA ID.</returns>
         private static string GetIanaTimeZoneId(TimeZoneInfo timeZoneInfo, string defaultIanaId)
         {
