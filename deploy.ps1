@@ -1,12 +1,12 @@
 <#PSScriptInfo
-.VERSION 0.0.0
-.GUID c530171b-4918-4995-b5c2-7d2540b01152
+.VERSION 0.87.0
+.GUID 2d1e62b4-4b98-4fad-98b2-2cc1db4694b8
 .AUTHOR Henrik Lau Eriksson
 .COMPANYNAME
 .COPYRIGHT
 .TAGS PowerToys Run Plugins Deploy
 .LICENSEURI
-.PROJECTURI https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins
+.PROJECTURI https://github.com/hlaueriksson/Community.PowerToys.Run.Plugin.Templates
 .ICONURI
 .EXTERNALMODULEDEPENDENCIES
 .REQUIREDSCRIPTS
@@ -35,7 +35,7 @@
     .\deploy.ps1 -plugin Bang
 
     .Link
-    https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins
+    https://github.com/hlaueriksson/Community.PowerToys.Run.Plugin.Templates
 #>
 param (
     [ValidateSet("ARM64", "x64")]
@@ -49,7 +49,7 @@ param (
 Stop-Process -Name "PowerToys" -Force -ErrorAction SilentlyContinue
 
 # Plugins
-$folders = Get-ChildItem -Path .\src -Directory -Exclude "*UnitTests", "libs" | Where-Object { $_ -match $plugin }
+$folders = Get-ChildItem -Recurse -Filter "plugin.json" | Where-Object { $_.FullName -notlike "*\bin\*" } | ForEach-Object { $_.Directory } | Sort-Object -Unique | Where-Object { $_ -match $plugin }
 
 # Build
 if ($folders.Count -eq 1) {
@@ -58,6 +58,11 @@ if ($folders.Count -eq 1) {
 else {
     dotnet build -c Release /p:TF_BUILD=true /p:Platform=$platform
 }
+
+$dependencies = @("PowerToys.Common.UI.*", "PowerToys.ManagedCommon.*", "PowerToys.Settings.UI.Lib.*", "Wox.Infrastructure.*", "Wox.Plugin.*")
+
+# TargetFramework
+$targetFramework = ([xml](Get-Content -Path "Plugin.props")).Project.PropertyGroup.TargetFramework
 
 Write-Output "Platform: $platform"
 
@@ -68,7 +73,7 @@ foreach ($folder in $folders) {
     $name = $($folder.Name.Split(".")[-1])
 
     Remove-Item -LiteralPath "$env:LOCALAPPDATA\Microsoft\PowerToys\PowerToys Run\Plugins\$name" -Recurse -Force -ErrorAction SilentlyContinue
-    Copy-Item -Path "$folder\bin\$platform\Release\net8.0-windows" -Destination "$env:LOCALAPPDATA\Microsoft\PowerToys\PowerToys Run\Plugins\$name" -Recurse -Force
+    Copy-Item -Path "$folder\bin\$platform\Release\$targetFramework" -Destination "$env:LOCALAPPDATA\Microsoft\PowerToys\PowerToys Run\Plugins\$name" -Recurse -Force -Exclude $dependencies
 }
 
 $machinePath = "C:\Program Files\PowerToys\PowerToys.exe"

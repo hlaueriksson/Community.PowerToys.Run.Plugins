@@ -1,12 +1,12 @@
 <#PSScriptInfo
-.VERSION 0.0.0
-.GUID f0754210-fa11-49ae-a3f6-7a06f0909b54
+.VERSION 0.87.0
+.GUID 58d7b8e8-fa18-485d-baaf-4c413181280b
 .AUTHOR Henrik Lau Eriksson
 .COMPANYNAME
 .COPYRIGHT
 .TAGS PowerToys Run Plugins Pack
 .LICENSEURI
-.PROJECTURI https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins
+.PROJECTURI https://github.com/hlaueriksson/Community.PowerToys.Run.Plugin.Templates
 .ICONURI
 .EXTERNALMODULEDEPENDENCIES
 .REQUIREDSCRIPTS
@@ -27,46 +27,51 @@
     .\pack.ps1
 
     .Link
-    https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins
+    https://github.com/hlaueriksson/Community.PowerToys.Run.Plugin.Templates
 #>
 
 # Clean
-Get-ChildItem -Path ".\src" -Directory -Include "bin", "obj" -Recurse | Remove-Item -Recurse -Force
+Get-ChildItem -Path "." -Directory -Include "bin", "obj" -Recurse | Remove-Item -Recurse -Force
 
-# Version
-[xml]$props = Get-Content -Path "Directory.Build.props"
-$version = "$($props.Project.PropertyGroup.Version)".Trim()
-Write-Output "Version: $version"
+$dependencies = @("PowerToys.Common.UI.*", "PowerToys.ManagedCommon.*", "PowerToys.Settings.UI.Lib.*", "Wox.Infrastructure.*", "Wox.Plugin.*")
 
 # Platforms
-$platforms = "$($props.Project.PropertyGroup.Platforms)".Trim() -split ";"
+$platforms = ([xml](Get-Content -Path "Directory.Build.props")).Project.PropertyGroup.Platforms -split ";" | Where-Object { $_ -ne "" }
+
+# TargetFramework
+$targetFramework = ([xml](Get-Content -Path "Plugin.props")).Project.PropertyGroup.TargetFramework
 
 # Plugins
-$folders = Get-ChildItem -Path .\src -Directory -Exclude "*UnitTests", "libs"
-$libs = Get-ChildItem -Path .\src\libs -File -Recurse
+$folders = Get-ChildItem -Recurse -Filter "plugin.json" | Where-Object { $_.FullName -notlike "*\bin\*" } | ForEach-Object { $_.Directory } | Sort-Object -Unique
 
-foreach ($platform in $platforms)
-{
-    Write-Output "Platform: $platform"
+Write-Output "Pack:"
+foreach ($folder in $folders) {
+    Write-Output "- $($folder.Name)"
 
-    # Build
-    dotnet build -c Release /p:TF_BUILD=true /p:Platform=$platform
+    $name = $($folder.Name.Split(".")[-1])
 
-    if (!$?) {
-        # Build FAILED.
-        Exit $LastExitCode
-    }
+    # Version
+    $json = Get-Content -Path (Join-Path $folder.FullName "plugin.json") -Raw | ConvertFrom-Json
+    $version = $json.Version
+    Write-Output "Version: $version"
 
-    Write-Output "Pack:"
-    foreach ($folder in $folders) {
-        Write-Output "- $($folder.Name)"
+    foreach ($platform in $platforms)
+    {
+        Write-Output "Platform: $platform"
 
-        $name = $($folder.Name.Split(".")[-1])
-        $output = "$folder\bin\$platform\Release\net8.0-windows\"
+        # Build
+        dotnet build $folder -c Release /p:TF_BUILD=true /p:Platform=$platform
+
+        if (!$?) {
+            # Build FAILED.
+            Exit $LastExitCode
+        }
+
+        $output = "$folder\bin\$platform\Release\$targetFramework\"
         $destination = "$folder\bin\$platform\$name"
         $zip = "$folder\bin\$platform\$name-$version-$($platform.ToLower()).zip"
 
-        Copy-Item -Path $output -Destination $destination -Recurse -Exclude $libs
+        Copy-Item -Path $output -Destination $destination -Recurse -Exclude $dependencies
         Compress-Archive -Path $destination -DestinationPath $zip
     }
 }
