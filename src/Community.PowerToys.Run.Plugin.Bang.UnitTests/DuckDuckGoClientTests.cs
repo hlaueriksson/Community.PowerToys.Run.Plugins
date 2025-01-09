@@ -33,7 +33,7 @@ namespace Community.PowerToys.Run.Plugin.Bang.UnitTests
         public async Task AutoCompleteAsync_should_return_suggestions()
         {
             var result = await _subject.AutoCompleteAsync("!");
-            result.Should().BeEquivalentTo(new[] { new Suggestion { Phrase = "!w", Snippet = "Wikipedia" } });
+            result.Should().BeEquivalentTo([new Suggestion { Phrase = "!w", Snippet = "Wikipedia" }]);
         }
 
         [TestMethod]
@@ -47,7 +47,7 @@ namespace Community.PowerToys.Run.Plugin.Bang.UnitTests
         public async Task AutoCompleteAsync_should_URL_encode_q_parameter()
         {
             var result = await _subject.AutoCompleteAsync("!äx");
-            result.Should().BeEquivalentTo(new[] { new Suggestion { Phrase = "!äx", Snippet = "Levykauppa Äx" } });
+            result.Should().BeEquivalentTo([new Suggestion { Phrase = "!äx", Snippet = "Levykauppa Äx" }]);
         }
 
         [TestMethod]

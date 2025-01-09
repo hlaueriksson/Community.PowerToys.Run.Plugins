@@ -110,6 +110,7 @@ namespace Community.PowerToys.Run.Plugin.Twitch
             try
             {
 #pragma warning disable VSTHRD002 // Avoid problematic synchronous waits
+#pragma warning disable VSTHRD104 // Offer async methods
                 return args switch
                 {
                     var x when x.StartsWith(Command.Games, StringComparison.OrdinalIgnoreCase) =>
@@ -123,6 +124,7 @@ namespace Community.PowerToys.Run.Plugin.Twitch
                     _ =>
                         GetResultsFromQuery(args),
                 };
+#pragma warning restore VSTHRD104 // Offer async methods
 #pragma warning restore VSTHRD002 // Avoid problematic synchronous waits
             }
             catch (AggregateException ex) when (ex.InnerException is HttpRequestException hre && hre.StatusCode == HttpStatusCode.BadRequest)

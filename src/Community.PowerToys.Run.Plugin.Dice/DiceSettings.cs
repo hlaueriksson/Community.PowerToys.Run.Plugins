@@ -8,16 +8,16 @@ namespace Community.PowerToys.Run.Plugin.Dice
     /// </summary>
     public class DiceSettings
     {
-        private List<RollOption> _rollOptions = RollOption.Defaults;
-
         /// <summary>
         /// Roll options.
         /// </summary>
         public List<RollOption> RollOptions
         {
-            get => _rollOptions;
-            set => _rollOptions = value?.Count > 0 ? value : RollOption.Defaults;
+            get;
+            set => field = value?.Count > 0 ? value : RollOption.Defaults;
         }
+
+        = RollOption.Defaults;
 
         internal IEnumerable<PluginAdditionalOption> GetAdditionalOptions()
         {

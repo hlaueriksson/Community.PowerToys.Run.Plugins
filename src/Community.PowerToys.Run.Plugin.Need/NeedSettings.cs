@@ -8,16 +8,16 @@ namespace Community.PowerToys.Run.Plugin.Need
     /// </summary>
     public class NeedSettings
     {
-        private string _storageFileName = NeedStorage.DefaultFileName;
-
         /// <summary>
         /// File store.
         /// </summary>
         public string StorageFileName
         {
-            get => _storageFileName;
-            set => _storageFileName = IsValidFileName(value) ? value : NeedStorage.DefaultFileName;
+            get;
+            set => field = IsValidFileName(value) ? value : NeedStorage.DefaultFileName;
         }
+
+        = NeedStorage.DefaultFileName;
 
         internal string StorageDirectoryPath { get; set; } = null!;
 

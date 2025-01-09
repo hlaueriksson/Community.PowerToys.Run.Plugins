@@ -35,31 +35,31 @@ namespace Community.PowerToys.Run.Plugin.Need.UnitTests
         public void Query_without_args_should_return_all_records()
         {
             _subject.Query(new(""))
-                .Should().BeEquivalentTo(new[]
-                {
+                .Should().BeEquivalentTo(
+                [
                     new Result { Title = "foo", SubTitle = "bar", IcoPath = @"Images\need.png" },
                     new Result { Title = "baz", SubTitle = "qux", IcoPath = @"Images\need.png" },
-                });
+                ]);
         }
 
         [TestMethod]
         public void Query_with_one_arg_should_return_matching_records()
         {
             _subject.Query(new("foo"))
-                .Should().BeEquivalentTo(new[]
-                {
+                .Should().BeEquivalentTo(
+                [
                     new Result { Title = "foo", SubTitle = "bar", IcoPath = @"Images\need.png" },
-                });
+                ]);
         }
 
         [TestMethod]
         public void Query_with_two_args_should_return_set_record_result()
         {
             _subject.Query(new("fizz buzz"))
-                .Should().BeEquivalentTo(new[]
-                {
+                .Should().BeEquivalentTo(
+                [
                     new Result { Title = "fizz", SubTitle = "buzz", IcoPath = @"Images\need.png" },
-                });
+                ]);
         }
 
         [TestMethod]

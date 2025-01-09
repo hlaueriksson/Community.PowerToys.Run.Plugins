@@ -54,23 +54,23 @@ namespace Community.PowerToys.Run.Plugin.Twitch.UnitTests
         public void Empty_query_should_return_start_commands()
         {
             _subject.Query(new(""), true)
-                .Should().BeEquivalentTo(new[]
-                {
+                .Should().BeEquivalentTo(
+                [
                     new Result { Title = "Top games", SubTitle = "Gets information about all broadcasts on Twitch.", IcoPath = @"Images\twitch.games.png" },
                     new Result { Title = "Search channels", SubTitle = "Gets the channels that match the specified query and have streamed content within the past 6 months.", IcoPath = @"Images\twitch.png" },
                     new Result { Title = "Search categories", SubTitle = "Gets the games or categories that match the specified query.", IcoPath = @"Images\twitch.png" },
-                });
+                ]);
         }
 
         [TestMethod]
         public void Query_should_return_search_commands()
         {
             _subject.Query(new("foo"), true)
-                .Should().BeEquivalentTo(new[]
-                {
+                .Should().BeEquivalentTo(
+                [
                     new Result { Title = "Search channels: foo", SubTitle = "Gets the channels that match the specified query and have streamed content within the past 6 months.", IcoPath = @"Images\twitch.png" },
                     new Result { Title = "Search categories: foo", SubTitle = "Gets the games or categories that match the specified query.", IcoPath = @"Images\twitch.png" },
-                });
+                ]);
         }
 
         [TestMethod]

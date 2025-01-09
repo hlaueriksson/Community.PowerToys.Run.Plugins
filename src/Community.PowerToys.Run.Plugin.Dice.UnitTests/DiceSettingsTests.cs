@@ -41,7 +41,7 @@ namespace Community.PowerToys.Run.Plugin.Dice.UnitTests
 
             var settings = new DiceSettings();
             settings.SetAdditionalOptions(options);
-            settings.RollOptions.Should().BeEquivalentTo(new[] { new RollOption { Expression = "3d6", Description = "Three six sided dice" } });
+            settings.RollOptions.Should().BeEquivalentTo([new RollOption { Expression = "3d6", Description = "Three six sided dice" }]);
 
             options.First().TextValue = "";
             settings.SetAdditionalOptions(options);

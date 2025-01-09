@@ -14,11 +14,11 @@ namespace Community.PowerToys.Run.Plugin.Bang.UnitTests
         public void TestInitialize()
         {
             var mock = new Mock<IDuckDuckGoClient>();
-            mock.Setup(x => x.AutoCompleteAsync("!")).ReturnsAsync(new[] { new Suggestion { Phrase = "!w", Snippet = "Wikipedia" } });
-            mock.Setup(x => x.AutoCompleteAsync("!gh")).ReturnsAsync(new[] { new Suggestion { Phrase = "!gh", Snippet = "GitHub" } });
-            mock.Setup(x => x.AutoCompleteAsync("!gh PowerToys")).ReturnsAsync(new[] { new Suggestion { Phrase = "!gh PowerToys" } });
+            mock.Setup(x => x.AutoCompleteAsync("!")).ReturnsAsync([new Suggestion { Phrase = "!w", Snippet = "Wikipedia" }]);
+            mock.Setup(x => x.AutoCompleteAsync("!gh")).ReturnsAsync([new Suggestion { Phrase = "!gh", Snippet = "GitHub" }]);
+            mock.Setup(x => x.AutoCompleteAsync("!gh PowerToys")).ReturnsAsync([new Suggestion { Phrase = "!gh PowerToys" }]);
             mock.Setup(x => x.AutoCompleteAsync("!unknown")).ReturnsAsync([]);
-            mock.Setup(x => x.AutoCompleteAsync("!äx")).ReturnsAsync(new[] { new Suggestion { Phrase = "!äx", Snippet = "Levykauppa Äx" } });
+            mock.Setup(x => x.AutoCompleteAsync("!äx")).ReturnsAsync([new Suggestion { Phrase = "!äx", Snippet = "Levykauppa Äx" }]);
             mock.Setup(x => x.GetSnippetAsync("!gh PowerToys")).ReturnsAsync(new Suggestion { Snippet = "GitHub" });
             mock.Setup(x => x.GetSearchTerms("!gh PowerToys")).Returns("PowerToys");
             mock.Setup(x => x.GetSearchUrl("!gh PowerToys")).Returns("https://duckduckgo.com/?va=j&t=hc&q=!gh+PowerToys");
@@ -40,14 +40,14 @@ namespace Community.PowerToys.Run.Plugin.Bang.UnitTests
         public void Query_for_bang_should_return_default_snippet_result()
         {
             _subject.Query(new("!"), true)
-                .Should().BeEquivalentTo(new[] { new Result { Title = "Wikipedia", SubTitle = "!w", IcoPath = @"Images\bang.png" } });
+                .Should().BeEquivalentTo([new Result { Title = "Wikipedia", SubTitle = "!w", IcoPath = @"Images\bang.png" }]);
         }
 
         [TestMethod]
         public void Query_for_bang_gh_should_return_snippet_result()
         {
             _subject.Query(new("!gh"), true)
-                .Should().BeEquivalentTo(new[] { new Result { Title = "GitHub", SubTitle = "!gh", IcoPath = @"Images\bang.png" } });
+                .Should().BeEquivalentTo([new Result { Title = "GitHub", SubTitle = "!gh", IcoPath = @"Images\bang.png" }]);
         }
 
         [TestMethod]
@@ -68,14 +68,14 @@ namespace Community.PowerToys.Run.Plugin.Bang.UnitTests
         public void Query_should_URL_encode_q_parameter()
         {
             _subject.Query(new("!äx"), true)
-                .Should().BeEquivalentTo(new[] { new Result { Title = "Levykauppa Äx", SubTitle = "!äx", IcoPath = @"Images\bang.png" } });
+                .Should().BeEquivalentTo([new Result { Title = "Levykauppa Äx", SubTitle = "!äx", IcoPath = @"Images\bang.png" }]);
         }
 
         [TestMethod]
         public void Query_should_add_bang_if_missing()
         {
             _subject.Query(new("gh"), true)
-                .Should().BeEquivalentTo(new[] { new Result { Title = "GitHub", SubTitle = "!gh", IcoPath = @"Images\bang.png" } });
+                .Should().BeEquivalentTo([new Result { Title = "GitHub", SubTitle = "!gh", IcoPath = @"Images\bang.png" }]);
         }
     }
 }

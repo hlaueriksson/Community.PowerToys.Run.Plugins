@@ -109,7 +109,9 @@ namespace Community.PowerToys.Run.Plugin.DenCode
                 var value = tokens[1];
 
 #pragma warning disable VSTHRD002 // Avoid problematic synchronous waits
+#pragma warning disable VSTHRD104 // Offer async methods
                 var response = DenCodeClient.DenCodeAsync(method, value).Result;
+#pragma warning restore VSTHRD104 // Offer async methods
 #pragma warning restore VSTHRD002 // Avoid problematic synchronous waits
 
                 return GetResultsFromDenCodeResponse(response, value);

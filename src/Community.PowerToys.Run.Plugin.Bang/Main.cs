@@ -74,7 +74,7 @@ namespace Community.PowerToys.Run.Plugin.Bang
 
             var q = query.Search;
 
-            return GetResultsFromQuery(Bangify(q)).ToList();
+            return [.. GetResultsFromQuery(Bangify(q))];
 
             string Bangify(string q) => q.StartsWith('!') ? q : "!" + q;
 
@@ -154,7 +154,9 @@ namespace Community.PowerToys.Run.Plugin.Bang
                 try
                 {
 #pragma warning disable VSTHRD002 // Avoid problematic synchronous waits
+#pragma warning disable VSTHRD104 // Offer async methods
                     return DuckDuckGoClient.AutoCompleteAsync(q).Result;
+#pragma warning restore VSTHRD104 // Offer async methods
 #pragma warning restore VSTHRD002 // Avoid problematic synchronous waits
                 }
                 catch (Exception ex)
