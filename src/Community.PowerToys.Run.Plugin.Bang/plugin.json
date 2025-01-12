@@ -4,7 +4,7 @@
   "IsGlobal": false,
   "Name": "Bang",
   "Author": "hlaueriksson",
-  "Version": "0.79.0",
+  "Version": "0.87.1",
   "Language": "csharp",
   "Website": "https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins",
   "ExecuteFileName": "Community.PowerToys.Run.Plugin.Bang.dll",
