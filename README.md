@@ -2,9 +2,9 @@
 
 [![Build](https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins/actions/workflows/build.yml/badge.svg)](https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins/actions/workflows/build.yml)
 [![Maintainability](https://api.codeclimate.com/v1/badges/d2abc8ef70cc7b973f64/maintainability)](https://codeclimate.com/github/hlaueriksson/Community.PowerToys.Run.Plugins/maintainability)
+[![Mentioned in Awesome PowerToys Run Plugins](https://awesome.re/mentioned-badge.svg)](https://github.com/hlaueriksson/awesome-powertoys-run-plugins)
 <!--
 [![Known Vulnerabilities](https://snyk.io/test/github/hlaueriksson/Community.PowerToys.Run.Plugins/badge.svg)](https://snyk.io/test/github/hlaueriksson/Community.PowerToys.Run.Plugins)
-[![Mentioned in Awesome PowerToys Run Plugins](https://awesome.re/mentioned-badge.svg)](https://github.com/hlaueriksson/awesome-powertoys-run-plugins)
 -->
 
 > 🗂️🔎 Community PowerToys Run Plugins 🔌
