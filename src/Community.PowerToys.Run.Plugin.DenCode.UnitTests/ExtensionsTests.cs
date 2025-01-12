@@ -11,7 +11,7 @@ namespace Community.PowerToys.Run.Plugin.DenCode.UnitTests
         {
             var result = Constants.Methods.GetDenCodeMethods();
             result.Should().NotBeEmpty();
-            result.Should().HaveCount(67);
+            result.Should().HaveCount(68);
 
             var last = result.Last().Value;
             last.Should().BeEquivalentTo(new DenCodeMethod()
@@ -33,7 +33,7 @@ namespace Community.PowerToys.Run.Plugin.DenCode.UnitTests
         {
             var result = Constants.Methods.GetDenCodeMethods().GetDenCodeLabels();
             result.Should().NotBeEmpty();
-            result.Should().HaveCount(104);
+            result.Should().HaveCount(106);
 
             var last = result.Last().Value;
             last.Should().BeEquivalentTo(new DenCodeMethod()

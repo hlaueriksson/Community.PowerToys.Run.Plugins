@@ -54,7 +54,7 @@ namespace Community.PowerToys.Run.Plugin.DenCode.UnitTests
         public void Query_with_empty_args_should_return_all_DenCodeMethods()
         {
             _subject.Query(new(""), true)
-                .Should().HaveCount(67);
+                .Should().HaveCount(68);
         }
 
         [TestMethod]
