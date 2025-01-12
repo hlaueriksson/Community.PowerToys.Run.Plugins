@@ -29,5 +29,15 @@ namespace Community.PowerToys.Run.Plugin.DenCode
         {
             return method.Key.Substring(0, method.Key.IndexOf('.', StringComparison.Ordinal));
         }
+
+        public static bool IsRoot(this DenCodeMethod method)
+        {
+            return method.Key.Equals("all.all", StringComparison.Ordinal);
+        }
+
+        public static bool IsBranch(this DenCodeMethod method)
+        {
+            return method.Key.Contains(".all", StringComparison.Ordinal);
+        }
     }
 }

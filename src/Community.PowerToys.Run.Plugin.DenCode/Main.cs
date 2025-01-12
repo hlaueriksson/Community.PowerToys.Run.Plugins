@@ -114,7 +114,7 @@ namespace Community.PowerToys.Run.Plugin.DenCode
 #pragma warning restore VSTHRD104 // Offer async methods
 #pragma warning restore VSTHRD002 // Avoid problematic synchronous waits
 
-                return GetResultsFromDenCodeResponse(response, value);
+                return GetResultsFromDenCodeResponse(response, value, method.IsBranch());
             }
             else
             {
@@ -137,7 +137,7 @@ namespace Community.PowerToys.Run.Plugin.DenCode
                 ContextData = method,
             };
 
-            List<Result> GetResultsFromDenCodeResponse(DenCodeResponse? response, string value)
+            List<Result> GetResultsFromDenCodeResponse(DenCodeResponse? response, string value, bool removeUnchangedResults = true)
             {
                 var results = new List<Result>();
 
@@ -155,7 +155,7 @@ namespace Community.PowerToys.Run.Plugin.DenCode
                         continue;
                     }
 
-                    if (result == value)
+                    if (removeUnchangedResults && result == value)
                     {
                         continue;
                     }

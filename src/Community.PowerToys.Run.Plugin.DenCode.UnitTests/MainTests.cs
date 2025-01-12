@@ -14,11 +14,23 @@ namespace Community.PowerToys.Run.Plugin.DenCode.UnitTests
         [TestInitialize]
         public void TestInitialize()
         {
-            var json = JsonDocument.Parse("{ \"encStrHex\": \"48656c6c6f2c20776f726c6421\", \"encStrURLEncoding\": \"Hello%2C%20world%21\" }");
+            var json = JsonDocument.Parse(
+                """
+                {
+                    "encStrHex": "48656c6c6f2c20776f726c6421",
+                    "encStrURLEncoding": "Hello%2C%20world%21",
+                    "encStrHTMLEscape": "Hello, world!",
+                    "encStrHTMLEscapeFully": "&#x48;&#x65;&#x6c;&#x6c;&#x6f;&comma;&#x20;&#x77;&#x6f;&#x72;&#x6c;&#x64;&excl;",
+                    "decStrHTMLEscape": "Hello, world!"
+                }
+                """
+            );
 
             var mock = new Mock<IDenCodeClient>();
             mock.Setup(x => x.DenCodeAsync("Hello, world!")).ReturnsAsync(AllDenCodeResponse());
             mock.Setup(x => x.DenCodeAsync(It.Is<DenCodeMethod>(x => x.Key == "string.hex"), "Hello, world!")).ReturnsAsync(HexDenCodeResponse());
+            mock.Setup(x => x.DenCodeAsync(It.Is<DenCodeMethod>(x => x.Key == "string.all"), "Hello, world!")).ReturnsAsync(HtmlEscapeDenCodeResponse());
+            mock.Setup(x => x.DenCodeAsync(It.Is<DenCodeMethod>(x => x.Key == "string.html-escape"), "Hello, world!")).ReturnsAsync(HtmlEscapeDenCodeResponse());
 
             _subject = new Main(mock.Object);
 
@@ -35,7 +47,17 @@ namespace Community.PowerToys.Run.Plugin.DenCode.UnitTests
             {
                 response = new Dictionary<string, JsonElement>
                 {
-                    { "encStrHex", json.RootElement.GetProperty("encStrHex") }
+                    { "encStrHex", json.RootElement.GetProperty("encStrHex") },
+                }
+            };
+
+            DenCodeResponse HtmlEscapeDenCodeResponse() => new()
+            {
+                response = new Dictionary<string, JsonElement>
+                {
+                    { "encStrHTMLEscape", json.RootElement.GetProperty("encStrHTMLEscape") },
+                    { "encStrHTMLEscapeFully", json.RootElement.GetProperty("encStrHTMLEscapeFully") },
+                    { "decStrHTMLEscape", json.RootElement.GetProperty("decStrHTMLEscape") },
                 }
             };
         }
@@ -54,7 +76,7 @@ namespace Community.PowerToys.Run.Plugin.DenCode.UnitTests
         public void Query_with_empty_args_should_return_all_DenCodeMethods()
         {
             _subject.Query(new(""), true)
-                .Should().HaveCount(67);
+                .Should().HaveCount(68);
         }
 
         [TestMethod]
@@ -76,6 +98,20 @@ namespace Community.PowerToys.Run.Plugin.DenCode.UnitTests
         {
             _subject.Query(new("Hello, world!"), true)
                 .Should().HaveCount(2);
+        }
+
+        [TestMethod]
+        public void Query_branch_method_removes_unchanged_results()
+        {
+            _subject.Query(new("string.all Hello, world!"), true)
+                .Should().HaveCount(1);
+        }
+
+        [TestMethod]
+        public void Query_leaf_method_keeps_unchanged_results()
+        {
+            _subject.Query(new("string.html-escape Hello, world!"), true)
+                .Should().HaveCount(3);
         }
 
         [TestMethod]

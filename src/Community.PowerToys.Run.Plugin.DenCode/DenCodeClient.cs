@@ -92,7 +92,7 @@ namespace Community.PowerToys.Run.Plugin.DenCode
         {
             ArgumentNullException.ThrowIfNull(method);
 
-            if (method.Method == Constants.AllMethod)
+            if (method.IsRoot())
             {
                 return "https://dencode.com";
             }
