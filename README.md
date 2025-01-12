@@ -11,7 +11,7 @@
 
 [<img src="docs/powertoys.png" align="right" width="100">](https://learn.microsoft.com/en-us/windows/powertoys/run)
 
-The plugins has been developed and tested with PowerToys `v0.79.0`.
+The plugins has been developed and tested with PowerToys `v0.87.1`.
 
 Prerequisites:
 

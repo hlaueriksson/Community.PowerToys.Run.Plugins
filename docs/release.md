@@ -1,4 +1,14 @@
-The plugins has been developed and tested with PowerToys [`v0.79.0`](https://github.com/microsoft/PowerToys/releases/tag/v0.79.0)
+The plugins has been developed and tested with PowerToys [`v0.87.1`](https://github.com/microsoft/PowerToys/releases/tag/v0.87.1)
+
+## Changelog
+
+- Change target framework to `net9.0-windows10.0.22621.0`
+- Bump `Community.PowerToys.Run.Plugin.Dependencies` to `0.87.1`
+
+DenCode:
+
+- Change time zone from UTC to local by @mozq in #2
+- Update methods and icons #4
 
 ## Installation
 
@@ -20,8 +30,8 @@ ActionKeyword: `bang`
 
 | Platform | Filename | Downloads
 | --- | --- | ---
-| `ARM64` | [Bang-0.79.0-arm64.zip](https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins/releases/download/v0.79.0/Bang-0.79.0-arm64.zip) | [![Bang-0.79.0-arm64.zip](https://img.shields.io/github/downloads/hlaueriksson/Community.PowerToys.Run.Plugins/v0.79.0/Bang-0.79.0-arm64.zip)](https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins/releases/download/v0.79.0/Bang-0.79.0-arm64.zip)
-| `x64` | [Bang-0.79.0-x64.zip](https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins/releases/download/v0.79.0/Bang-0.79.0-x64.zip) | [![Bang-0.79.0-x64.zip](https://img.shields.io/github/downloads/hlaueriksson/Community.PowerToys.Run.Plugins/v0.79.0/Bang-0.79.0-x64.zip)](https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins/releases/download/v0.79.0/Bang-0.79.0-x64.zip)
+| `ARM64` | [Bang-0.87.1-arm64.zip](https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins/releases/download/v0.87.1/Bang-0.87.1-arm64.zip) | [![Bang-0.87.1-arm64.zip](https://img.shields.io/github/downloads/hlaueriksson/Community.PowerToys.Run.Plugins/v0.87.1/Bang-0.87.1-arm64.zip)](https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins/releases/download/v0.87.1/Bang-0.87.1-arm64.zip)
+| `x64` | [Bang-0.87.1-x64.zip](https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins/releases/download/v0.87.1/Bang-0.87.1-x64.zip) | [![Bang-0.87.1-x64.zip](https://img.shields.io/github/downloads/hlaueriksson/Community.PowerToys.Run.Plugins/v0.87.1/Bang-0.87.1-x64.zip)](https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins/releases/download/v0.87.1/Bang-0.87.1-x64.zip)
 
 ## DenCode
 
@@ -33,8 +43,8 @@ ActionKeyword: `dencode`
 
 | Platform | Filename | Downloads
 | --- | --- | ---
-| `ARM64` | [DenCode-0.79.0-arm64.zip](https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins/releases/download/v0.79.0/DenCode-0.79.0-arm64.zip) | [![DenCode-0.79.0-arm64.zip](https://img.shields.io/github/downloads/hlaueriksson/Community.PowerToys.Run.Plugins/v0.79.0/DenCode-0.79.0-arm64.zip)](https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins/releases/download/v0.79.0/DenCode-0.79.0-arm64.zip)
-| `x64` | [DenCode-0.79.0-x64.zip](https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins/releases/download/v0.79.0/DenCode-0.79.0-x64.zip) | [![DenCode-0.79.0-x64.zip](https://img.shields.io/github/downloads/hlaueriksson/Community.PowerToys.Run.Plugins/v0.79.0/DenCode-0.79.0-x64.zip)](https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins/releases/download/v0.79.0/DenCode-0.79.0-x64.zip)
+| `ARM64` | [DenCode-0.87.1-arm64.zip](https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins/releases/download/v0.87.1/DenCode-0.87.1-arm64.zip) | [![DenCode-0.87.1-arm64.zip](https://img.shields.io/github/downloads/hlaueriksson/Community.PowerToys.Run.Plugins/v0.87.1/DenCode-0.87.1-arm64.zip)](https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins/releases/download/v0.87.1/DenCode-0.87.1-arm64.zip)
+| `x64` | [DenCode-0.87.1-x64.zip](https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins/releases/download/v0.87.1/DenCode-0.87.1-x64.zip) | [![DenCode-0.87.1-x64.zip](https://img.shields.io/github/downloads/hlaueriksson/Community.PowerToys.Run.Plugins/v0.87.1/DenCode-0.87.1-x64.zip)](https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins/releases/download/v0.87.1/DenCode-0.87.1-x64.zip)
 
 ## Dice
 
@@ -46,8 +56,8 @@ ActionKeyword: `roll`
 
 | Platform | Filename | Downloads
 | --- | --- | ---
-| `ARM64` | [Dice-0.79.0-arm64.zip](https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins/releases/download/v0.79.0/Dice-0.79.0-arm64.zip) | [![Dice-0.79.0-arm64.zip](https://img.shields.io/github/downloads/hlaueriksson/Community.PowerToys.Run.Plugins/v0.79.0/Dice-0.79.0-arm64.zip)](https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins/releases/download/v0.79.0/Dice-0.79.0-arm64.zip)
-| `x64` | [Dice-0.79.0-x64.zip](https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins/releases/download/v0.79.0/Dice-0.79.0-x64.zip) | [![Dice-0.79.0-x64.zip](https://img.shields.io/github/downloads/hlaueriksson/Community.PowerToys.Run.Plugins/v0.79.0/Dice-0.79.0-x64.zip)](https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins/releases/download/v0.79.0/Dice-0.79.0-x64.zip)
+| `ARM64` | [Dice-0.87.1-arm64.zip](https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins/releases/download/v0.87.1/Dice-0.87.1-arm64.zip) | [![Dice-0.87.1-arm64.zip](https://img.shields.io/github/downloads/hlaueriksson/Community.PowerToys.Run.Plugins/v0.87.1/Dice-0.87.1-arm64.zip)](https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins/releases/download/v0.87.1/Dice-0.87.1-arm64.zip)
+| `x64` | [Dice-0.87.1-x64.zip](https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins/releases/download/v0.87.1/Dice-0.87.1-x64.zip) | [![Dice-0.87.1-x64.zip](https://img.shields.io/github/downloads/hlaueriksson/Community.PowerToys.Run.Plugins/v0.87.1/Dice-0.87.1-x64.zip)](https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins/releases/download/v0.87.1/Dice-0.87.1-x64.zip)
 
 ## Need
 
@@ -59,8 +69,8 @@ ActionKeyword: `need`
 
 | Platform | Filename | Downloads
 | --- | --- | ---
-| `ARM64` | [Need-0.79.0-arm64.zip](https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins/releases/download/v0.79.0/Need-0.79.0-arm64.zip) | [![Need-0.79.0-arm64.zip](https://img.shields.io/github/downloads/hlaueriksson/Community.PowerToys.Run.Plugins/v0.79.0/Need-0.79.0-arm64.zip)](https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins/releases/download/v0.79.0/Need-0.79.0-arm64.zip)
-| `x64` | [Need-0.79.0-x64.zip](https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins/releases/download/v0.79.0/Need-0.79.0-x64.zip) | [![Need-0.79.0-x64.zip](https://img.shields.io/github/downloads/hlaueriksson/Community.PowerToys.Run.Plugins/v0.79.0/Need-0.79.0-x64.zip)](https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins/releases/download/v0.79.0/Need-0.79.0-x64.zip)
+| `ARM64` | [Need-0.87.1-arm64.zip](https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins/releases/download/v0.87.1/Need-0.87.1-arm64.zip) | [![Need-0.87.1-arm64.zip](https://img.shields.io/github/downloads/hlaueriksson/Community.PowerToys.Run.Plugins/v0.87.1/Need-0.87.1-arm64.zip)](https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins/releases/download/v0.87.1/Need-0.87.1-arm64.zip)
+| `x64` | [Need-0.87.1-x64.zip](https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins/releases/download/v0.87.1/Need-0.87.1-x64.zip) | [![Need-0.87.1-x64.zip](https://img.shields.io/github/downloads/hlaueriksson/Community.PowerToys.Run.Plugins/v0.87.1/Need-0.87.1-x64.zip)](https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins/releases/download/v0.87.1/Need-0.87.1-x64.zip)
 
 ## Twitch
 
@@ -72,20 +82,20 @@ ActionKeyword: `twitch`
 
 | Platform | Filename | Downloads
 | --- | --- | ---
-| `ARM64` | [Twitch-0.79.0-arm64.zip](https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins/releases/download/v0.79.0/Twitch-0.79.0-arm64.zip) | [![Twitch-0.79.0-arm64.zip](https://img.shields.io/github/downloads/hlaueriksson/Community.PowerToys.Run.Plugins/v0.79.0/Twitch-0.79.0-arm64.zip)](https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins/releases/download/v0.79.0/Twitch-0.79.0-arm64.zip)
-| `x64` | [Twitch-0.79.0-x64.zip](https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins/releases/download/v0.79.0/Twitch-0.79.0-x64.zip) | [![Twitch-0.79.0-x64.zip](https://img.shields.io/github/downloads/hlaueriksson/Community.PowerToys.Run.Plugins/v0.79.0/Twitch-0.79.0-x64.zip)](https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins/releases/download/v0.79.0/Twitch-0.79.0-x64.zip)
+| `ARM64` | [Twitch-0.87.1-arm64.zip](https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins/releases/download/v0.87.1/Twitch-0.87.1-arm64.zip) | [![Twitch-0.87.1-arm64.zip](https://img.shields.io/github/downloads/hlaueriksson/Community.PowerToys.Run.Plugins/v0.87.1/Twitch-0.87.1-arm64.zip)](https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins/releases/download/v0.87.1/Twitch-0.87.1-arm64.zip)
+| `x64` | [Twitch-0.87.1-x64.zip](https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins/releases/download/v0.87.1/Twitch-0.87.1-x64.zip) | [![Twitch-0.87.1-x64.zip](https://img.shields.io/github/downloads/hlaueriksson/Community.PowerToys.Run.Plugins/v0.87.1/Twitch-0.87.1-x64.zip)](https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins/releases/download/v0.87.1/Twitch-0.87.1-x64.zip)
 
 ## Installer Hashes
 
 | Filename | SHA256 Hash
 | --- | ---
-| `Bang-0.79.0-arm64.zip` | `9CC2DC88EFE1749F8EB9C03E0C9662FDCEC7E85A7C73A75EBF11AF312A375FEE`
-| `Bang-0.79.0-x64.zip` | `7D5E40D213A78300EA7B7AFFAB9D31041533603767BB91A360D4232F8AA3EFE9`
-| `DenCode-0.79.0-arm64.zip` | `EDE04A98E71CD068B7E50F335EB5A8E742FA91000EC10FF06AC616E15EE3065E`
-| `DenCode-0.79.0-x64.zip` | `8D6A7D5F77E65BF98DDAC29CB5D8025EACCA06984486A5E89A88051678F33D17`
-| `Dice-0.79.0-arm64.zip` | `0425531D7E306B43BAA0F4CBA592397B9EBB74BED86FA43A94F1B871FB93FA12`
-| `Dice-0.79.0-x64.zip` | `A6CDDB5BA0B83800D660666C34DCAD96E20E76461B75351B772250CBCDC66E53`
-| `Need-0.79.0-arm64.zip` | `C8BA098235503D8A3098EE0656739692C914473226F95332DA89C74062BAFA0F`
-| `Need-0.79.0-x64.zip` | `E4EEACCA99429C7F570C421979B5FFC3D508FF3F68E07724F452D2F58377A55F`
-| `Twitch-0.79.0-arm64.zip` | `C05E759B63A051D5C39343EE25EEEB5D4CB1F5EA6F306FC3075AFF7602687432`
-| `Twitch-0.79.0-x64.zip` | `B099CD33E2DBFEEE6BAA3A96ECE32FF5ED83FEBFE60D4FC65ADFA75D0788DB92`
+| `Bang-0.87.1-arm64.zip` | `C12E315B7A9B7B952339ADB17DFB56A8724D886EAA959C17470C0C941E29E39A`
+| `Bang-0.87.1-x64.zip` | `52E624BC264DB0D385386D7C6A4C8E362B47C5DF1E441B4A9806A4CE431969CA`
+| `DenCode-0.87.1-arm64.zip` | `5DF761798E7D3FE47FBB9D341DE817230D2846694FB6F8467D7DB0916F9E5BC5`
+| `DenCode-0.87.1-x64.zip` | `05D803C5EABF6D5D4A7ABA9A85932A95D34288DC7A45908B55CF9A1B3BC9057B`
+| `Dice-0.87.1-arm64.zip` | `6C62D178DBF090A6F4FDD2889CD0F3992C00DA40A2217E7A0450191F63CBCD18`
+| `Dice-0.87.1-x64.zip` | `5986D1C2BD5C1B35E35B71001B0C1B1A226732F30B1378056CEA86CC21A7996D`
+| `Need-0.87.1-arm64.zip` | `97360CC42299D892FAB97DDD0641C81564241C8138A563669779C28241FA379C`
+| `Need-0.87.1-x64.zip` | `33ACA8C75B5C554BE06AE71FEE27F3CF08A1B5B5B3071C06737920FA8A674C36`
+| `Twitch-0.87.1-arm64.zip` | `AF294DB544D7A2FC13A13C8BDEFF4C344E1070E3C7A4CBD8DDCCC0EB29104E64`
+| `Twitch-0.87.1-x64.zip` | `22A41661CB5A5E902BFE9D5DA563D74B5BBA1A410688DC09155C4DC07821EB92`
