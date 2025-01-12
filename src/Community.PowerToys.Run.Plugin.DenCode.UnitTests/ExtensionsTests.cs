@@ -60,5 +60,33 @@ namespace Community.PowerToys.Run.Plugin.DenCode.UnitTests
             var result = method.GetRequestType();
             result.Should().Be("hash");
         }
+
+        [TestMethod]
+        public void IsRoot()
+        {
+            var result = Constants.Methods.GetDenCodeMethods();
+            var first = result.First().Value;
+            first.IsRoot().Should().BeTrue();
+            result.Skip(1).Should().AllSatisfy(x => x.Value.IsRoot().Should().BeFalse());
+        }
+
+        [TestMethod]
+        public void IsBranch()
+        {
+            string[] branches = ["all.all", "string.all", "number.all", "date.all", "color.all", "cipher.all", "hash.all"];
+            var result = Constants.Methods.GetDenCodeMethods();
+
+            foreach (var method in result.Values)
+            {
+                if (branches.Contains(method.Key))
+                {
+                    method.IsBranch().Should().BeTrue();
+                }
+                else
+                {
+                    method.IsBranch().Should().BeFalse();
+                }
+            }
+        }
     }
 }

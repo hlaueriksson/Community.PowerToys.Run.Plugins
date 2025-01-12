@@ -5,8 +5,6 @@ namespace Community.PowerToys.Run.Plugin.DenCode.Models
     /// </summary>
     public static partial class Constants
     {
-        public const string AllMethod = "All";
-
         public const string AllRequest =
 """
 {
