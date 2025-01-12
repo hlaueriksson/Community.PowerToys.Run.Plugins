@@ -10,7 +10,7 @@ namespace Community.PowerToys.Run.Plugin.DenCode.Models
 {
   "all.all": {
     "Key": "all.all",
-    "Method": "ALL",
+    "Method": "All",
     "Title": "Encoding \u0026 Decoding Online Tools",
     "Description": "Encoding and Decoding site. e.g. HTML Escape / URL Encoding / Base64 / MD5 / SHA-1 / CRC32 / and many other String, Number, DateTime, Color, Hash formats!",
     "Tooltip": "Enter the value to be converted. (e.g. String: \u0022Hello!\u0022 / Number: \u00221234.5\u0022 / Date: \u00221984-02-07T12:34:56\u0022 / Color: \u0022rgb(255 0 0)\u0022)",
@@ -18,7 +18,7 @@ namespace Community.PowerToys.Run.Plugin.DenCode.Models
   },
   "string.all": {
     "Key": "string.all",
-    "Method": "String - ALL",
+    "Method": "String - All",
     "Title": "String Encoder / Decoder, Converter Online",
     "Description": "String encoding and decoding converter. e.g. HTML Escape / URL Encoding / Quoted-printable / and many other formats!",
     "Tooltip": "Enter the value to be converted. (e.g. \u0022Hello, world!\u0022)",
@@ -299,7 +299,7 @@ namespace Community.PowerToys.Run.Plugin.DenCode.Models
   },
   "number.all": {
     "Key": "number.all",
-    "Method": "Number - ALL",
+    "Method": "Number - All",
     "Title": "Number Converter Online",
     "Description": "Number converter. e.g. Binary numbers / Octal numbers / Decimal numbers / Hexadecimal numbers / English words numerals / Japanese numerals / and many other formats!",
     "Tooltip": "Enter the number to be converted. (e.g. Dec: \u00221234.5\u0022 / Bin: \u002210011010010.1\u0022 / Oct: \u00222322.4\u0022 / Hex: \u00224d2.8\u0022 / EN: \u0022One Thousand Two Hundred Thirty-Four point Five\u0022 / JP: \u0022\u5343\u4E8C\u767E\u4E09\u5341\u56DB\u30FB\u4E94\u0022, \u0022\u58F1\u9621\u5F10\u964C\u53C2\u62FE\u8086\u30FB\u4F0D\u0022)",
@@ -349,6 +349,17 @@ namespace Community.PowerToys.Run.Plugin.DenCode.Models
       "decNumHex": "Num from Hex"
     }
   },
+  "number.n-ary": {
+    "Key": "number.n-ary",
+    "Method": "N-ary Numbers",
+    "Title": "N-ary Numbers Converter Online",
+    "Description": "N-ary numbers converter. e.g. \u00221234.5\u0022 \u003C=\u003E \u002216i.g\u0022",
+    "Tooltip": "Enter the number to be converted. (e.g. \u00221234.5\u0022 \u003C=\u003E \u002216i.g\u0022)",
+    "Label": {
+      "encNumNAry": "Num to N-ary",
+      "decNumNAry": "Num from N-ary"
+    }
+  },
   "number.english": {
     "Key": "number.english",
     "Method": "English Numerals",
@@ -374,28 +385,28 @@ namespace Community.PowerToys.Run.Plugin.DenCode.Models
   },
   "date.all": {
     "Key": "date.all",
-    "Method": "Date - ALL",
+    "Method": "Date - All",
     "Title": "Date Time Converter Online",
     "Description": "Date Time converter. e.g. UNIX Time / ISO8601 Date / RFC2822 Date / and many other formats!",
-    "Tooltip": "Enter the date to be converted. (e.g. UNIX Time: \u0022444972896789\u0022 / ISO8601: \u00221984-02-07T12:34:56,789\u002B09:00\u0022 / RFC2822: \u0022Tue, 07 Feb 1984 12:34:56 JST\u0022)",
+    "Tooltip": "Enter the date to be converted. (e.g. UNIX Time: \u0022444972896.789\u0022 / ISO8601: \u00221984-02-07T12:34:56.789\u002B09:00\u0022 / RFC2822: \u0022Tue, 07 Feb 1984 12:34:56 JST\u0022)",
     "Label": {}
   },
   "date.unix-time": {
     "Key": "date.unix-time",
     "Method": "UNIX Time",
     "Title": "UNIX Time (POSIX Time) Converter Online",
-    "Description": "UNIX time (POSIX time) converter. e.g. ISO8601: \u00221984-02-07T12:34:56,789\u002B09:00\u0022, RFC2822: \u0022Tue, 07 Feb 1984 12:34:56 JST\u0022 =\u003E UNIX Time: \u0022444972896789\u0022",
-    "Tooltip": "Enter the date to be converted. (e.g. ISO8601: \u00221984-02-07T12:34:56,789\u002B09:00\u0022, RFC2822: \u0022Tue, 07 Feb 1984 12:34:56 JST\u0022 =\u003E UNIX Time: \u0022444972896789\u0022)",
+    "Description": "UNIX time (POSIX time) converter. e.g. ISO8601: \u00221984-02-07T12:34:56.789\u002B09:00\u0022, RFC2822: \u0022Tue, 07 Feb 1984 12:34:56 JST\u0022 =\u003E UNIX Time: \u0022444972896.789\u0022",
+    "Tooltip": "Enter the date to be converted. (e.g. ISO8601: \u00221984-02-07T12:34:56.789\u002B09:00\u0022, RFC2822: \u0022Tue, 07 Feb 1984 12:34:56 JST\u0022 =\u003E UNIX Time: \u0022444972896.789\u0022)",
     "Label": {
-      "encDateUnixTime": "UNIX Time [ms]"
+      "encDateUnixTime": "UNIX Time [sec]"
     }
   },
   "date.w3cdtf": {
     "Key": "date.w3cdtf",
     "Method": "W3C-DTF Date",
     "Title": "W3C-DTF Date Converter Online",
-    "Description": "W3C-DTF date converter. e.g. UNIX Time: \u0022444972896789\u0022, RFC2822: \u0022Tue, 07 Feb 1984 12:34:56 JST\u0022 =\u003E W3C-DTF: \u00221984-02-07T12:34:56.789\u002B09:00\u0022",
-    "Tooltip": "Enter the date to be converted. (e.g. UNIX Time: \u0022444972896789\u0022, RFC2822: \u0022Tue, 07 Feb 1984 12:34:56 JST\u0022 =\u003E W3C-DTF: \u00221984-02-07T12:34:56.789\u002B09:00\u0022)",
+    "Description": "W3C-DTF date converter. e.g. UNIX Time: \u0022444972896.789\u0022, RFC2822: \u0022Tue, 07 Feb 1984 12:34:56 JST\u0022 =\u003E W3C-DTF: \u00221984-02-07T12:34:56.789\u002B09:00\u0022",
+    "Tooltip": "Enter the date to be converted. (e.g. UNIX Time: \u0022444972896.789\u0022, RFC2822: \u0022Tue, 07 Feb 1984 12:34:56 JST\u0022 =\u003E W3C-DTF: \u00221984-02-07T12:34:56.789\u002B09:00\u0022)",
     "Label": {
       "encDateW3CDTF": "W3C-DTF Date"
     }
@@ -404,8 +415,8 @@ namespace Community.PowerToys.Run.Plugin.DenCode.Models
     "Key": "date.iso8601",
     "Method": "ISO8601 Date",
     "Title": "ISO8601 Date Converter Online",
-    "Description": "ISO8601 date converter. e.g. UNIX Time: \u0022444972896789\u0022, RFC2822: \u0022Tue, 07 Feb 1984 12:34:56 JST\u0022 =\u003E ISO8601: \u00221984-02-07T12:34:56,789\u002B09:00\u0022",
-    "Tooltip": "Enter the date to be converted. (e.g. UNIX Time: \u0022444972896789\u0022, RFC2822: \u0022Tue, 07 Feb 1984 12:34:56 JST\u0022 =\u003E ISO8601: \u00221984-02-07T12:34:56,789\u002B09:00\u0022)",
+    "Description": "ISO8601 date converter. e.g. UNIX Time: \u0022444972896.789\u0022, RFC2822: \u0022Tue, 07 Feb 1984 12:34:56 JST\u0022 =\u003E ISO8601: \u00221984-02-07T12:34:56.789\u002B09:00\u0022",
+    "Tooltip": "Enter the date to be converted. (e.g. UNIX Time: \u0022444972896.789\u0022, RFC2822: \u0022Tue, 07 Feb 1984 12:34:56 JST\u0022 =\u003E ISO8601: \u00221984-02-07T12:34:56.789\u002B09:00\u0022)",
     "Label": {
       "encDateISO8601": "ISO8601 Date",
       "encDateISO8601Ext": "ISO8601 Date (Extend)",
@@ -417,8 +428,8 @@ namespace Community.PowerToys.Run.Plugin.DenCode.Models
     "Key": "date.rfc2822",
     "Method": "RFC2822 Date",
     "Title": "RFC2822 Date Converter Online",
-    "Description": "RFC2822 date converter. e.g. UNIX Time: \u0022444972896789\u0022, ISO8601: \u00221984-02-07T12:34:56,789\u002B09:00\u0022 =\u003E RFC2822: \u0022Tue, 07 Feb 1984 12:34:56 JST\u0022",
-    "Tooltip": "Enter the date to be converted. (e.g. UNIX Time: \u0022444972896789\u0022, ISO8601: \u00221984-02-07T12:34:56,789\u002B09:00\u0022 =\u003E RFC2822: \u0022Tue, 07 Feb 1984 12:34:56 JST\u0022)",
+    "Description": "RFC2822 date converter. e.g. UNIX Time: \u0022444972896.789\u0022, ISO8601: \u00221984-02-07T12:34:56.789\u002B09:00\u0022 =\u003E RFC2822: \u0022Tue, 07 Feb 1984 12:34:56 JST\u0022",
+    "Tooltip": "Enter the date to be converted. (e.g. UNIX Time: \u0022444972896.789\u0022, ISO8601: \u00221984-02-07T12:34:56.789\u002B09:00\u0022 =\u003E RFC2822: \u0022Tue, 07 Feb 1984 12:34:56 JST\u0022)",
     "Label": {
       "encDateRFC2822": "RFC2822 Date"
     }
@@ -427,8 +438,8 @@ namespace Community.PowerToys.Run.Plugin.DenCode.Models
     "Key": "date.ctime",
     "Method": "ctime Date",
     "Title": "ctime Date Converter Online",
-    "Description": "ctime date converter. e.g. UNIX Time: \u0022444972896789\u0022, ISO8601: \u00221984-02-07T12:34:56,789\u002B09:00\u0022 =\u003E ctime: \u0022Tue Feb 07 12:34:56 1984\u0022",
-    "Tooltip": "Enter the date to be converted. (e.g. UNIX Time: \u0022444972896789\u0022, ISO8601: \u00221984-02-07T12:34:56,789\u002B09:00\u0022 =\u003E ctime: \u0022Tue Feb 07 12:34:56 1984\u0022)",
+    "Description": "ctime date converter. e.g. UNIX Time: \u0022444972896.789\u0022, ISO8601: \u00221984-02-07T12:34:56.789\u002B09:00\u0022 =\u003E ctime: \u0022Tue Feb 07 12:34:56 1984\u0022",
+    "Tooltip": "Enter the date to be converted. (e.g. UNIX Time: \u0022444972896.789\u0022, ISO8601: \u00221984-02-07T12:34:56.789\u002B09:00\u0022 =\u003E ctime: \u0022Tue Feb 07 12:34:56 1984\u0022)",
     "Label": {
       "encDateCTime": "ctime Date"
     }
@@ -437,15 +448,15 @@ namespace Community.PowerToys.Run.Plugin.DenCode.Models
     "Key": "date.japanese-era",
     "Method": "Japanese Era",
     "Title": "Japanese Era Date Converter Online",
-    "Description": "Japanese Era date converter. e.g. UNIX Time: \u0022444972896789\u0022, ISO8601: \u00221984-02-07T12:34:56,789\u002B09:00\u0022 =\u003E Japanese Era: \u0022\u662D\u548C59\u5E7402\u670807\u65E503\u664234\u520656.789\u79D2\u0022",
-    "Tooltip": "Enter the date to be converted. (e.g. UNIX Time: \u0022444972896789\u0022, ISO8601: \u00221984-02-07T12:34:56,789\u002B09:00\u0022 =\u003E Japanese Era: \u0022\u662D\u548C59\u5E7402\u670807\u65E503\u664234\u520656.789\u79D2\u0022)",
+    "Description": "Japanese Era date converter. e.g. UNIX Time: \u0022444972896.789\u0022, ISO8601: \u00221984-02-07T12:34:56.789\u002B09:00\u0022 =\u003E Japanese Era: \u0022\u662D\u548C59\u5E7402\u670807\u65E503\u664234\u520656.789\u79D2\u0022",
+    "Tooltip": "Enter the date to be converted. (e.g. UNIX Time: \u0022444972896.789\u0022, ISO8601: \u00221984-02-07T12:34:56.789\u002B09:00\u0022 =\u003E Japanese Era: \u0022\u662D\u548C59\u5E7402\u670807\u65E503\u664234\u520656.789\u79D2\u0022)",
     "Label": {
       "encDateJapaneseEra": "Japanese Era"
     }
   },
   "color.all": {
     "Key": "color.all",
-    "Method": "Color - ALL",
+    "Method": "Color - All",
     "Title": "Color Converter Online",
     "Description": "Color converter. e.g. \u0022red\u0022, \u0022#ff0000\u0022, \u0022rgb(255 0 0)\u0022, \u0022hsv(0 100% 100%)\u0022, \u0022device-cmyk(0% 100% 100% 0%)\u0022",
     "Tooltip": "Enter the color to be converted. (e.g. \u0022red\u0022, \u0022#ff0000\u0022, \u0022rgb(255 0 0)\u0022, \u0022hsv(0 100% 100%)\u0022, \u0022device-cmyk(0% 100% 100% 0%)\u0022)",
@@ -504,7 +515,7 @@ namespace Community.PowerToys.Run.Plugin.DenCode.Models
   },
   "cipher.all": {
     "Key": "cipher.all",
-    "Method": "Cipher - ALL",
+    "Method": "Cipher - All",
     "Title": "Cipher Encrypter / Decrypter Online",
     "Description": "Cipher encrypter / decrypter. e.g. Caesar / ROT / and many other formats!",
     "Tooltip": "Enter the text to be converted. (e.g. \u0022Hello, world!\u0022)",
@@ -631,7 +642,7 @@ namespace Community.PowerToys.Run.Plugin.DenCode.Models
   },
   "hash.all": {
     "Key": "hash.all",
-    "Method": "Hash - ALL",
+    "Method": "Hash - All",
     "Title": "Hash Value Calculator Online",
     "Description": "Hash value calculator. e.g. MD2 / MD5 / SHA-1 / SHA-256 / SHA-384 / SHA-512 / CRC32 / and many other formats!",
     "Tooltip": "Enter the text to be converted. (e.g. \u0022Hello, world!\u0022)",
