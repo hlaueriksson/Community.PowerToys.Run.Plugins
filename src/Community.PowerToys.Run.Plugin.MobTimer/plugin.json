@@ -1,0 +1,13 @@
+{
+  "ID": "98709941F8E2497D8891B7932F478CF0",
+  "ActionKeyword": "mob",
+  "IsGlobal": false,
+  "Name": "MobTimer",
+  "Author": "hlaueriksson",
+  "Version": "0.87.1",
+  "Language": "csharp",
+  "Website": "https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins",
+  "ExecuteFileName": "Community.PowerToys.Run.Plugin.MobTimer.dll",
+  "IcoPathDark": "Images\\mobtimer.dark.png",
+  "IcoPathLight": "Images\\mobtimer.light.png"
+}

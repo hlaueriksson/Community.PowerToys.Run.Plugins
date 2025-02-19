@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="../../UnitTests.props" />
+
+  <ItemGroup>
+    <ProjectReference Include="..\Community.PowerToys.Run.Plugin.MobTimer\Community.PowerToys.Run.Plugin.MobTimer.csproj" />
+  </ItemGroup>
+
+</Project>

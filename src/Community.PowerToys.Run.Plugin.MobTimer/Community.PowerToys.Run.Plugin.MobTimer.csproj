@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="../../Analyzers.props" />
+  <Import Project="../../Plugin.props" />
+
+  <ItemGroup>
+    <PackageReference Include="System.IO.Abstractions" Version="21.0.29" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Community.PowerToys.Run.Plugin.MobTimer.UnitTests" />
+  </ItemGroup>
+
+</Project>

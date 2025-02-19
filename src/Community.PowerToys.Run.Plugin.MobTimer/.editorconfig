@@ -1,0 +1,6 @@
+# editorconfig.org
+
+[*.cs]
+dotnet_diagnostic.CA1716.severity = none
+dotnet_diagnostic.CA1724.severity = none
+dotnet_diagnostic.CA5394.severity = none

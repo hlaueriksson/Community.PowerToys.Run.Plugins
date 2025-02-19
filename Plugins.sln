@@ -23,6 +23,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Community.PowerToys.Run.Plu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Community.PowerToys.Run.Plugin.DenCode.UnitTests", "src\Community.PowerToys.Run.Plugin.DenCode.UnitTests\Community.PowerToys.Run.Plugin.DenCode.UnitTests.csproj", "{BA33AC73-DB36-49E9-9FA9-C309BA818E8F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Community.PowerToys.Run.Plugin.MobTimer", "src\Community.PowerToys.Run.Plugin.MobTimer\Community.PowerToys.Run.Plugin.MobTimer.csproj", "{956C4880-6C53-87C5-B3F9-E339C319EB65}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Community.PowerToys.Run.Plugin.MobTimer.UnitTests", "src\Community.PowerToys.Run.Plugin.MobTimer.UnitTests\Community.PowerToys.Run.Plugin.MobTimer.UnitTests.csproj", "{10886CC4-8E0E-9661-F25E-F15F1544302F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM64 = Debug|ARM64
@@ -111,6 +115,22 @@ Global
 		{BA33AC73-DB36-49E9-9FA9-C309BA818E8F}.Release|ARM64.Build.0 = Release|ARM64
 		{BA33AC73-DB36-49E9-9FA9-C309BA818E8F}.Release|x64.ActiveCfg = Release|x64
 		{BA33AC73-DB36-49E9-9FA9-C309BA818E8F}.Release|x64.Build.0 = Release|x64
+		{956C4880-6C53-87C5-B3F9-E339C319EB65}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{956C4880-6C53-87C5-B3F9-E339C319EB65}.Debug|ARM64.Build.0 = Debug|ARM64
+		{956C4880-6C53-87C5-B3F9-E339C319EB65}.Debug|x64.ActiveCfg = Debug|x64
+		{956C4880-6C53-87C5-B3F9-E339C319EB65}.Debug|x64.Build.0 = Debug|x64
+		{956C4880-6C53-87C5-B3F9-E339C319EB65}.Release|ARM64.ActiveCfg = Release|ARM64
+		{956C4880-6C53-87C5-B3F9-E339C319EB65}.Release|ARM64.Build.0 = Release|ARM64
+		{956C4880-6C53-87C5-B3F9-E339C319EB65}.Release|x64.ActiveCfg = Release|x64
+		{956C4880-6C53-87C5-B3F9-E339C319EB65}.Release|x64.Build.0 = Release|x64
+		{10886CC4-8E0E-9661-F25E-F15F1544302F}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{10886CC4-8E0E-9661-F25E-F15F1544302F}.Debug|ARM64.Build.0 = Debug|ARM64
+		{10886CC4-8E0E-9661-F25E-F15F1544302F}.Debug|x64.ActiveCfg = Debug|x64
+		{10886CC4-8E0E-9661-F25E-F15F1544302F}.Debug|x64.Build.0 = Debug|x64
+		{10886CC4-8E0E-9661-F25E-F15F1544302F}.Release|ARM64.ActiveCfg = Release|ARM64
+		{10886CC4-8E0E-9661-F25E-F15F1544302F}.Release|ARM64.Build.0 = Release|ARM64
+		{10886CC4-8E0E-9661-F25E-F15F1544302F}.Release|x64.ActiveCfg = Release|x64
+		{10886CC4-8E0E-9661-F25E-F15F1544302F}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
