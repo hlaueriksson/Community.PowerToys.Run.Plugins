@@ -59,6 +59,19 @@ ActionKeyword: `roll`
 | `ARM64` | [Dice-0.87.1-arm64.zip](https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins/releases/download/v0.87.1/Dice-0.87.1-arm64.zip) | [![Dice-0.87.1-arm64.zip](https://img.shields.io/github/downloads/hlaueriksson/Community.PowerToys.Run.Plugins/v0.87.1/Dice-0.87.1-arm64.zip)](https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins/releases/download/v0.87.1/Dice-0.87.1-arm64.zip)
 | `x64` | [Dice-0.87.1-x64.zip](https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins/releases/download/v0.87.1/Dice-0.87.1-x64.zip) | [![Dice-0.87.1-x64.zip](https://img.shields.io/github/downloads/hlaueriksson/Community.PowerToys.Run.Plugins/v0.87.1/Dice-0.87.1-x64.zip)](https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins/releases/download/v0.87.1/Dice-0.87.1-x64.zip)
 
+## MobTimer
+
+<img src="https://raw.githubusercontent.com/hlaueriksson/Community.PowerToys.Run.Plugins/main/docs/mobtimer.png" align="right" width="96">
+
+> Timer for mob programming
+
+ActionKeyword: `mob`
+
+| Platform | Filename | Downloads
+| --- | --- | ---
+| `ARM64` | [MobTimer-0.87.1-arm64.zip](https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins/releases/download/v0.87.1/MobTimer-0.87.1-arm64.zip) | [![MobTimer-0.87.1-arm64.zip](https://img.shields.io/github/downloads/hlaueriksson/Community.PowerToys.Run.Plugins/v0.87.1/MobTimer-0.87.1-arm64.zip)](https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins/releases/download/v0.87.1/MobTimer-0.87.1-arm64.zip)
+| `x64` | [MobTimer-0.87.1-x64.zip](https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins/releases/download/v0.87.1/MobTimer-0.87.1-x64.zip) | [![MobTimer-0.87.1-x64.zip](https://img.shields.io/github/downloads/hlaueriksson/Community.PowerToys.Run.Plugins/v0.87.1/MobTimer-0.87.1-x64.zip)](https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins/releases/download/v0.87.1/MobTimer-0.87.1-x64.zip)
+
 ## Need
 
 <img src="https://raw.githubusercontent.com/hlaueriksson/Community.PowerToys.Run.Plugins/main/docs/need.png" align="right" width="96">
@@ -95,6 +108,8 @@ ActionKeyword: `twitch`
 | `DenCode-0.87.1-x64.zip` | `05D803C5EABF6D5D4A7ABA9A85932A95D34288DC7A45908B55CF9A1B3BC9057B`
 | `Dice-0.87.1-arm64.zip` | `6C62D178DBF090A6F4FDD2889CD0F3992C00DA40A2217E7A0450191F63CBCD18`
 | `Dice-0.87.1-x64.zip` | `5986D1C2BD5C1B35E35B71001B0C1B1A226732F30B1378056CEA86CC21A7996D`
+| `MobTimer-0.87.1-arm64.zip` | `19C45260A43DC7E65B1ACEED1F1D4601396B9315CCC3922C866D7B4D260C552A`
+| `MobTimer-0.87.1-x64.zip` | `8E524FB43B049FCC731DFFBBBCF9BA035581E123163E22D729B24E31F292BAE3`
 | `Need-0.87.1-arm64.zip` | `97360CC42299D892FAB97DDD0641C81564241C8138A563669779C28241FA379C`
 | `Need-0.87.1-x64.zip` | `33ACA8C75B5C554BE06AE71FEE27F3CF08A1B5B5B3071C06737920FA8A674C36`
 | `Twitch-0.87.1-arm64.zip` | `AF294DB544D7A2FC13A13C8BDEFF4C344E1070E3C7A4CBD8DDCCC0EB29104E64`
