@@ -22,6 +22,7 @@ Prerequisites:
 - [Bang](#bang)
 - [DenCode](#dencode)
 - [Dice](#dice)
+- [MobTimer](#mobtimer)
 - [Need](#need)
 - [Twitch](#twitch)
 
@@ -157,6 +158,122 @@ The settings are stored in the file:
 Located in the folder:
 
 - `%LocalAppData%\Microsoft\PowerToys\PowerToys Run\Settings\Plugins\Community.PowerToys.Run.Plugin.Dice\`
+
+## MobTimer
+
+[<img src="docs/mobtimer.png" align="right" width="96">](https://en.m.wikipedia.org/wiki/Team_programming#Mob_programming)
+
+> Timer for mob programming
+
+ActionKeyword: `mob`
+
+MobTimer is a tool for time tracking in mob programming sessions.
+Get notifications when to rotate driver and take breaks.
+
+![MobTimer](docs/mobtimer.gif)
+
+Terms:
+
+- Session
+   - A dedicated period when the entire team collaborates on a single coding task using a single computer. Sessions can last anywhere from a short focused period to a full workday.
+- Rotation
+   - The structured process of changing roles among team members at regular intervals. A session is split into several rotations.
+- Driver
+   - The person actively typing and implementing the team's decisions on the shared computer. Change the driver after each rotation.
+
+### Installation<!-- omit in toc -->
+
+1. Download the `.zip` file from the latest [release](https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins/releases/latest) and extract it to:
+   - `%LocalAppData%\Microsoft\PowerToys\PowerToys Run\Plugins`
+2. Restart PowerToys
+
+### Usage<!-- omit in toc -->
+
+1. Open PowerToys Run with `alt + space`
+2. Type `mob`
+   - A list of actions and information will be displayed
+4. Use ⬆️ and ⬇️ keys to select an action
+
+Actions:
+
+- Start/pause/clear timer
+- Set/reset duration
+- Set/reset break
+- Add/move/remove participant
+- Set participant as driver (manually)
+- Export session
+- Import session
+
+Set duration:
+
+1. Type `mob <minutes>`
+2. Select the _Set duration_ action
+3. Press `Enter` to set the duration of rotations
+
+Example:
+
+- `mob 25`
+
+Set break:
+
+1. Type `mob <rotations>`
+2. Select the _Set break_ action
+3. Press `Enter` to set breaks after completing the number of rotations
+
+Example:
+
+- `mob 3`
+
+Add participant:
+
+1. Type `mob <name>`
+2. Press `Enter` to add the participant to the session
+
+Example:
+
+- `mob Dave`
+
+Export session:
+
+1. Type `mob export`
+2. Press `Enter` to export the session to a JSON string and and copy it to the clipboard
+
+Example result:
+
+```
+mob import {"Duration":{"Value":20},"Breaks":{"Value":2},"Participants":[{"Name":"Alice","Rotations":[]},{"Name":"Bob","Rotations":[]},{"Name":"Charlie","Rotations":[]}],"Driver":null,"Rotations":[]}
+```
+
+Import session:
+
+1. Type `mob import <json>`
+2. Press `Enter` to import a session from a JSON string
+
+Notifications:
+
+![MobTimer - Started](docs/mobtimer-started.png)
+
+![MobTimer - Elapsed](docs/mobtimer-elapsed.png)
+
+![MobTimer - Break](docs/mobtimer-break.png)
+
+### Settings<!-- omit in toc -->
+
+Change:
+
+- how the next driver should be assigned
+- if and what sound should be played after end of rotation
+- kudos to the current driver
+
+![MobTimer Settings](docs/mobtimer-settings.png)
+
+The session is stored in the file:
+
+`MobTimerSession.json`
+
+Located in the folder:
+
+- `%LocalAppData%\Microsoft\PowerToys\PowerToys Run\Settings\Plugins\Community.PowerToys.Run.Plugin.MobTimer\`
 
 ## Need
 
