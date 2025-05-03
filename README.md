@@ -1,5 +1,68 @@
 # Community.PowerToys.Run.Plugins<!-- omit in toc -->
 
+<a href="https://www.flaticon.com/free-icons/database" title="database icons">Database icons created by Stockio - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/timer" title="timer icons">Timer icons created by Ilham Fitrotul Hayat - Flaticon</a>
+
+pin FluentAssertions
+bump nugets
+
+TODO/Bugs:
+
+Dependencies?
+
+bang:
+bang wiki sdf
+ladda ner bilder
+
+dencode:
+options; Encoding, LineEnding, TimeZone
+settings: order encode first, decode first
+översättningar
+
+dice:
+d20;DnD
+" D100 + 2";" Foo Bar ;o)"
+Reroll, context menu action
+Settings, as one multiline textbox
+
+need:
+ need "support for quotes" please
+ need 'support for single quotes' please
+ need support for\nline\nbreaks\nplease
+open url, path
+paste into cursor
+
+twitch:
+ladda ner profil bilder?
+ // https://dev.twitch.tv/docs/api/reference#get-followed-streams
+ // https://dev.twitch.tv/docs/api/guide#pagination
+ // https://dev.twitch.tv/docs/api/guide#twitch-rate-limits
+ // https://devstatus.twitch.tv/
+
+---
+
+Nästa plugins;
+https://github.com/microsoft/PowerToys/issues/3200#issuecomment-641528879
+https://github.com/microsoft/PowerToys/issues/3200#issuecomment-757386158
+
+Google Translate plugin
+
+YouTube plugin
+
+Obsidian plugin
+
+Azure Portal plugin
+
+Playwright scraping plugin?
+
+---
+
+https://shields.io/badges
+https://www.flaticon.com/
+https://simpleicons.org/
+
+---
+
 [![Build](https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins/actions/workflows/build.yml/badge.svg)](https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins/actions/workflows/build.yml)
 [![Snyk Security Scan](https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins/actions/workflows/snyk.yml/badge.svg)](https://github.com/hlaueriksson/Community.PowerToys.Run.Plugins/actions/workflows/snyk.yml)
 [![Maintainability](https://api.codeclimate.com/v1/badges/d2abc8ef70cc7b973f64/maintainability)](https://codeclimate.com/github/hlaueriksson/Community.PowerToys.Run.Plugins/maintainability)
