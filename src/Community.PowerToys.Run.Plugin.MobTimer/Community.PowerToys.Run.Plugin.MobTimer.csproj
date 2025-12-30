@@ -4,7 +4,7 @@
   <Import Project="../../Plugin.props" />
 
   <ItemGroup>
-    <PackageReference Include="System.IO.Abstractions" Version="21.0.29" />
+    <PackageReference Include="System.IO.Abstractions" Version="22.0.13" />
   </ItemGroup>
 
   <ItemGroup>
