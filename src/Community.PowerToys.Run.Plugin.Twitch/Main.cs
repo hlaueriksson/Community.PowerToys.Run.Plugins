@@ -378,8 +378,8 @@ namespace Community.PowerToys.Run.Plugin.Twitch
                     {
                         PluginName = Name,
                         Title = "Get streams (Enter)",
-                        FontFamily = "Segoe MDL2 Assets",
                         Glyph = "\xEC05", // EC05 => Symbol: NetworkTower
+                        FontFamily = "Segoe Fluent Icons,Segoe MDL2 Assets",
                         AcceleratorKey = Key.Enter,
                         Action = _ => ChangeQuery(Command.Streams + " " + category.id),
                     },
@@ -387,8 +387,8 @@ namespace Community.PowerToys.Run.Plugin.Twitch
                     {
                         PluginName = Name,
                         Title = "Open website (Ctrl+Enter)",
-                        FontFamily = "Segoe MDL2 Assets",
                         Glyph = "\xF6FA", // F6FA => Symbol: WebSearch
+                        FontFamily = "Segoe Fluent Icons,Segoe MDL2 Assets",
                         AcceleratorKey = Key.Enter,
                         AcceleratorModifiers = ModifierKeys.Control,
                         Action = _ => OpenInBrowser(TwitchClient.GetUrl(category)),
@@ -404,8 +404,8 @@ namespace Community.PowerToys.Run.Plugin.Twitch
                     {
                         PluginName = Name,
                         Title = "Open website (Enter)",
-                        FontFamily = "Segoe MDL2 Assets",
                         Glyph = "\xE774", // E774 => Symbol: Globe
+                        FontFamily = "Segoe Fluent Icons,Segoe MDL2 Assets",
                         AcceleratorKey = Key.Enter,
                         Action = _ => OpenInBrowser(TwitchClient.GetUrl(channel)),
                     },
@@ -420,8 +420,8 @@ namespace Community.PowerToys.Run.Plugin.Twitch
                     {
                         PluginName = Name,
                         Title = "Open website (Enter)",
-                        FontFamily = "Segoe MDL2 Assets",
                         Glyph = "\xE774", // E774 => Symbol: Globe
+                        FontFamily = "Segoe Fluent Icons,Segoe MDL2 Assets",
                         AcceleratorKey = Key.Enter,
                         Action = _ => OpenInBrowser(TwitchClient.GetUrl(stream)),
                     },
@@ -439,8 +439,8 @@ namespace Community.PowerToys.Run.Plugin.Twitch
                     {
                         PluginName = Name,
                         Title = "Previous (Alt+Left)",
-                        FontFamily = "Segoe MDL2 Assets",
                         Glyph = "\xE892", // E892 => Symbol: Previous
+                        FontFamily = "Segoe Fluent Icons,Segoe MDL2 Assets",
                         AcceleratorKey = Key.Left,
                         AcceleratorModifiers = ModifierKeys.Alt,
                         Action = _ => ChangeQuery(q + " " + Command.Previous, false),
@@ -450,8 +450,8 @@ namespace Community.PowerToys.Run.Plugin.Twitch
                     {
                         PluginName = Name,
                         Title = "Next (Enter)",
-                        FontFamily = "Segoe MDL2 Assets",
                         Glyph = "\xE893", // E893 => Symbol: Next
+                        FontFamily = "Segoe Fluent Icons,Segoe MDL2 Assets",
                         AcceleratorKey = Key.Enter,
                         Action = _ => ChangeQuery(q + " " + Command.Next, false),
                     },

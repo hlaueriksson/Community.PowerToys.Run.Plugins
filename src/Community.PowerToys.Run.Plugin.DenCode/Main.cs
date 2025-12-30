@@ -207,8 +207,8 @@ namespace Community.PowerToys.Run.Plugin.DenCode
                     {
                         PluginName = Name,
                         Title = "Open website (Ctrl+Enter)",
-                        FontFamily = "Segoe MDL2 Assets",
                         Glyph = "\xF6FA", // F6FA => Symbol: WebSearch
+                        FontFamily = "Segoe Fluent Icons,Segoe MDL2 Assets",
                         AcceleratorKey = Key.Enter,
                         AcceleratorModifiers = ModifierKeys.Control,
                         Action = _ => OpenInBrowser(DenCodeClient.GetUrl(method)),
@@ -224,8 +224,8 @@ namespace Community.PowerToys.Run.Plugin.DenCode
                     {
                         PluginName = Name,
                         Title = "Copy result (Enter)",
-                        FontFamily = "Segoe MDL2 Assets",
                         Glyph = "\xE8C8", // E8C8 => Symbol: Copy
+                        FontFamily = "Segoe Fluent Icons,Segoe MDL2 Assets",
                         AcceleratorKey = Key.Enter,
                         Action = _ => CopyToClipboard(data.Result.Value.GetString()),
                     },
@@ -233,8 +233,8 @@ namespace Community.PowerToys.Run.Plugin.DenCode
                     {
                         PluginName = Name,
                         Title = "Open website (Ctrl+Enter)",
-                        FontFamily = "Segoe MDL2 Assets",
                         Glyph = "\xF6FA", // F6FA => Symbol: WebSearch
+                        FontFamily = "Segoe Fluent Icons,Segoe MDL2 Assets",
                         AcceleratorKey = Key.Enter,
                         AcceleratorModifiers = ModifierKeys.Control,
                         Action = _ => OpenInBrowser(DenCodeClient.GetUrl(data)),

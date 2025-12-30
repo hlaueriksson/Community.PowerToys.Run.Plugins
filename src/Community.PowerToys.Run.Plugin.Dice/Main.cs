@@ -148,8 +148,8 @@ namespace Community.PowerToys.Run.Plugin.Dice
                     {
                         PluginName = Name,
                         Title = "Roll expression (Enter)",
-                        FontFamily = "Segoe MDL2 Assets",
                         Glyph = "\xE72C", // E72C => Symbol: Refresh
+                        FontFamily = "Segoe Fluent Icons,Segoe MDL2 Assets",
                         AcceleratorKey = Key.Enter,
                         Action = _ =>
                         {
@@ -168,8 +168,8 @@ namespace Community.PowerToys.Run.Plugin.Dice
                     {
                         PluginName = Name,
                         Title = "Copy result (Enter)",
-                        FontFamily = "Segoe MDL2 Assets",
                         Glyph = "\xE8C8", // E8C8 => Symbol: Copy
+                        FontFamily = "Segoe Fluent Icons,Segoe MDL2 Assets",
                         AcceleratorKey = Key.Enter,
                         Action = _ => CopyToClipboard(roll.Result.ToString(CultureInfo.InvariantCulture)),
                     },
@@ -177,8 +177,8 @@ namespace Community.PowerToys.Run.Plugin.Dice
                     {
                         PluginName = Name,
                         Title = "Copy details (Ctrl+C)",
-                        FontFamily = "Segoe MDL2 Assets",
                         Glyph = "\xF413", // F413 => Symbol: CopyTo
+                        FontFamily = "Segoe Fluent Icons,Segoe MDL2 Assets",
                         AcceleratorKey = Key.C,
                         AcceleratorModifiers = ModifierKeys.Control,
                         Action = _ => CopyToClipboard(roll.Input + " => " + roll.Details?.Trim() + " = " + roll.Result.ToString(CultureInfo.InvariantCulture)),

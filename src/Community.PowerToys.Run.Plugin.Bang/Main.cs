@@ -212,8 +212,8 @@ namespace Community.PowerToys.Run.Plugin.Bang
                         {
                             PluginName = Name,
                             Title = "Open website (Ctrl+Enter)",
-                            FontFamily = "Segoe MDL2 Assets",
                             Glyph = "\xE774", // E774 => Symbol: Globe
+                            FontFamily = "Segoe Fluent Icons,Segoe MDL2 Assets",
                             AcceleratorKey = Key.Enter,
                             AcceleratorModifiers = ModifierKeys.Control,
                             Action = _ => OpenInBrowser(arguments),
@@ -228,8 +228,8 @@ namespace Community.PowerToys.Run.Plugin.Bang
                         {
                             PluginName = Name,
                             Title = "Open website (Enter)",
-                            FontFamily = "Segoe MDL2 Assets",
                             Glyph = "\xF6FA", // F6FA => Symbol: WebSearch
+                            FontFamily = "Segoe Fluent Icons,Segoe MDL2 Assets",
                             AcceleratorKey = Key.Enter,
                             Action = _ => OpenInBrowser(arguments),
                         },
@@ -247,8 +247,8 @@ namespace Community.PowerToys.Run.Plugin.Bang
                     {
                         PluginName = Name,
                         Title = "Open website (Enter)",
-                        FontFamily = "Segoe MDL2 Assets",
                         Glyph = "\xF6FA", // F6FA => Symbol: WebSearch
+                        FontFamily = "Segoe Fluent Icons,Segoe MDL2 Assets",
                         AcceleratorKey = Key.Enter,
                         Action = _ => OpenInBrowser(arguments),
                     },

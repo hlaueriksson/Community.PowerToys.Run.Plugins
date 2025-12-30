@@ -146,8 +146,8 @@ namespace Community.PowerToys.Run.Plugin.Need
                     {
                         PluginName = Name,
                         Title = "Copy value (Enter)",
-                        FontFamily = "Segoe MDL2 Assets",
                         Glyph = "\xE8C8", // E8C8 => Symbol: Copy
+                        FontFamily = "Segoe Fluent Icons,Segoe MDL2 Assets",
                         AcceleratorKey = Key.Enter,
                         Action = _ => CopyToClipboard(record.Value),
                     },
@@ -155,8 +155,8 @@ namespace Community.PowerToys.Run.Plugin.Need
                     {
                         PluginName = Name,
                         Title = "Copy details (Ctrl+C)",
-                        FontFamily = "Segoe MDL2 Assets",
                         Glyph = "\xF413", // F413 => Symbol: CopyTo
+                        FontFamily = "Segoe Fluent Icons,Segoe MDL2 Assets",
                         AcceleratorKey = Key.C,
                         AcceleratorModifiers = ModifierKeys.Control,
                         Action = _ => CopyToClipboard(record.ToJson()),
@@ -165,8 +165,8 @@ namespace Community.PowerToys.Run.Plugin.Need
                     {
                         PluginName = Name,
                         Title = "Delete key (Ctrl+Del)",
-                        FontFamily = "Segoe MDL2 Assets",
                         Glyph = "\xE74D", // E74D => Symbol: Delete
+                        FontFamily = "Segoe Fluent Icons,Segoe MDL2 Assets",
                         AcceleratorKey = Key.Delete,
                         AcceleratorModifiers = ModifierKeys.Control,
                         Action = _ =>
@@ -188,8 +188,8 @@ namespace Community.PowerToys.Run.Plugin.Need
                     {
                         PluginName = Name,
                         Title = existing != null ? "Update value (Enter)" : "Add value (Enter)",
-                        FontFamily = "Segoe MDL2 Assets",
                         Glyph = "\xE74E", // E74E => Symbol: Save
+                        FontFamily = "Segoe Fluent Icons,Segoe MDL2 Assets",
                         AcceleratorKey = Key.Enter,
                         Action = _ =>
                         {

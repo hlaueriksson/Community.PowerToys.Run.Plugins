@@ -258,8 +258,8 @@ public class Main : IPlugin, IContextMenu, ISettingProvider, ISavable, IReloadab
                 {
                     PluginName = Name,
                     Title = "Start (Enter)",
-                    FontFamily = "Segoe Fluent Icons,Segoe MDL2 Assets",
                     Glyph = "\xE768", // Play
+                    FontFamily = "Segoe Fluent Icons,Segoe MDL2 Assets",
                     AcceleratorKey = Key.Enter,
                     Action = _ =>
                     {
@@ -279,8 +279,8 @@ public class Main : IPlugin, IContextMenu, ISettingProvider, ISavable, IReloadab
                 {
                     PluginName = Name,
                     Title = "Pause (Enter)",
-                    FontFamily = "Segoe Fluent Icons,Segoe MDL2 Assets",
                     Glyph = "\xE769", // Pause
+                    FontFamily = "Segoe Fluent Icons,Segoe MDL2 Assets",
                     AcceleratorKey = Key.Enter,
                     Action = _ =>
                     {
@@ -293,8 +293,8 @@ public class Main : IPlugin, IContextMenu, ISettingProvider, ISavable, IReloadab
                 {
                     PluginName = Name,
                     Title = "Clear (Delete)",
-                    FontFamily = "Segoe Fluent Icons,Segoe MDL2 Assets",
                     Glyph = "\xE894", // Clear
+                    FontFamily = "Segoe Fluent Icons,Segoe MDL2 Assets",
                     AcceleratorKey = Key.Delete,
                     Action = _ =>
                     {
@@ -314,8 +314,8 @@ public class Main : IPlugin, IContextMenu, ISettingProvider, ISavable, IReloadab
                 {
                     PluginName = Name,
                     Title = "Resume (Enter)",
-                    FontFamily = "Segoe Fluent Icons,Segoe MDL2 Assets",
                     Glyph = "\xE768", // Play
+                    FontFamily = "Segoe Fluent Icons,Segoe MDL2 Assets",
                     AcceleratorKey = Key.Enter,
                     Action = _ =>
                     {
@@ -328,8 +328,8 @@ public class Main : IPlugin, IContextMenu, ISettingProvider, ISavable, IReloadab
                 {
                     PluginName = Name,
                     Title = "Clear (Delete)",
-                    FontFamily = "Segoe Fluent Icons,Segoe MDL2 Assets",
                     Glyph = "\xE894", // Clear
+                    FontFamily = "Segoe Fluent Icons,Segoe MDL2 Assets",
                     AcceleratorKey = Key.Delete,
                     Action = _ =>
                     {
@@ -349,8 +349,8 @@ public class Main : IPlugin, IContextMenu, ISettingProvider, ISavable, IReloadab
                 {
                     PluginName = Name,
                     Title = "Reset to default (Delete)",
-                    FontFamily = "Segoe Fluent Icons,Segoe MDL2 Assets",
                     Glyph = "\xE894", // Clear
+                    FontFamily = "Segoe Fluent Icons,Segoe MDL2 Assets",
                     AcceleratorKey = Key.Delete,
                     Action = _ =>
                     {
@@ -370,8 +370,8 @@ public class Main : IPlugin, IContextMenu, ISettingProvider, ISavable, IReloadab
                 {
                     PluginName = Name,
                     Title = "Reset to default (Delete)",
-                    FontFamily = "Segoe Fluent Icons,Segoe MDL2 Assets",
                     Glyph = "\xE894", // Clear
+                    FontFamily = "Segoe Fluent Icons,Segoe MDL2 Assets",
                     AcceleratorKey = Key.Delete,
                     Action = _ =>
                     {
@@ -391,8 +391,8 @@ public class Main : IPlugin, IContextMenu, ISettingProvider, ISavable, IReloadab
                 {
                     PluginName = Name,
                     Title = "Select as driver (Enter)",
-                    FontFamily = "Segoe Fluent Icons,Segoe MDL2 Assets",
                     Glyph = "\xE73E", // CheckMark
+                    FontFamily = "Segoe Fluent Icons,Segoe MDL2 Assets",
                     AcceleratorKey = Key.Enter,
                     Action = _ =>
                     {
@@ -405,8 +405,8 @@ public class Main : IPlugin, IContextMenu, ISettingProvider, ISavable, IReloadab
                 {
                     PluginName = Name,
                     Title = "Move up (Alt + Up)",
-                    FontFamily = "Segoe Fluent Icons,Segoe MDL2 Assets",
                     Glyph = "\xE74A", // Up
+                    FontFamily = "Segoe Fluent Icons,Segoe MDL2 Assets",
                     AcceleratorKey = Key.Up,
                     AcceleratorModifiers = ModifierKeys.Alt,
                     Action = _ =>
@@ -421,8 +421,8 @@ public class Main : IPlugin, IContextMenu, ISettingProvider, ISavable, IReloadab
                 {
                     PluginName = Name,
                     Title = "Move down (Alt + Down)",
-                    FontFamily = "Segoe Fluent Icons,Segoe MDL2 Assets",
                     Glyph = "\xE74B", // Down
+                    FontFamily = "Segoe Fluent Icons,Segoe MDL2 Assets",
                     AcceleratorKey = Key.Down,
                     AcceleratorModifiers = ModifierKeys.Alt,
                     Action = _ =>
@@ -437,8 +437,8 @@ public class Main : IPlugin, IContextMenu, ISettingProvider, ISavable, IReloadab
                 {
                     PluginName = Name,
                     Title = "Remove (Delete)",
-                    FontFamily = "Segoe Fluent Icons,Segoe MDL2 Assets",
                     Glyph = "\xE74D", // Delete
+                    FontFamily = "Segoe Fluent Icons,Segoe MDL2 Assets",
                     AcceleratorKey = Key.Delete,
                     Action = _ =>
                     {
@@ -459,8 +459,8 @@ public class Main : IPlugin, IContextMenu, ISettingProvider, ISavable, IReloadab
                 {
                     PluginName = Name,
                     Title = "Set duration (Enter)",
-                    FontFamily = "Segoe Fluent Icons,Segoe MDL2 Assets",
                     Glyph = "\xE74E", // Save
+                    FontFamily = "Segoe Fluent Icons,Segoe MDL2 Assets",
                     AcceleratorKey = Key.Enter,
                     Action = _ =>
                     {
@@ -481,8 +481,8 @@ public class Main : IPlugin, IContextMenu, ISettingProvider, ISavable, IReloadab
                 {
                     PluginName = Name,
                     Title = "Set break (Enter)",
-                    FontFamily = "Segoe Fluent Icons,Segoe MDL2 Assets",
                     Glyph = "\xE74E", // Save
+                    FontFamily = "Segoe Fluent Icons,Segoe MDL2 Assets",
                     AcceleratorKey = Key.Enter,
                     Action = _ =>
                     {
@@ -503,8 +503,8 @@ public class Main : IPlugin, IContextMenu, ISettingProvider, ISavable, IReloadab
                 {
                     PluginName = Name,
                     Title = "Add participant (Enter)",
-                    FontFamily = "Segoe Fluent Icons,Segoe MDL2 Assets",
                     Glyph = "\xE74E", // Save
+                    FontFamily = "Segoe Fluent Icons,Segoe MDL2 Assets",
                     AcceleratorKey = Key.Enter,
                     Action = _ =>
                     {
@@ -525,8 +525,8 @@ public class Main : IPlugin, IContextMenu, ISettingProvider, ISavable, IReloadab
                 {
                     PluginName = Name,
                     Title = "Export (Enter)",
-                    FontFamily = "Segoe Fluent Icons,Segoe MDL2 Assets",
                     Glyph = "\xEDE1", // Export
+                    FontFamily = "Segoe Fluent Icons,Segoe MDL2 Assets",
                     AcceleratorKey = Key.Enter,
                     Action = _ =>
                     {
@@ -549,8 +549,8 @@ public class Main : IPlugin, IContextMenu, ISettingProvider, ISavable, IReloadab
                 {
                     PluginName = Name,
                     Title = "Import (Enter)",
-                    FontFamily = "Segoe Fluent Icons,Segoe MDL2 Assets",
                     Glyph = "\xEA52", // ImportMirrored
+                    FontFamily = "Segoe Fluent Icons,Segoe MDL2 Assets",
                     AcceleratorKey = Key.Enter,
                     Action = _ =>
                     {
